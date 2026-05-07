@@ -1,0 +1,114 @@
+
+
+##############################################
+### PROMPT 0
+### You are a Chinese-to-English translator. Output only the translated text inside [[[ and ]]]....
+##############################################
+
+=== 0SHOT (0-shot) ===
+
+--- Case 1 ---
+[ZH]: 算不尽仙友，你是智道蛊仙更当明白眼前的局势
+[REF]: Friend Suan Bu Jin, as a wisdom path Gu Immortal, you should be even more aware of the current situation
+[GEN]: [[[It's impossible to calculate the extent of the friendship between you and the wise and virtuous one. You are the one who should understand the situation before you.]]]
+[TIME]: 6.32 s
+--- Case 2 ---
+[ZH]: 立刻这上百药草形成的药液，骤然落下，在与这血湖碰触的瞬间，如同相互之间有强烈的排斥，直接爆发，燃烧成为黑色的火焰，覆盖整个血湖
+[REF]: As they flew through the air, they transformed into a medicinal liquid. When that entered the blood lake, a powerful expulsion force erupted out, and the burning caused a black smoke to rise up and fill the area
+[GEN]: [[[The instant the medicinal liquid formed by the hundreds of medicinal herbs falls, it suddenly hits the blood lake, and in the instant it touches, it's as if there's a strong repulsion between them, directly exploding and burning into a black flame, covering the entire blood lake.]]]
+[TIME]: 9.36 s
+--- Case 3 ---
+[ZH]: 对那些徒手肉搏者，这些堪比钢铁般坚硬的木刺，将会给他们留下深刻的印象
+[REF]: To those fighting barehanded, these thorns that were as sturdy as steel would leave a lasting impression on them
+[GEN]: [[[For those who engage in hand-to-hand combat, these wooden stakes as hard as steel will leave a deep impression on them.]]]
+[TIME]: 4.50 s
+--- Case 4 ---
+[ZH]: 古月方想口中喃喃，捂住心口
+[REF]: Gu Yue Fang Xiang muttered, his hand over his heart
+[GEN]: [[[In a nostalgic mood, I mumble to myself, covering my heart with my hand.]]]
+[TIME]: 3.58 s
+--- Case 5 ---
+[ZH]: 若是在平地之上，尺许小径又算得了甚么，可是这石梁下临深谷，别说行走，只望一眼也不免胆战心惊
+[REF]: If this stone bridge were laid on the ground, it would act just like a narrow alley, nothing to be afraid of, but under the stone bridge was a deep canyon. Just looking at it would cause the heart to tremble with fear, let alone walk across it
+[GEN]: [[[If I were standing on flat ground, a short path would be of little significance, but if I were standing under this stone bridge, which overlooks a deep valley, not to mention walking, just looking around would make me shudder with fear.]]]
+[TIME]: 8.31 s
+--- Case 6 ---
+[ZH]: 虽然我并非黄金血脉。 参与王庭争霸，就是为了混迹到八十八角真阳楼中捞取好处
+[REF]: Although I am not of the Huang Jin bloodline, I participated in the fight for Imperial Court to get some benefits from Eighty-Eight True Yang Building
+[GEN]: [[[Although I am not a descendant of the Yellow Emperor, I participated in the Wangting competition, which is to gain benefits by entering the Eighty-Eight Angle True Yang Hall.]]]
+[TIME]: 6.15 s
+--- Case 7 ---
+[ZH]: 反倒是北岸，此刻居然为上官天佑欢呼，这欢呼声让上官天佑心里别扭，他知道北岸不是因为自己，而是因为白小纯才对自己发出欢呼，也就是说，就算与白小纯对战的是一头猪，北岸也会为这头猪喝彩，这么一想，上官天佑心底对白小纯，更为不悦
+[REF]: The north bank, on the other hand, actually did start to cheer for Shangguan Tianyou. In response, Shangguan Tianyou frowned, aware that they weren't really cheering for him, but against Bai Xiaochun. The north bank would cheer for any oppon ent of Bai Xiaochun’s, even if it were a pig. The thought left Shangguan Tianyou even more displeased than before
+[GEN]: [[[It's actually the north bank, and at this moment, Shang Jianyu is suddenly cheering, but this cheer makes Shang Jianyu feel awkward, because he knows the north bank is not because of himself, but because Bai Xiaochun is cheering for himself. It's as if, even if the opponent is a pig, the north bank would still cheer for this pig. Thinking this way, Shang Jianyu's heart is even more resentful towards Bai Xiaochun.]]]
+[TIME]: 15.94 s
+--- Case 8 ---
+[ZH]: 在仙元方面，巨阳仙尊应当占据优势。 在炼蛊方面，是方源占据优势
+[REF]: In terms of immortal essence, Giant Sun Immortal Venerable should have an advantage, in terms of Gu refinement, Fang Yuan has the advantage
+[GEN]: [[[In the realm of Xianyuan, Ju Yang Xianzun should hold the upper hand. In the realm of Lianfu, is Fang Yuan holding the upper hand.]]]
+[TIME]: 6.17 s
+--- Case 9 ---
+[ZH]: 那么对不起得很，两柄剑都到了做哥哥的家里啦
+[REF]: Then I am really very sorry, for both daggers would belong to my family then
+[GEN]: [[[So, I'm sorry, but both swords have already arrived at my older brother's place.]]]
+[TIME]: 3.93 s
+--- Case 10 ---
+[ZH]: 方源，你怎么也想不到，会有今天吧
+[REF]: Fang Yuan, you had never in your wildest imagination, expect this day to occur right
+[GEN]: [[[How could you have never thought of this, that it would come to this today?]]]
+[TIME]: 3.65 s
+--- Case 11 ---
+[ZH]: 提到弟弟丁言。 丁齐满脸悲伤愤怒
+[REF]: Mentioning his brother, Ding Qi was extremely angry and upset
+[GEN]: [[[Mentioning his younger brother Ding Yan. Ding Qi's face is filled with sadness and anger.]]]
+[TIME]: 3.97 s
+--- Case 12 ---
+[ZH]: 黄蓉道
+[REF]: Huang Rong said
+[GEN]: [[[ Huang Rong Dao ]]]
+[TIME]: 1.69 s
+--- Case 13 ---
+[ZH]: 大小姐，你不妨将此事交给我处理，我来找她谈，付出一些代价也无妨
+[REF]: Missy, leave this to me, I will negotiate with her, it is okay if we pay a small price
+[GEN]: [[[You can give this matter to me to handle. I'll go talk to her, and it's okay to pay some price as well.]]]
+[TIME]: 5.06 s
+--- Case 14 ---
+[ZH]: 现在还不是换取变化道仙蛊方，炼制变化道的其他仙蛊的时候
+[REF]: Now was not the time to exchange them for transformation path Immortal Gu recipes, or the time to refine transformation path Immortal Gu
+[GEN]: [[[Currently, it's not a matter of exchanging the Change Method's Daoist elixir formula, but rather refining other Daoist elixirs of the Change Method at this time.]]]
+[TIME]: 6.47 s
+--- Case 15 ---
+[ZH]: 苏秦背剑
+[REF]: Reviving Qin Behind the Sword
+[GEN]: [[[Su Qin backs a sword]]]
+[TIME]: 1.85 s
+--- Case 16 ---
+[ZH]: 轰的一声，他就与前方的元妖子与通天道人，直接撞在了一起，元妖子喷出鲜血，通天道人一样鲜血狂喷，二人倒退时，噬灵上人与广目天尊，哪怕有些迟疑，可还是前行阻拦，与白小纯再次碰触
+[REF]: A boom could be heard as he slammed into Prince Ur-Demon and Daoist Heavenspan. Blood sprayed out of both of their mouths as they were sent tumbling to the side. As for Reverend Devourer and Celestial Virūpākṣa, although they were still leery about the situation, they still tried to block Bai Xiaochun’s path
+[GEN]: [[[A loud boom, he immediately collided with the demon girl and the Heavenly Way person in front, and the demon girl spat out fresh blood, the Heavenly Way person spewing out blood just as fresh, the two of them retreating, the Spirit Devouring Master and the Broad-Eyed Heavenly Lord, despite some hesitation, still moved forward to block the way, and again touched the white Xiao Qing.]]]
+[TIME]: 13.52 s
+--- Case 17 ---
+[ZH]: 其中一个手段，是关于命牌蛊、魂灯蛊
+[REF]: One of the methods was about life tablet Gu and soul lantern Gu
+[GEN]: [[[Among the methods, one is about the "Ming Piao Fu" and "Hun Deng Fu".]]]
+[TIME]: 4.05 s
+--- Case 18 ---
+[ZH]: 他最后说，我十分伤心，跟着你来的日子也不远了
+[REF]: He finally said that his grief was so deep that the day he would follow her to the grave would not be far away
+[GEN]: [[[He said that he was very sad, and the days we spent together are not far away.]]]
+[TIME]: 3.68 s
+--- Case 19 ---
+[ZH]: 刚想到这里，陆畏因眼前忽然一黑
+[REF]: While thinking of this, Lu Wei Yin’s vision suddenly turned dark
+[GEN]: [[[Just as I was thinking about this, Lu Wei suddenly felt a darkness in front of his eyes.]]]
+[TIME]: 3.73 s
+--- Case 20 ---
+[ZH]: 欧阳锋道
+[REF]: Hong Qigong said
+[GEN]: [[[The Way of Ou Yang Feng]]]
+[TIME]: 1.88 s
+--- Case 21 ---
+[ZH]: 一灯道
+[REF]: Yideng said
+[GEN]: [[[One Light Way]]]
+[TIME]: 1.46 s

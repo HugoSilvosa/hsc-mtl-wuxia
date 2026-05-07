@@ -1,0 +1,357 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script>function neighbourhoodHighlight(params) {
+  // console.log("in nieghbourhoodhighlight");
+  allNodes = nodes.get({ returnType: "Object" });
+  // originalNodes = JSON.parse(JSON.stringify(allNodes));
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    highlightActive = true;
+    var i, j;
+    var selectedNode = params.nodes[0];
+    var degrees = 2;
+
+    // mark all nodes as hard to read.
+    for (let nodeId in allNodes) {
+      // nodeColors[nodeId] = allNodes[nodeId].color;
+      allNodes[nodeId].color = "rgba(200,200,200,0.5)";
+      if (allNodes[nodeId].hiddenLabel === undefined) {
+        allNodes[nodeId].hiddenLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+    var connectedNodes = network.getConnectedNodes(selectedNode);
+    var allConnectedNodes = [];
+
+    // get the second degree nodes
+    for (i = 1; i < degrees; i++) {
+      for (j = 0; j < connectedNodes.length; j++) {
+        allConnectedNodes = allConnectedNodes.concat(
+          network.getConnectedNodes(connectedNodes[j])
+        );
+      }
+    }
+
+    // all second degree nodes get a different color and their label back
+    for (i = 0; i < allConnectedNodes.length; i++) {
+      // allNodes[allConnectedNodes[i]].color = "pink";
+      allNodes[allConnectedNodes[i]].color = "rgba(150,150,150,0.75)";
+      if (allNodes[allConnectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[allConnectedNodes[i]].label =
+          allNodes[allConnectedNodes[i]].hiddenLabel;
+        allNodes[allConnectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // all first degree nodes get their own color and their label back
+    for (i = 0; i < connectedNodes.length; i++) {
+      // allNodes[connectedNodes[i]].color = undefined;
+      allNodes[connectedNodes[i]].color = nodeColors[connectedNodes[i]];
+      if (allNodes[connectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[connectedNodes[i]].label =
+          allNodes[connectedNodes[i]].hiddenLabel;
+        allNodes[connectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // the main node gets its own color and its label back.
+    // allNodes[selectedNode].color = undefined;
+    allNodes[selectedNode].color = nodeColors[selectedNode];
+    if (allNodes[selectedNode].hiddenLabel !== undefined) {
+      allNodes[selectedNode].label = allNodes[selectedNode].hiddenLabel;
+      allNodes[selectedNode].hiddenLabel = undefined;
+    }
+  } else if (highlightActive === true) {
+    // console.log("highlightActive was true");
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      // allNodes[nodeId].color = "purple";
+      allNodes[nodeId].color = nodeColors[nodeId];
+      // delete allNodes[nodeId].color;
+      if (allNodes[nodeId].hiddenLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].hiddenLabel;
+        allNodes[nodeId].hiddenLabel = undefined;
+      }
+    }
+    highlightActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    // console.log("Nothing was selected");
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        // allNodes[nodeId].color = {};
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function filterHighlight(params) {
+  allNodes = nodes.get({ returnType: "Object" });
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    filterActive = true;
+    let selectedNodes = params.nodes;
+
+    // hiding all nodes and saving the label
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = true;
+      if (allNodes[nodeId].savedLabel === undefined) {
+        allNodes[nodeId].savedLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+
+    for (let i=0; i < selectedNodes.length; i++) {
+      allNodes[selectedNodes[i]].hidden = false;
+      if (allNodes[selectedNodes[i]].savedLabel !== undefined) {
+        allNodes[selectedNodes[i]].label = allNodes[selectedNodes[i]].savedLabel;
+        allNodes[selectedNodes[i]].savedLabel = undefined;
+      }
+    }
+
+  } else if (filterActive === true) {
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = false;
+      if (allNodes[nodeId].savedLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].savedLabel;
+        allNodes[nodeId].savedLabel = undefined;
+      }
+    }
+    filterActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function selectNode(nodes) {
+  network.selectNodes(nodes);
+  neighbourhoodHighlight({ nodes: nodes });
+  return nodes;
+}
+
+function selectNodes(nodes) {
+  network.selectNodes(nodes);
+  filterHighlight({nodes: nodes});
+  return nodes;
+}
+
+function highlightFilter(filter) {
+  let selectedNodes = []
+  let selectedProp = filter['property']
+  if (filter['item'] === 'node') {
+    let allNodes = nodes.get({ returnType: "Object" });
+    for (let nodeId in allNodes) {
+      if (allNodes[nodeId][selectedProp] && filter['value'].includes((allNodes[nodeId][selectedProp]).toString())) {
+        selectedNodes.push(nodeId)
+      }
+    }
+  }
+  else if (filter['item'] === 'edge'){
+    let allEdges = edges.get({returnType: 'object'});
+    // check if the selected property exists for selected edge and select the nodes connected to the edge
+    for (let edge in allEdges) {
+      if (allEdges[edge][selectedProp] && filter['value'].includes((allEdges[edge][selectedProp]).toString())) {
+        selectedNodes.push(allEdges[edge]['from'])
+        selectedNodes.push(allEdges[edge]['to'])
+      }
+    }
+  }
+  selectNodes(selectedNodes)
+}</script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+            
+            
+            
+            
+            
+
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 800px;
+                 background-color: #1a1a1a;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#42f58d", "font": {"color": "white"}, "id": "Guo Jing", "label": "Guo Jing", "shape": "dot", "size": 50.0, "title": "Frecuencia: 6700"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Yang Guo", "label": "Yang Guo", "shape": "dot", "size": 45.94626865671642, "title": "Frecuencia: 6021"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Huang Rong", "label": "Huang Rong", "shape": "dot", "size": 40.7044776119403, "title": "Frecuencia: 5143"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Zhang Wuji", "label": "Zhang Wuji", "shape": "dot", "size": 36.10149253731343, "title": "Frecuencia: 4372"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Xiao Longnu", "label": "Xiao Longnu", "shape": "dot", "size": 22.107462686567168, "title": "Frecuencia: 2028"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Ouyang Feng", "label": "Ouyang Feng", "shape": "dot", "size": 19.128358208955223, "title": "Frecuencia: 1529"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Xie Xun", "label": "Xie Xun", "shape": "dot", "size": 17.58805970149254, "title": "Frecuencia: 1271"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Zhao Min", "label": "Zhao Min", "shape": "dot", "size": 17.45671641791045, "title": "Frecuencia: 1249"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Zhou Botong", "label": "Zhou Botong", "shape": "dot", "size": 17.319402985074625, "title": "Frecuencia: 1226"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Hong Qigong", "label": "Hong Qigong", "shape": "dot", "size": 17.038805970149255, "title": "Frecuencia: 1179"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Huang Yaoshi", "label": "Huang Yaoshi", "shape": "dot", "size": 16.811940298507462, "title": "Frecuencia: 1141"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Guo Xiang", "label": "Guo Xiang", "shape": "dot", "size": 15.844776119402985, "title": "Frecuencia: 979"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Li Mochou", "label": "Li Mochou", "shape": "dot", "size": 15.802985074626864, "title": "Frecuencia: 972"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Guo Fu", "label": "Guo Fu", "shape": "dot", "size": 15.104477611940299, "title": "Frecuencia: 855"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Qiu Chuji", "label": "Qiu Chuji", "shape": "dot", "size": 14.871641791044777, "title": "Frecuencia: 816"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Zhou Zhiruo", "label": "Zhou Zhiruo", "shape": "dot", "size": 14.501492537313432, "title": "Frecuencia: 754"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Ouyang Ke", "label": "Ouyang Ke", "shape": "dot", "size": 13.773134328358209, "title": "Frecuencia: 632"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Ming Cult", "label": "Ming Cult", "shape": "dot", "size": 13.373134328358208, "title": "Frecuencia: 565"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Lu Wushuang", "label": "Lu Wushuang", "shape": "dot", "size": 13.194029850746269, "title": "Frecuencia: 535"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Yang Xiao", "label": "Yang Xiao", "shape": "dot", "size": 13.098507462686566, "title": "Frecuencia: 519"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Yang Kang", "label": "Yang Kang", "shape": "dot", "size": 13.062686567164178, "title": "Frecuencia: 513"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Zhao Zhijing", "label": "Zhao Zhijing", "shape": "dot", "size": 12.811940298507462, "title": "Frecuencia: 471"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Mei Chaofeng", "label": "Mei Chaofeng", "shape": "dot", "size": 12.698507462686567, "title": "Frecuencia: 452"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Ke Zhen", "label": "Ke Zhen", "shape": "dot", "size": 12.555223880597016, "title": "Frecuencia: 428"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Cult Leader", "label": "Cult Leader", "shape": "dot", "size": 12.4, "title": "Frecuencia: 402"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Qiu Qianren", "label": "Qiu Qianren", "shape": "dot", "size": 12.376119402985076, "title": "Frecuencia: 398"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Yin Zhiping", "label": "Yin Zhiping", "shape": "dot", "size": 12.340298507462688, "title": "Frecuencia: 392"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Golden Wheel", "label": "Golden Wheel", "shape": "dot", "size": 12.334328358208955, "title": "Frecuencia: 391"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Peach Blossom", "label": "Peach Blossom", "shape": "dot", "size": 12.256716417910447, "title": "Frecuencia: 378"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Wu Dang", "label": "Wu Dang", "shape": "dot", "size": 12.17313432835821, "title": "Frecuencia: 364"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Mu Nianci", "label": "Mu Nianci", "shape": "dot", "size": 12.053731343283582, "title": "Frecuencia: 344"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Miejue Shitai", "label": "Miejue Shitai", "shape": "dot", "size": 12.029850746268657, "title": "Frecuencia: 340"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Zhu Cong", "label": "Zhu Cong", "shape": "dot", "size": 12.0, "title": "Frecuencia: 335"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Wanyan Honglie", "label": "Wanyan Honglie", "shape": "dot", "size": 11.99402985074627, "title": "Frecuencia: 334"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Xiao Zhao", "label": "Xiao Zhao", "shape": "dot", "size": 11.880597014925373, "title": "Frecuencia: 315"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Qiu Qianchi", "label": "Qiu Qianchi", "shape": "dot", "size": 11.86865671641791, "title": "Frecuencia: 313"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Wanyan Kang", "label": "Wanyan Kang", "shape": "dot", "size": 11.838805970149254, "title": "Frecuencia: 308"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Cheng Ying", "label": "Cheng Ying", "shape": "dot", "size": 11.797014925373134, "title": "Frecuencia: 301"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Golden Flower", "label": "Golden Flower", "shape": "dot", "size": 11.785074626865672, "title": "Frecuencia: 299"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Yelu Qi", "label": "Yelu Qi", "shape": "dot", "size": 11.665671641791045, "title": "Frecuencia: 279"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Nine Yin", "label": "Nine Yin", "shape": "dot", "size": 11.653731343283582, "title": "Frecuencia: 277"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Gongsun Zhi", "label": "Gongsun Zhi", "shape": "dot", "size": 11.64179104477612, "title": "Frecuencia: 275"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Zhou Dian", "label": "Zhou Dian", "shape": "dot", "size": 11.594029850746269, "title": "Frecuencia: 267"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Xiaoxiang Zi", "label": "Xiaoxiang Zi", "shape": "dot", "size": 11.588059701492536, "title": "Frecuencia: 266"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Song Qingshu", "label": "Song Qingshu", "shape": "dot", "size": 11.588059701492536, "title": "Frecuencia: 266"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Peng Lianhu", "label": "Peng Lianhu", "shape": "dot", "size": 11.564179104477612, "title": "Frecuencia: 262"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Yang Tiexin", "label": "Yang Tiexin", "shape": "dot", "size": 11.534328358208956, "title": "Frecuencia: 257"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Lu Guanying", "label": "Lu Guanying", "shape": "dot", "size": 11.534328358208956, "title": "Frecuencia: 257"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Fan Yao", "label": "Fan Yao", "shape": "dot", "size": 11.528358208955224, "title": "Frecuencia: 256"}, {"color": "#42f58d", "font": {"color": "white"}, "id": "Ying Gu", "label": "Ying Gu", "shape": "dot", "size": 11.492537313432836, "title": "Frecuencia: 250"}]);
+                  edges = new vis.DataSet([{"color": "#888888", "from": "Qiu Chuji", "title": "Co-ocurrencias: 18", "to": "Yang Tiexin", "value": 18}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 103", "to": "Yang Kang", "value": 103}, {"color": "#888888", "from": "Yang Tiexin", "title": "Co-ocurrencias: 6", "to": "Yang Tiexin", "value": 6}, {"color": "#888888", "from": "Qiu Chuji", "title": "Co-ocurrencias: 7", "to": "Wanyan Honglie", "value": 7}, {"color": "#888888", "from": "Qiu Chuji", "title": "Co-ocurrencias: 25", "to": "Qiu Chuji", "value": 25}, {"color": "#888888", "from": "Ke Zhen", "title": "Co-ocurrencias: 5", "to": "Wanyan Honglie", "value": 5}, {"color": "#888888", "from": "Qiu Chuji", "title": "Co-ocurrencias: 26", "to": "Zhu Cong", "value": 26}, {"color": "#888888", "from": "Zhu Cong", "title": "Co-ocurrencias: 14", "to": "Zhu Cong", "value": 14}, {"color": "#888888", "from": "Ke Zhen", "title": "Co-ocurrencias: 17", "to": "Zhu Cong", "value": 17}, {"color": "#888888", "from": "Wanyan Honglie", "title": "Co-ocurrencias: 9", "to": "Wanyan Honglie", "value": 9}, {"color": "#888888", "from": "Ke Zhen", "title": "Co-ocurrencias: 17", "to": "Ke Zhen", "value": 17}, {"color": "#888888", "from": "Ke Zhen", "title": "Co-ocurrencias: 13", "to": "Qiu Chuji", "value": 13}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 517", "to": "Guo Jing", "value": 517}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 48", "to": "Wanyan Honglie", "value": 48}, {"color": "#888888", "from": "Yang Kang", "title": "Co-ocurrencias: 50", "to": "Yang Kang", "value": 50}, {"color": "#888888", "from": "Ke Zhen", "title": "Co-ocurrencias: 5", "to": "Yang Kang", "value": 5}, {"color": "#888888", "from": "Qiu Chuji", "title": "Co-ocurrencias: 19", "to": "Yang Kang", "value": 19}, {"color": "#888888", "from": "Yang Kang", "title": "Co-ocurrencias: 5", "to": "Yang Tiexin", "value": 5}, {"color": "#888888", "from": "Yang Tiexin", "title": "Co-ocurrencias: 1", "to": "Zhu Cong", "value": 1}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 43", "to": "Zhu Cong", "value": 43}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 37", "to": "Ke Zhen", "value": 37}, {"color": "#888888", "from": "Peach Blossom", "title": "Co-ocurrencias: 4", "to": "Zhu Cong", "value": 4}, {"color": "#888888", "from": "Ke Zhen", "title": "Co-ocurrencias: 6", "to": "Mei Chaofeng", "value": 6}, {"color": "#888888", "from": "Mei Chaofeng", "title": "Co-ocurrencias: 8", "to": "Zhu Cong", "value": 8}, {"color": "#888888", "from": "Yin Zhiping", "title": "Co-ocurrencias: 1", "to": "Zhu Cong", "value": 1}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 85", "to": "Qiu Chuji", "value": 85}, {"color": "#888888", "from": "Ke Zhen", "title": "Co-ocurrencias: 9", "to": "Yin Zhiping", "value": 9}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 103", "to": "Mei Chaofeng", "value": 103}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 14", "to": "Yin Zhiping", "value": 14}, {"color": "#888888", "from": "Mei Chaofeng", "title": "Co-ocurrencias: 6", "to": "Peach Blossom", "value": 6}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 29", "to": "Mei Chaofeng", "value": 29}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 42", "to": "Peach Blossom", "value": 42}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 7", "to": "Zhu Cong", "value": 7}, {"color": "#888888", "from": "Mei Chaofeng", "title": "Co-ocurrencias: 6", "to": "Qiu Chuji", "value": 6}, {"color": "#888888", "from": "Yang Kang", "title": "Co-ocurrencias: 1", "to": "Zhu Cong", "value": 1}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 1174", "to": "Huang Rong", "value": 1174}, {"color": "#888888", "from": "Mei Chaofeng", "title": "Co-ocurrencias: 1", "to": "Yin Zhiping", "value": 1}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 30", "to": "Wanyan Kang", "value": 30}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 15", "to": "Wanyan Kang", "value": 15}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 15", "to": "Peng Lianhu", "value": 15}, {"color": "#888888", "from": "Wanyan Kang", "title": "Co-ocurrencias: 13", "to": "Wanyan Kang", "value": 13}, {"color": "#888888", "from": "Ouyang Ke", "title": "Co-ocurrencias: 12", "to": "Peng Lianhu", "value": 12}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 179", "to": "Huang Rong", "value": 179}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 37", "to": "Mu Nianci", "value": 37}, {"color": "#888888", "from": "Mu Nianci", "title": "Co-ocurrencias: 19", "to": "Wanyan Kang", "value": 19}, {"color": "#888888", "from": "Wanyan Honglie", "title": "Co-ocurrencias: 4", "to": "Wanyan Kang", "value": 4}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 29", "to": "Peng Lianhu", "value": 29}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 17", "to": "Wanyan Honglie", "value": 17}, {"color": "#888888", "from": "Peng Lianhu", "title": "Co-ocurrencias: 15", "to": "Wanyan Honglie", "value": 15}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 14", "to": "Yang Tiexin", "value": 14}, {"color": "#888888", "from": "Peng Lianhu", "title": "Co-ocurrencias: 2", "to": "Wanyan Kang", "value": 2}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 92", "to": "Ouyang Ke", "value": 92}, {"color": "#888888", "from": "Wanyan Kang", "title": "Co-ocurrencias: 7", "to": "Yang Tiexin", "value": 7}, {"color": "#888888", "from": "Ouyang Ke", "title": "Co-ocurrencias: 4", "to": "Zhu Cong", "value": 4}, {"color": "#888888", "from": "Ouyang Ke", "title": "Co-ocurrencias: 31", "to": "Ouyang Ke", "value": 31}, {"color": "#888888", "from": "Mei Chaofeng", "title": "Co-ocurrencias: 10", "to": "Nine Yin", "value": 10}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 52", "to": "Mei Chaofeng", "value": 52}, {"color": "#888888", "from": "Mei Chaofeng", "title": "Co-ocurrencias: 14", "to": "Mei Chaofeng", "value": 14}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 37", "to": "Peach Blossom", "value": 37}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 80", "to": "Huang Yaoshi", "value": 80}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 74", "to": "Huang Yaoshi", "value": 74}, {"color": "#888888", "from": "Mei Chaofeng", "title": "Co-ocurrencias: 20", "to": "Ouyang Ke", "value": 20}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 111", "to": "Ouyang Ke", "value": 111}, {"color": "#888888", "from": "Mei Chaofeng", "title": "Co-ocurrencias: 6", "to": "Peng Lianhu", "value": 6}, {"color": "#888888", "from": "Ke Zhen", "title": "Co-ocurrencias: 2", "to": "Ouyang Ke", "value": 2}, {"color": "#888888", "from": "Peng Lianhu", "title": "Co-ocurrencias: 11", "to": "Peng Lianhu", "value": 11}, {"color": "#888888", "from": "Mei Chaofeng", "title": "Co-ocurrencias: 5", "to": "Wanyan Kang", "value": 5}, {"color": "#888888", "from": "Mu Nianci", "title": "Co-ocurrencias: 9", "to": "Yang Tiexin", "value": 9}, {"color": "#888888", "from": "Peng Lianhu", "title": "Co-ocurrencias: 18", "to": "Qiu Chuji", "value": 18}, {"color": "#888888", "from": "Ouyang Ke", "title": "Co-ocurrencias: 3", "to": "Qiu Chuji", "value": 3}, {"color": "#888888", "from": "Ouyang Ke", "title": "Co-ocurrencias: 2", "to": "Yang Tiexin", "value": 2}, {"color": "#888888", "from": "Mu Nianci", "title": "Co-ocurrencias: 1", "to": "Peng Lianhu", "value": 1}, {"color": "#888888", "from": "Qiu Chuji", "title": "Co-ocurrencias: 8", "to": "Wanyan Kang", "value": 8}, {"color": "#888888", "from": "Wanyan Honglie", "title": "Co-ocurrencias: 5", "to": "Yang Tiexin", "value": 5}, {"color": "#888888", "from": "Peng Lianhu", "title": "Co-ocurrencias: 10", "to": "Zhu Cong", "value": 10}, {"color": "#888888", "from": "Ke Zhen", "title": "Co-ocurrencias: 11", "to": "Peng Lianhu", "value": 11}, {"color": "#888888", "from": "Mu Nianci", "title": "Co-ocurrencias: 9", "to": "Qiu Chuji", "value": 9}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 9", "to": "Zhu Cong", "value": 9}, {"color": "#888888", "from": "Qiu Chuji", "title": "Co-ocurrencias: 20", "to": "Zhou Botong", "value": 20}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 222", "to": "Hong Qigong", "value": 222}, {"color": "#888888", "from": "Hong Qigong", "title": "Co-ocurrencias: 154", "to": "Huang Rong", "value": 154}, {"color": "#888888", "from": "Hong Qigong", "title": "Co-ocurrencias: 62", "to": "Ouyang Ke", "value": 62}, {"color": "#888888", "from": "Hong Qigong", "title": "Co-ocurrencias: 197", "to": "Ouyang Feng", "value": 197}, {"color": "#888888", "from": "Hong Qigong", "title": "Co-ocurrencias: 60", "to": "Hong Qigong", "value": 60}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 3", "to": "Yang Tiexin", "value": 3}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 85", "to": "Mu Nianci", "value": 85}, {"color": "#888888", "from": "Mu Nianci", "title": "Co-ocurrencias: 18", "to": "Mu Nianci", "value": 18}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 14", "to": "Qiu Chuji", "value": 14}, {"color": "#888888", "from": "Hong Qigong", "title": "Co-ocurrencias: 7", "to": "Mu Nianci", "value": 7}, {"color": "#888888", "from": "Wanyan Kang", "title": "Co-ocurrencias: 3", "to": "Yang Kang", "value": 3}, {"color": "#888888", "from": "Mu Nianci", "title": "Co-ocurrencias: 38", "to": "Yang Kang", "value": 38}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 22", "to": "Lu Guanying", "value": 22}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 22", "to": "Lu Guanying", "value": 22}, {"color": "#888888", "from": "Lu Guanying", "title": "Co-ocurrencias: 11", "to": "Lu Guanying", "value": 11}, {"color": "#888888", "from": "Lu Guanying", "title": "Co-ocurrencias: 14", "to": "Wanyan Kang", "value": 14}, {"color": "#888888", "from": "Lu Guanying", "title": "Co-ocurrencias: 1", "to": "Nine Yin", "value": 1}, {"color": "#888888", "from": "Mu Nianci", "title": "Co-ocurrencias: 23", "to": "Ouyang Ke", "value": 23}, {"color": "#888888", "from": "Ouyang Ke", "title": "Co-ocurrencias: 2", "to": "Wanyan Kang", "value": 2}, {"color": "#888888", "from": "Nine Yin", "title": "Co-ocurrencias: 1", "to": "Wanyan Kang", "value": 1}, {"color": "#888888", "from": "Nine Yin", "title": "Co-ocurrencias: 2", "to": "Ouyang Ke", "value": 2}, {"color": "#888888", "from": "Mei Chaofeng", "title": "Co-ocurrencias: 2", "to": "Mu Nianci", "value": 2}, {"color": "#888888", "from": "Lu Guanying", "title": "Co-ocurrencias: 6", "to": "Qiu Qianren", "value": 6}, {"color": "#888888", "from": "Qiu Qianren", "title": "Co-ocurrencias: 28", "to": "Qiu Qianren", "value": 28}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 42", "to": "Qiu Qianren", "value": 42}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 67", "to": "Qiu Qianren", "value": 67}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 94", "to": "Zhou Botong", "value": 94}, {"color": "#888888", "from": "Qiu Qianren", "title": "Co-ocurrencias: 1", "to": "Wanyan Kang", "value": 1}, {"color": "#888888", "from": "Mei Chaofeng", "title": "Co-ocurrencias: 6", "to": "Qiu Qianren", "value": 6}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 29", "to": "Qiu Chuji", "value": 29}, {"color": "#888888", "from": "Lu Guanying", "title": "Co-ocurrencias: 1", "to": "Mei Chaofeng", "value": 1}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 37", "to": "Ke Zhen", "value": 37}, {"color": "#888888", "from": "Qiu Qianren", "title": "Co-ocurrencias: 4", "to": "Zhu Cong", "value": 4}, {"color": "#888888", "from": "Peng Lianhu", "title": "Co-ocurrencias: 3", "to": "Qiu Qianren", "value": 3}, {"color": "#888888", "from": "Hong Qigong", "title": "Co-ocurrencias: 3", "to": "Mei Chaofeng", "value": 3}, {"color": "#888888", "from": "Hong Qigong", "title": "Co-ocurrencias: 59", "to": "Huang Yaoshi", "value": 59}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 5", "to": "Lu Guanying", "value": 5}, {"color": "#888888", "from": "Lu Guanying", "title": "Co-ocurrencias: 1", "to": "Peach Blossom", "value": 1}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 10", "to": "Nine Yin", "value": 10}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 192", "to": "Huang Yaoshi", "value": 192}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 33", "to": "Peach Blossom", "value": 33}, {"color": "#888888", "from": "Wanyan Kang", "title": "Co-ocurrencias: 3", "to": "Zhu Cong", "value": 3}, {"color": "#888888", "from": "Wanyan Honglie", "title": "Co-ocurrencias: 40", "to": "Yang Kang", "value": 40}, {"color": "#888888", "from": "Mei Chaofeng", "title": "Co-ocurrencias: 2", "to": "Yang Kang", "value": 2}, {"color": "#888888", "from": "Ouyang Ke", "title": "Co-ocurrencias: 32", "to": "Yang Kang", "value": 32}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 71", "to": "Yang Kang", "value": 71}, {"color": "#888888", "from": "Mu Nianci", "title": "Co-ocurrencias: 3", "to": "Wanyan Honglie", "value": 3}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 28", "to": "Nine Yin", "value": 28}, {"color": "#888888", "from": "Peach Blossom", "title": "Co-ocurrencias: 7", "to": "Peach Blossom", "value": 7}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 163", "to": "Zhou Botong", "value": 163}, {"color": "#888888", "from": "Zhou Botong", "title": "Co-ocurrencias: 61", "to": "Zhou Botong", "value": 61}, {"color": "#888888", "from": "Peach Blossom", "title": "Co-ocurrencias: 19", "to": "Zhou Botong", "value": 19}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 66", "to": "Zhou Botong", "value": 66}, {"color": "#888888", "from": "Ouyang Feng", "title": "Co-ocurrencias: 107", "to": "Ouyang Feng", "value": 107}, {"color": "#888888", "from": "Nine Yin", "title": "Co-ocurrencias: 4", "to": "Peach Blossom", "value": 4}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 93", "to": "Ouyang Feng", "value": 93}, {"color": "#888888", "from": "Mei Chaofeng", "title": "Co-ocurrencias: 8", "to": "Zhou Botong", "value": 8}, {"color": "#888888", "from": "Nine Yin", "title": "Co-ocurrencias: 8", "to": "Zhou Botong", "value": 8}, {"color": "#888888", "from": "Nine Yin", "title": "Co-ocurrencias: 2", "to": "Nine Yin", "value": 2}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 15", "to": "Ouyang Ke", "value": 15}, {"color": "#888888", "from": "Ouyang Feng", "title": "Co-ocurrencias: 39", "to": "Ouyang Ke", "value": 39}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 161", "to": "Ouyang Feng", "value": 161}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 326", "to": "Ouyang Feng", "value": 326}, {"color": "#888888", "from": "Ouyang Feng", "title": "Co-ocurrencias: 55", "to": "Zhou Botong", "value": 55}, {"color": "#888888", "from": "Hong Qigong", "title": "Co-ocurrencias: 26", "to": "Zhou Botong", "value": 26}, {"color": "#888888", "from": "Nine Yin", "title": "Co-ocurrencias: 14", "to": "Ouyang Feng", "value": 14}, {"color": "#888888", "from": "Ouyang Ke", "title": "Co-ocurrencias: 4", "to": "Peach Blossom", "value": 4}, {"color": "#888888", "from": "Hong Qigong", "title": "Co-ocurrencias: 11", "to": "Peach Blossom", "value": 11}, {"color": "#888888", "from": "Ouyang Ke", "title": "Co-ocurrencias: 1", "to": "Zhou Botong", "value": 1}, {"color": "#888888", "from": "Hong Qigong", "title": "Co-ocurrencias: 7", "to": "Nine Yin", "value": 7}, {"color": "#888888", "from": "Ouyang Feng", "title": "Co-ocurrencias: 7", "to": "Peach Blossom", "value": 7}, {"color": "#888888", "from": "Ouyang Feng", "title": "Co-ocurrencias: 31", "to": "Wanyan Honglie", "value": 31}, {"color": "#888888", "from": "Ouyang Ke", "title": "Co-ocurrencias: 2", "to": "Wanyan Honglie", "value": 2}, {"color": "#888888", "from": "Hong Qigong", "title": "Co-ocurrencias: 1", "to": "Peng Lianhu", "value": 1}, {"color": "#888888", "from": "Peach Blossom", "title": "Co-ocurrencias: 3", "to": "Qiu Chuji", "value": 3}, {"color": "#888888", "from": "Wanyan Honglie", "title": "Co-ocurrencias: 1", "to": "Zhou Botong", "value": 1}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 16", "to": "Peng Lianhu", "value": 16}, {"color": "#888888", "from": "Ouyang Feng", "title": "Co-ocurrencias: 6", "to": "Peng Lianhu", "value": 6}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 6", "to": "Wanyan Honglie", "value": 6}, {"color": "#888888", "from": "Ouyang Feng", "title": "Co-ocurrencias: 33", "to": "Yang Kang", "value": 33}, {"color": "#888888", "from": "Yang Kang", "title": "Co-ocurrencias: 1", "to": "Zhou Botong", "value": 1}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 7", "to": "Yang Kang", "value": 7}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 9", "to": "Nine Yin", "value": 9}, {"color": "#888888", "from": "Peng Lianhu", "title": "Co-ocurrencias: 4", "to": "Yang Kang", "value": 4}, {"color": "#888888", "from": "Qiu Chuji", "title": "Co-ocurrencias: 31", "to": "Yin Zhiping", "value": 31}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 5", "to": "Yin Zhiping", "value": 5}, {"color": "#888888", "from": "Lu Guanying", "title": "Co-ocurrencias: 10", "to": "Yin Zhiping", "value": 10}, {"color": "#888888", "from": "Yin Zhiping", "title": "Co-ocurrencias: 25", "to": "Yin Zhiping", "value": 25}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 10", "to": "Yin Zhiping", "value": 10}, {"color": "#888888", "from": "Lu Guanying", "title": "Co-ocurrencias: 8", "to": "Ouyang Ke", "value": 8}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 2", "to": "Mu Nianci", "value": 2}, {"color": "#888888", "from": "Lu Guanying", "title": "Co-ocurrencias: 3", "to": "Mu Nianci", "value": 3}, {"color": "#888888", "from": "Lu Guanying", "title": "Co-ocurrencias: 3", "to": "Yang Kang", "value": 3}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 27", "to": "Ke Zhen", "value": 27}, {"color": "#888888", "from": "Ke Zhen", "title": "Co-ocurrencias: 7", "to": "Peach Blossom", "value": 7}, {"color": "#888888", "from": "Qiu Chuji", "title": "Co-ocurrencias: 4", "to": "Qiu Qianren", "value": 4}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 11", "to": "Qiu Qianren", "value": 11}, {"color": "#888888", "from": "Qiu Qianren", "title": "Co-ocurrencias: 44", "to": "Zhou Botong", "value": 44}, {"color": "#888888", "from": "Peach Blossom", "title": "Co-ocurrencias: 2", "to": "Qiu Qianren", "value": 2}, {"color": "#888888", "from": "Mei Chaofeng", "title": "Co-ocurrencias: 4", "to": "Ouyang Feng", "value": 4}, {"color": "#888888", "from": "Ouyang Feng", "title": "Co-ocurrencias: 6", "to": "Qiu Chuji", "value": 6}, {"color": "#888888", "from": "Ouyang Feng", "title": "Co-ocurrencias: 37", "to": "Qiu Qianren", "value": 37}, {"color": "#888888", "from": "Qiu Qianren", "title": "Co-ocurrencias: 7", "to": "Yang Kang", "value": 7}, {"color": "#888888", "from": "Ouyang Feng", "title": "Co-ocurrencias: 1", "to": "Zhu Cong", "value": 1}, {"color": "#888888", "from": "Hong Qigong", "title": "Co-ocurrencias: 8", "to": "Yang Kang", "value": 8}, {"color": "#888888", "from": "Yang Kang", "title": "Co-ocurrencias: 1", "to": "Yin Zhiping", "value": 1}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 44", "to": "Ying Gu", "value": 44}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 51", "to": "Ying Gu", "value": 51}, {"color": "#888888", "from": "Ying Gu", "title": "Co-ocurrencias: 20", "to": "Ying Gu", "value": 20}, {"color": "#888888", "from": "Hong Qigong", "title": "Co-ocurrencias: 2", "to": "Ying Gu", "value": 2}, {"color": "#888888", "from": "Ouyang Ke", "title": "Co-ocurrencias: 1", "to": "Qiu Qianren", "value": 1}, {"color": "#888888", "from": "Ying Gu", "title": "Co-ocurrencias: 20", "to": "Zhou Botong", "value": 20}, {"color": "#888888", "from": "Qiu Qianren", "title": "Co-ocurrencias: 11", "to": "Ying Gu", "value": 11}, {"color": "#888888", "from": "Ke Zhen", "title": "Co-ocurrencias: 3", "to": "Zhou Botong", "value": 3}, {"color": "#888888", "from": "Hong Qigong", "title": "Co-ocurrencias: 4", "to": "Ke Zhen", "value": 4}, {"color": "#888888", "from": "Ouyang Feng", "title": "Co-ocurrencias: 1", "to": "Yin Zhiping", "value": 1}, {"color": "#888888", "from": "Qiu Qianren", "title": "Co-ocurrencias: 4", "to": "Wanyan Honglie", "value": 4}, {"color": "#888888", "from": "Ke Zhen", "title": "Co-ocurrencias: 2", "to": "Qiu Qianren", "value": 2}, {"color": "#888888", "from": "Ke Zhen", "title": "Co-ocurrencias: 14", "to": "Ouyang Feng", "value": 14}, {"color": "#888888", "from": "Peach Blossom", "title": "Co-ocurrencias: 3", "to": "Yang Kang", "value": 3}, {"color": "#888888", "from": "Nine Yin", "title": "Co-ocurrencias: 1", "to": "Wanyan Honglie", "value": 1}, {"color": "#888888", "from": "Ke Zhen", "title": "Co-ocurrencias: 2", "to": "Nine Yin", "value": 2}, {"color": "#888888", "from": "Nine Yin", "title": "Co-ocurrencias: 1", "to": "Yang Kang", "value": 1}, {"color": "#888888", "from": "Mu Nianci", "title": "Co-ocurrencias: 2", "to": "Ouyang Feng", "value": 2}, {"color": "#888888", "from": "Nine Yin", "title": "Co-ocurrencias: 1", "to": "Qiu Chuji", "value": 1}, {"color": "#888888", "from": "Hong Qigong", "title": "Co-ocurrencias: 1", "to": "Qiu Chuji", "value": 1}, {"color": "#888888", "from": "Hong Qigong", "title": "Co-ocurrencias: 4", "to": "Qiu Qianren", "value": 4}, {"color": "#888888", "from": "Peng Lianhu", "title": "Co-ocurrencias: 2", "to": "Zhou Botong", "value": 2}, {"color": "#888888", "from": "Nine Yin", "title": "Co-ocurrencias: 1", "to": "Ying Gu", "value": 1}, {"color": "#888888", "from": "Cheng Ying", "title": "Co-ocurrencias: 92", "to": "Lu Wushuang", "value": 92}, {"color": "#888888", "from": "Cheng Ying", "title": "Co-ocurrencias: 14", "to": "Cheng Ying", "value": 14}, {"color": "#888888", "from": "Guo Fu", "title": "Co-ocurrencias: 80", "to": "Huang Rong", "value": 80}, {"color": "#888888", "from": "Guo Fu", "title": "Co-ocurrencias: 34", "to": "Guo Jing", "value": 34}, {"color": "#888888", "from": "Guo Fu", "title": "Co-ocurrencias: 19", "to": "Li Mochou", "value": 19}, {"color": "#888888", "from": "Li Mochou", "title": "Co-ocurrencias: 4", "to": "Peach Blossom", "value": 4}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 72", "to": "Li Mochou", "value": 72}, {"color": "#888888", "from": "Li Mochou", "title": "Co-ocurrencias: 42", "to": "Li Mochou", "value": 42}, {"color": "#888888", "from": "Lu Wushuang", "title": "Co-ocurrencias: 14", "to": "Lu Wushuang", "value": 14}, {"color": "#888888", "from": "Cheng Ying", "title": "Co-ocurrencias: 24", "to": "Li Mochou", "value": 24}, {"color": "#888888", "from": "Li Mochou", "title": "Co-ocurrencias: 42", "to": "Lu Wushuang", "value": 42}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 200", "to": "Yang Guo", "value": 200}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 291", "to": "Yang Guo", "value": 291}, {"color": "#888888", "from": "Mu Nianci", "title": "Co-ocurrencias: 6", "to": "Yang Guo", "value": 6}, {"color": "#888888", "from": "Yang Guo", "title": "Co-ocurrencias: 348", "to": "Yang Guo", "value": 348}, {"color": "#888888", "from": "Ouyang Feng", "title": "Co-ocurrencias: 63", "to": "Yang Guo", "value": 63}, {"color": "#888888", "from": "Peach Blossom", "title": "Co-ocurrencias: 17", "to": "Yang Guo", "value": 17}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 8", "to": "Li Mochou", "value": 8}, {"color": "#888888", "from": "Guo Fu", "title": "Co-ocurrencias: 145", "to": "Yang Guo", "value": 145}, {"color": "#888888", "from": "Yang Guo", "title": "Co-ocurrencias: 4", "to": "Yang Tiexin", "value": 4}, {"color": "#888888", "from": "Yang Guo", "title": "Co-ocurrencias: 15", "to": "Yang Kang", "value": 15}, {"color": "#888888", "from": "Guo Fu", "title": "Co-ocurrencias: 1", "to": "Ouyang Feng", "value": 1}, {"color": "#888888", "from": "Qiu Chuji", "title": "Co-ocurrencias: 18", "to": "Yang Guo", "value": 18}, {"color": "#888888", "from": "Yang Guo", "title": "Co-ocurrencias: 21", "to": "Yin Zhiping", "value": 21}, {"color": "#888888", "from": "Li Mochou", "title": "Co-ocurrencias: 59", "to": "Xiao Longnu", "value": 59}, {"color": "#888888", "from": "Qiu Chuji", "title": "Co-ocurrencias: 13", "to": "Xiao Longnu", "value": 13}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 32", "to": "Xiao Longnu", "value": 32}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 18", "to": "Zhao Zhijing", "value": 18}, {"color": "#888888", "from": "Yang Guo", "title": "Co-ocurrencias: 78", "to": "Zhao Zhijing", "value": 78}, {"color": "#888888", "from": "Zhao Zhijing", "title": "Co-ocurrencias: 16", "to": "Zhao Zhijing", "value": 16}, {"color": "#888888", "from": "Qiu Chuji", "title": "Co-ocurrencias: 14", "to": "Zhao Zhijing", "value": 14}, {"color": "#888888", "from": "Yin Zhiping", "title": "Co-ocurrencias: 70", "to": "Zhao Zhijing", "value": 70}, {"color": "#888888", "from": "Peach Blossom", "title": "Co-ocurrencias: 1", "to": "Zhao Zhijing", "value": 1}, {"color": "#888888", "from": "Xiao Longnu", "title": "Co-ocurrencias: 619", "to": "Yang Guo", "value": 619}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 6", "to": "Zhao Zhijing", "value": 6}, {"color": "#888888", "from": "Li Mochou", "title": "Co-ocurrencias: 142", "to": "Yang Guo", "value": 142}, {"color": "#888888", "from": "Xiao Longnu", "title": "Co-ocurrencias: 66", "to": "Xiao Longnu", "value": 66}, {"color": "#888888", "from": "Li Mochou", "title": "Co-ocurrencias: 4", "to": "Qiu Chuji", "value": 4}, {"color": "#888888", "from": "Xiao Longnu", "title": "Co-ocurrencias: 42", "to": "Zhao Zhijing", "value": 42}, {"color": "#888888", "from": "Xiao Longnu", "title": "Co-ocurrencias: 19", "to": "Yin Zhiping", "value": 19}, {"color": "#888888", "from": "Li Mochou", "title": "Co-ocurrencias: 5", "to": "Ouyang Feng", "value": 5}, {"color": "#888888", "from": "Li Mochou", "title": "Co-ocurrencias: 2", "to": "Nine Yin", "value": 2}, {"color": "#888888", "from": "Nine Yin", "title": "Co-ocurrencias: 7", "to": "Yang Guo", "value": 7}, {"color": "#888888", "from": "Ouyang Feng", "title": "Co-ocurrencias: 12", "to": "Xiao Longnu", "value": 12}, {"color": "#888888", "from": "Nine Yin", "title": "Co-ocurrencias: 2", "to": "Xiao Longnu", "value": 2}, {"color": "#888888", "from": "Lu Wushuang", "title": "Co-ocurrencias: 102", "to": "Yang Guo", "value": 102}, {"color": "#888888", "from": "Lu Wushuang", "title": "Co-ocurrencias: 20", "to": "Xiao Longnu", "value": 20}, {"color": "#888888", "from": "Yelu Qi", "title": "Co-ocurrencias: 10", "to": "Yelu Qi", "value": 10}, {"color": "#888888", "from": "Yang Guo", "title": "Co-ocurrencias: 24", "to": "Yelu Qi", "value": 24}, {"color": "#888888", "from": "Lu Wushuang", "title": "Co-ocurrencias: 10", "to": "Yelu Qi", "value": 10}, {"color": "#888888", "from": "Li Mochou", "title": "Co-ocurrencias: 14", "to": "Yelu Qi", "value": 14}, {"color": "#888888", "from": "Guo Fu", "title": "Co-ocurrencias: 36", "to": "Yelu Qi", "value": 36}, {"color": "#888888", "from": "Guo Fu", "title": "Co-ocurrencias: 33", "to": "Guo Fu", "value": 33}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 11", "to": "Lu Wushuang", "value": 11}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 2", "to": "Lu Wushuang", "value": 2}, {"color": "#888888", "from": "Hong Qigong", "title": "Co-ocurrencias: 47", "to": "Yang Guo", "value": 47}, {"color": "#888888", "from": "Hong Qigong", "title": "Co-ocurrencias: 3", "to": "Lu Wushuang", "value": 3}, {"color": "#888888", "from": "Guo Fu", "title": "Co-ocurrencias: 6", "to": "Peach Blossom", "value": 6}, {"color": "#888888", "from": "Mu Nianci", "title": "Co-ocurrencias: 1", "to": "Zhao Zhijing", "value": 1}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 53", "to": "Yang Guo", "value": 53}, {"color": "#888888", "from": "Golden Wheel", "title": "Co-ocurrencias: 9", "to": "Hong Qigong", "value": 9}, {"color": "#888888", "from": "Golden Wheel", "title": "Co-ocurrencias: 19", "to": "Guo Jing", "value": 19}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 60", "to": "Xiao Longnu", "value": 60}, {"color": "#888888", "from": "Guo Fu", "title": "Co-ocurrencias: 27", "to": "Xiao Longnu", "value": 27}, {"color": "#888888", "from": "Golden Wheel", "title": "Co-ocurrencias: 32", "to": "Huang Rong", "value": 32}, {"color": "#888888", "from": "Golden Wheel", "title": "Co-ocurrencias: 99", "to": "Yang Guo", "value": 99}, {"color": "#888888", "from": "Golden Wheel", "title": "Co-ocurrencias: 2", "to": "Ouyang Feng", "value": 2}, {"color": "#888888", "from": "Golden Wheel", "title": "Co-ocurrencias: 49", "to": "Xiao Longnu", "value": 49}, {"color": "#888888", "from": "Golden Wheel", "title": "Co-ocurrencias: 8", "to": "Golden Wheel", "value": 8}, {"color": "#888888", "from": "Golden Wheel", "title": "Co-ocurrencias: 15", "to": "Guo Fu", "value": 15}, {"color": "#888888", "from": "Guo Fu", "title": "Co-ocurrencias: 28", "to": "Lu Wushuang", "value": 28}, {"color": "#888888", "from": "Cheng Ying", "title": "Co-ocurrencias: 3", "to": "Peach Blossom", "value": 3}, {"color": "#888888", "from": "Cheng Ying", "title": "Co-ocurrencias: 16", "to": "Huang Yaoshi", "value": 16}, {"color": "#888888", "from": "Cheng Ying", "title": "Co-ocurrencias: 20", "to": "Huang Rong", "value": 20}, {"color": "#888888", "from": "Cheng Ying", "title": "Co-ocurrencias: 1", "to": "Golden Wheel", "value": 1}, {"color": "#888888", "from": "Golden Wheel", "title": "Co-ocurrencias: 6", "to": "Li Mochou", "value": 6}, {"color": "#888888", "from": "Cheng Ying", "title": "Co-ocurrencias: 50", "to": "Yang Guo", "value": 50}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 12", "to": "Li Mochou", "value": 12}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 8", "to": "Lu Wushuang", "value": 8}, {"color": "#888888", "from": "Cheng Ying", "title": "Co-ocurrencias: 19", "to": "Xiao Longnu", "value": 19}, {"color": "#888888", "from": "Golden Wheel", "title": "Co-ocurrencias: 1", "to": "Huang Yaoshi", "value": 1}, {"color": "#888888", "from": "Hong Qigong", "title": "Co-ocurrencias: 1", "to": "Li Mochou", "value": 1}, {"color": "#888888", "from": "Golden Wheel", "title": "Co-ocurrencias: 17", "to": "Xiaoxiang Zi", "value": 17}, {"color": "#888888", "from": "Xiaoxiang Zi", "title": "Co-ocurrencias: 12", "to": "Zhou Botong", "value": 12}, {"color": "#888888", "from": "Golden Wheel", "title": "Co-ocurrencias: 9", "to": "Zhou Botong", "value": 9}, {"color": "#888888", "from": "Yang Guo", "title": "Co-ocurrencias: 56", "to": "Zhou Botong", "value": 56}, {"color": "#888888", "from": "Xiaoxiang Zi", "title": "Co-ocurrencias: 43", "to": "Yang Guo", "value": 43}, {"color": "#888888", "from": "Xiaoxiang Zi", "title": "Co-ocurrencias: 8", "to": "Xiaoxiang Zi", "value": 8}, {"color": "#888888", "from": "Li Mochou", "title": "Co-ocurrencias: 2", "to": "Zhou Botong", "value": 2}, {"color": "#888888", "from": "Cheng Ying", "title": "Co-ocurrencias: 1", "to": "Hong Qigong", "value": 1}, {"color": "#888888", "from": "Qiu Qianchi", "title": "Co-ocurrencias: 61", "to": "Yang Guo", "value": 61}, {"color": "#888888", "from": "Gongsun Zhi", "title": "Co-ocurrencias: 4", "to": "Yelu Qi", "value": 4}, {"color": "#888888", "from": "Gongsun Zhi", "title": "Co-ocurrencias: 77", "to": "Yang Guo", "value": 77}, {"color": "#888888", "from": "Gongsun Zhi", "title": "Co-ocurrencias: 38", "to": "Qiu Qianchi", "value": 38}, {"color": "#888888", "from": "Gongsun Zhi", "title": "Co-ocurrencias: 19", "to": "Gongsun Zhi", "value": 19}, {"color": "#888888", "from": "Qiu Qianchi", "title": "Co-ocurrencias: 12", "to": "Xiao Longnu", "value": 12}, {"color": "#888888", "from": "Gongsun Zhi", "title": "Co-ocurrencias: 3", "to": "Qiu Qianren", "value": 3}, {"color": "#888888", "from": "Qiu Qianren", "title": "Co-ocurrencias: 3", "to": "Yang Guo", "value": 3}, {"color": "#888888", "from": "Qiu Qianchi", "title": "Co-ocurrencias: 1", "to": "Zhou Botong", "value": 1}, {"color": "#888888", "from": "Qiu Qianchi", "title": "Co-ocurrencias: 3", "to": "Qiu Qianren", "value": 3}, {"color": "#888888", "from": "Golden Wheel", "title": "Co-ocurrencias: 2", "to": "Qiu Qianchi", "value": 2}, {"color": "#888888", "from": "Qiu Qianchi", "title": "Co-ocurrencias: 1", "to": "Xiaoxiang Zi", "value": 1}, {"color": "#888888", "from": "Gongsun Zhi", "title": "Co-ocurrencias: 2", "to": "Zhou Botong", "value": 2}, {"color": "#888888", "from": "Gongsun Zhi", "title": "Co-ocurrencias: 2", "to": "Xiaoxiang Zi", "value": 2}, {"color": "#888888", "from": "Qiu Qianren", "title": "Co-ocurrencias: 1", "to": "Xiaoxiang Zi", "value": 1}, {"color": "#888888", "from": "Gongsun Zhi", "title": "Co-ocurrencias: 19", "to": "Xiao Longnu", "value": 19}, {"color": "#888888", "from": "Gongsun Zhi", "title": "Co-ocurrencias: 1", "to": "Qiu Chuji", "value": 1}, {"color": "#888888", "from": "Gongsun Zhi", "title": "Co-ocurrencias: 1", "to": "Huang Yaoshi", "value": 1}, {"color": "#888888", "from": "Qiu Qianchi", "title": "Co-ocurrencias: 6", "to": "Qiu Qianchi", "value": 6}, {"color": "#888888", "from": "Golden Wheel", "title": "Co-ocurrencias: 1", "to": "Gongsun Zhi", "value": 1}, {"color": "#888888", "from": "Xiao Longnu", "title": "Co-ocurrencias: 16", "to": "Xiaoxiang Zi", "value": 16}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 3", "to": "Qiu Qianchi", "value": 3}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 35", "to": "Xiaoxiang Zi", "value": 35}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 28", "to": "Qiu Qianchi", "value": 28}, {"color": "#888888", "from": "Guo Fu", "title": "Co-ocurrencias: 1", "to": "Zhao Zhijing", "value": 1}, {"color": "#888888", "from": "Yin Zhiping", "title": "Co-ocurrencias: 2", "to": "Zhou Botong", "value": 2}, {"color": "#888888", "from": "Zhao Zhijing", "title": "Co-ocurrencias: 14", "to": "Zhou Botong", "value": 14}, {"color": "#888888", "from": "Xiao Longnu", "title": "Co-ocurrencias: 35", "to": "Zhou Botong", "value": 35}, {"color": "#888888", "from": "Golden Wheel", "title": "Co-ocurrencias: 1", "to": "Zhao Zhijing", "value": 1}, {"color": "#888888", "from": "Golden Wheel", "title": "Co-ocurrencias: 1", "to": "Qiu Chuji", "value": 1}, {"color": "#888888", "from": "Lu Wushuang", "title": "Co-ocurrencias: 1", "to": "Zhao Zhijing", "value": 1}, {"color": "#888888", "from": "Xiaoxiang Zi", "title": "Co-ocurrencias: 6", "to": "Zhao Zhijing", "value": 6}, {"color": "#888888", "from": "Qiu Chuji", "title": "Co-ocurrencias: 1", "to": "Xiaoxiang Zi", "value": 1}, {"color": "#888888", "from": "Guo Xiang", "title": "Co-ocurrencias: 127", "to": "Yang Guo", "value": 127}, {"color": "#888888", "from": "Guo Xiang", "title": "Co-ocurrencias: 10", "to": "Li Mochou", "value": 10}, {"color": "#888888", "from": "Guo Xiang", "title": "Co-ocurrencias: 35", "to": "Xiao Longnu", "value": 35}, {"color": "#888888", "from": "Guo Xiang", "title": "Co-ocurrencias: 49", "to": "Huang Rong", "value": 49}, {"color": "#888888", "from": "Guo Xiang", "title": "Co-ocurrencias: 19", "to": "Guo Xiang", "value": 19}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 20", "to": "Guo Xiang", "value": 20}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 4", "to": "Xiao Longnu", "value": 4}, {"color": "#888888", "from": "Golden Wheel", "title": "Co-ocurrencias: 9", "to": "Guo Xiang", "value": 9}, {"color": "#888888", "from": "Guo Fu", "title": "Co-ocurrencias: 35", "to": "Guo Xiang", "value": 35}, {"color": "#888888", "from": "Gongsun Zhi", "title": "Co-ocurrencias: 18", "to": "Huang Rong", "value": 18}, {"color": "#888888", "from": "Gongsun Zhi", "title": "Co-ocurrencias: 16", "to": "Li Mochou", "value": 16}, {"color": "#888888", "from": "Gongsun Zhi", "title": "Co-ocurrencias: 8", "to": "Guo Fu", "value": 8}, {"color": "#888888", "from": "Huang Rong", "title": "Co-ocurrencias: 19", "to": "Yelu Qi", "value": 19}, {"color": "#888888", "from": "Yelu Qi", "title": "Co-ocurrencias: 12", "to": "Zhou Botong", "value": 12}, {"color": "#888888", "from": "Guo Fu", "title": "Co-ocurrencias: 1", "to": "Zhou Botong", "value": 1}, {"color": "#888888", "from": "Guo Xiang", "title": "Co-ocurrencias: 12", "to": "Yelu Qi", "value": 12}, {"color": "#888888", "from": "Guo Xiang", "title": "Co-ocurrencias: 4", "to": "Lu Wushuang", "value": 4}, {"color": "#888888", "from": "Cheng Ying", "title": "Co-ocurrencias: 5", "to": "Guo Xiang", "value": 5}, {"color": "#888888", "from": "Guo Fu", "title": "Co-ocurrencias: 2", "to": "Qiu Qianchi", "value": 2}, {"color": "#888888", "from": "Cheng Ying", "title": "Co-ocurrencias: 21", "to": "Guo Fu", "value": 21}, {"color": "#888888", "from": "Guo Fu", "title": "Co-ocurrencias: 3", "to": "Huang Yaoshi", "value": 3}, {"color": "#888888", "from": "Guo Xiang", "title": "Co-ocurrencias: 2", "to": "Qiu Qianchi", "value": 2}, {"color": "#888888", "from": "Qiu Qianchi", "title": "Co-ocurrencias: 2", "to": "Yelu Qi", "value": 2}, {"color": "#888888", "from": "Li Mochou", "title": "Co-ocurrencias: 3", "to": "Qiu Qianchi", "value": 3}, {"color": "#888888", "from": "Cheng Ying", "title": "Co-ocurrencias: 1", "to": "Qiu Qianchi", "value": 1}, {"color": "#888888", "from": "Lu Wushuang", "title": "Co-ocurrencias: 1", "to": "Qiu Qianchi", "value": 1}, {"color": "#888888", "from": "Cheng Ying", "title": "Co-ocurrencias: 4", "to": "Gongsun Zhi", "value": 4}, {"color": "#888888", "from": "Gongsun Zhi", "title": "Co-ocurrencias: 4", "to": "Lu Wushuang", "value": 4}, {"color": "#888888", "from": "Cheng Ying", "title": "Co-ocurrencias: 3", "to": "Zhou Botong", "value": 3}, {"color": "#888888", "from": "Lu Wushuang", "title": "Co-ocurrencias: 8", "to": "Zhou Botong", "value": 8}, {"color": "#888888", "from": "Cheng Ying", "title": "Co-ocurrencias: 1", "to": "Yelu Qi", "value": 1}, {"color": "#888888", "from": "Guo Xiang", "title": "Co-ocurrencias: 7", "to": "Huang Yaoshi", "value": 7}, {"color": "#888888", "from": "Guo Xiang", "title": "Co-ocurrencias: 3", "to": "Zhou Botong", "value": 3}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 9", "to": "Yelu Qi", "value": 9}, {"color": "#888888", "from": "Peach Blossom", "title": "Co-ocurrencias: 1", "to": "Yang Tiexin", "value": 1}, {"color": "#888888", "from": "Guo Fu", "title": "Co-ocurrencias: 1", "to": "Yang Tiexin", "value": 1}, {"color": "#888888", "from": "Xiao Longnu", "title": "Co-ocurrencias: 1", "to": "Yang Tiexin", "value": 1}, {"color": "#888888", "from": "Guo Fu", "title": "Co-ocurrencias: 1", "to": "Yang Kang", "value": 1}, {"color": "#888888", "from": "Xiao Longnu", "title": "Co-ocurrencias: 1", "to": "Yang Kang", "value": 1}, {"color": "#888888", "from": "Peach Blossom", "title": "Co-ocurrencias: 1", "to": "Xiao Longnu", "value": 1}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 4", "to": "Xiaoxiang Zi", "value": 4}, {"color": "#888888", "from": "Guo Xiang", "title": "Co-ocurrencias: 1", "to": "Peach Blossom", "value": 1}, {"color": "#888888", "from": "Xiao Longnu", "title": "Co-ocurrencias: 3", "to": "Yelu Qi", "value": 3}, {"color": "#888888", "from": "Huang Yaoshi", "title": "Co-ocurrencias: 1", "to": "Yelu Qi", "value": 1}, {"color": "#888888", "from": "Hong Qigong", "title": "Co-ocurrencias: 1", "to": "Xiao Longnu", "value": 1}, {"color": "#888888", "from": "Yang Guo", "title": "Co-ocurrencias: 2", "to": "Ying Gu", "value": 2}, {"color": "#888888", "from": "Wu Dang", "title": "Co-ocurrencias: 24", "to": "Wu Dang", "value": 24}, {"color": "#888888", "from": "Xie Xun", "title": "Co-ocurrencias: 104", "to": "Xie Xun", "value": 104}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 1", "to": "Wu Dang", "value": 1}, {"color": "#888888", "from": "Wu Dang", "title": "Co-ocurrencias: 1", "to": "Yang Guo", "value": 1}, {"color": "#888888", "from": "Wu Dang", "title": "Co-ocurrencias: 12", "to": "Xie Xun", "value": 12}, {"color": "#888888", "from": "Ming Cult", "title": "Co-ocurrencias: 40", "to": "Ming Cult", "value": 40}, {"color": "#888888", "from": "Zhang Wuji", "title": "Co-ocurrencias: 190", "to": "Zhou Zhiruo", "value": 190}, {"color": "#888888", "from": "Xie Xun", "title": "Co-ocurrencias: 109", "to": "Zhang Wuji", "value": 109}, {"color": "#888888", "from": "Ming Cult", "title": "Co-ocurrencias: 69", "to": "Zhang Wuji", "value": 69}, {"color": "#888888", "from": "Golden Flower", "title": "Co-ocurrencias: 3", "to": "Ming Cult", "value": 3}, {"color": "#888888", "from": "Golden Flower", "title": "Co-ocurrencias: 38", "to": "Zhang Wuji", "value": 38}, {"color": "#888888", "from": "Golden Flower", "title": "Co-ocurrencias: 10", "to": "Golden Flower", "value": 10}, {"color": "#888888", "from": "Golden Flower", "title": "Co-ocurrencias: 5", "to": "Miejue Shitai", "value": 5}, {"color": "#888888", "from": "Zhang Wuji", "title": "Co-ocurrencias: 215", "to": "Zhang Wuji", "value": 215}, {"color": "#888888", "from": "Miejue Shitai", "title": "Co-ocurrencias: 40", "to": "Zhang Wuji", "value": 40}, {"color": "#888888", "from": "Ming Cult", "title": "Co-ocurrencias: 37", "to": "Yang Xiao", "value": 37}, {"color": "#888888", "from": "Yang Xiao", "title": "Co-ocurrencias: 86", "to": "Zhang Wuji", "value": 86}, {"color": "#888888", "from": "Yang Xiao", "title": "Co-ocurrencias: 36", "to": "Yang Xiao", "value": 36}, {"color": "#888888", "from": "Nine Yin", "title": "Co-ocurrencias: 4", "to": "Zhang Wuji", "value": 4}, {"color": "#888888", "from": "Zhou Zhiruo", "title": "Co-ocurrencias: 36", "to": "Zhou Zhiruo", "value": 36}, {"color": "#888888", "from": "Miejue Shitai", "title": "Co-ocurrencias: 21", "to": "Zhou Zhiruo", "value": 21}, {"color": "#888888", "from": "Cult Leader", "title": "Co-ocurrencias: 33", "to": "Zhang Wuji", "value": 33}, {"color": "#888888", "from": "Miejue Shitai", "title": "Co-ocurrencias: 9", "to": "Miejue Shitai", "value": 9}, {"color": "#888888", "from": "Cult Leader", "title": "Co-ocurrencias: 33", "to": "Cult Leader", "value": 33}, {"color": "#888888", "from": "Guo Xiang", "title": "Co-ocurrencias: 1", "to": "Miejue Shitai", "value": 1}, {"color": "#888888", "from": "Song Qingshu", "title": "Co-ocurrencias: 46", "to": "Zhang Wuji", "value": 46}, {"color": "#888888", "from": "Song Qingshu", "title": "Co-ocurrencias: 35", "to": "Song Qingshu", "value": 35}, {"color": "#888888", "from": "Song Qingshu", "title": "Co-ocurrencias: 21", "to": "Zhou Zhiruo", "value": 21}, {"color": "#888888", "from": "Miejue Shitai", "title": "Co-ocurrencias: 8", "to": "Song Qingshu", "value": 8}, {"color": "#888888", "from": "Cult Leader", "title": "Co-ocurrencias: 78", "to": "Ming Cult", "value": 78}, {"color": "#888888", "from": "Miejue Shitai", "title": "Co-ocurrencias: 8", "to": "Ming Cult", "value": 8}, {"color": "#888888", "from": "Zhang Wuji", "title": "Co-ocurrencias: 13", "to": "Zhou Dian", "value": 13}, {"color": "#888888", "from": "Zhou Dian", "title": "Co-ocurrencias: 18", "to": "Zhou Dian", "value": 18}, {"color": "#888888", "from": "Ming Cult", "title": "Co-ocurrencias: 8", "to": "Zhou Dian", "value": 8}, {"color": "#888888", "from": "Yang Xiao", "title": "Co-ocurrencias: 38", "to": "Zhou Dian", "value": 38}, {"color": "#888888", "from": "Cult Leader", "title": "Co-ocurrencias: 19", "to": "Yang Xiao", "value": 19}, {"color": "#888888", "from": "Cult Leader", "title": "Co-ocurrencias: 10", "to": "Zhou Dian", "value": 10}, {"color": "#888888", "from": "Ming Cult", "title": "Co-ocurrencias: 34", "to": "Xie Xun", "value": 34}, {"color": "#888888", "from": "Xiao Zhao", "title": "Co-ocurrencias: 19", "to": "Xiao Zhao", "value": 19}, {"color": "#888888", "from": "Ming Cult", "title": "Co-ocurrencias: 4", "to": "Xiao Zhao", "value": 4}, {"color": "#888888", "from": "Xiao Zhao", "title": "Co-ocurrencias: 14", "to": "Yang Xiao", "value": 14}, {"color": "#888888", "from": "Xiao Zhao", "title": "Co-ocurrencias: 66", "to": "Zhang Wuji", "value": 66}, {"color": "#888888", "from": "Ming Cult", "title": "Co-ocurrencias: 9", "to": "Zhou Zhiruo", "value": 9}, {"color": "#888888", "from": "Zhang Wuji", "title": "Co-ocurrencias: 306", "to": "Zhao Min", "value": 306}, {"color": "#888888", "from": "Zhao Min", "title": "Co-ocurrencias: 58", "to": "Zhao Min", "value": 58}, {"color": "#888888", "from": "Ming Cult", "title": "Co-ocurrencias: 15", "to": "Zhao Min", "value": 15}, {"color": "#888888", "from": "Xiao Zhao", "title": "Co-ocurrencias: 2", "to": "Zhou Dian", "value": 2}, {"color": "#888888", "from": "Cult Leader", "title": "Co-ocurrencias: 2", "to": "Xiao Zhao", "value": 2}, {"color": "#888888", "from": "Miejue Shitai", "title": "Co-ocurrencias: 1", "to": "Zhou Dian", "value": 1}, {"color": "#888888", "from": "Xiao Zhao", "title": "Co-ocurrencias: 28", "to": "Zhao Min", "value": 28}, {"color": "#888888", "from": "Yang Xiao", "title": "Co-ocurrencias: 16", "to": "Zhao Min", "value": 16}, {"color": "#888888", "from": "Zhao Min", "title": "Co-ocurrencias: 99", "to": "Zhou Zhiruo", "value": 99}, {"color": "#888888", "from": "Miejue Shitai", "title": "Co-ocurrencias: 4", "to": "Zhao Min", "value": 4}, {"color": "#888888", "from": "Yang Xiao", "title": "Co-ocurrencias: 7", "to": "Zhou Zhiruo", "value": 7}, {"color": "#888888", "from": "Fan Yao", "title": "Co-ocurrencias: 35", "to": "Yang Xiao", "value": 35}, {"color": "#888888", "from": "Cult Leader", "title": "Co-ocurrencias: 12", "to": "Fan Yao", "value": 12}, {"color": "#888888", "from": "Fan Yao", "title": "Co-ocurrencias: 21", "to": "Zhang Wuji", "value": 21}, {"color": "#888888", "from": "Fan Yao", "title": "Co-ocurrencias: 18", "to": "Zhao Min", "value": 18}, {"color": "#888888", "from": "Fan Yao", "title": "Co-ocurrencias: 10", "to": "Ming Cult", "value": 10}, {"color": "#888888", "from": "Fan Yao", "title": "Co-ocurrencias: 7", "to": "Miejue Shitai", "value": 7}, {"color": "#888888", "from": "Miejue Shitai", "title": "Co-ocurrencias: 2", "to": "Yang Xiao", "value": 2}, {"color": "#888888", "from": "Fan Yao", "title": "Co-ocurrencias: 12", "to": "Fan Yao", "value": 12}, {"color": "#888888", "from": "Cult Leader", "title": "Co-ocurrencias: 4", "to": "Zhou Zhiruo", "value": 4}, {"color": "#888888", "from": "Cult Leader", "title": "Co-ocurrencias: 2", "to": "Miejue Shitai", "value": 2}, {"color": "#888888", "from": "Fan Yao", "title": "Co-ocurrencias: 10", "to": "Zhou Zhiruo", "value": 10}, {"color": "#888888", "from": "Fan Yao", "title": "Co-ocurrencias: 3", "to": "Xiao Zhao", "value": 3}, {"color": "#888888", "from": "Golden Flower", "title": "Co-ocurrencias: 7", "to": "Zhou Zhiruo", "value": 7}, {"color": "#888888", "from": "Golden Flower", "title": "Co-ocurrencias: 17", "to": "Zhao Min", "value": 17}, {"color": "#888888", "from": "Golden Flower", "title": "Co-ocurrencias: 33", "to": "Xie Xun", "value": 33}, {"color": "#888888", "from": "Xiao Zhao", "title": "Co-ocurrencias: 14", "to": "Zhou Zhiruo", "value": 14}, {"color": "#888888", "from": "Xie Xun", "title": "Co-ocurrencias: 24", "to": "Zhao Min", "value": 24}, {"color": "#888888", "from": "Cult Leader", "title": "Co-ocurrencias: 1", "to": "Golden Flower", "value": 1}, {"color": "#888888", "from": "Cult Leader", "title": "Co-ocurrencias: 10", "to": "Xie Xun", "value": 10}, {"color": "#888888", "from": "Xiao Zhao", "title": "Co-ocurrencias: 7", "to": "Xie Xun", "value": 7}, {"color": "#888888", "from": "Xie Xun", "title": "Co-ocurrencias: 51", "to": "Zhou Zhiruo", "value": 51}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 1", "to": "Zhang Wuji", "value": 1}, {"color": "#888888", "from": "Yang Guo", "title": "Co-ocurrencias: 1", "to": "Zhou Zhiruo", "value": 1}, {"color": "#888888", "from": "Guo Xiang", "title": "Co-ocurrencias: 1", "to": "Nine Yin", "value": 1}, {"color": "#888888", "from": "Nine Yin", "title": "Co-ocurrencias: 1", "to": "Zhou Zhiruo", "value": 1}, {"color": "#888888", "from": "Guo Xiang", "title": "Co-ocurrencias: 1", "to": "Zhou Zhiruo", "value": 1}, {"color": "#888888", "from": "Guo Jing", "title": "Co-ocurrencias: 1", "to": "Zhou Zhiruo", "value": 1}, {"color": "#888888", "from": "Golden Flower", "title": "Co-ocurrencias: 3", "to": "Xiao Zhao", "value": 3}, {"color": "#888888", "from": "Song Qingshu", "title": "Co-ocurrencias: 14", "to": "Zhao Min", "value": 14}, {"color": "#888888", "from": "Xie Xun", "title": "Co-ocurrencias: 7", "to": "Yang Xiao", "value": 7}, {"color": "#888888", "from": "Hong Qigong", "title": "Co-ocurrencias: 1", "to": "Ming Cult", "value": 1}, {"color": "#888888", "from": "Fan Yao", "title": "Co-ocurrencias: 2", "to": "Zhou Dian", "value": 2}, {"color": "#888888", "from": "Cult Leader", "title": "Co-ocurrencias: 3", "to": "Zhao Min", "value": 3}, {"color": "#888888", "from": "Fan Yao", "title": "Co-ocurrencias: 4", "to": "Xie Xun", "value": 4}, {"color": "#888888", "from": "Zhao Min", "title": "Co-ocurrencias: 1", "to": "Zhou Dian", "value": 1}, {"color": "#888888", "from": "Fan Yao", "title": "Co-ocurrencias: 7", "to": "Song Qingshu", "value": 7}, {"color": "#888888", "from": "Zhou Dian", "title": "Co-ocurrencias: 3", "to": "Zhou Zhiruo", "value": 3}, {"color": "#888888", "from": "Xie Xun", "title": "Co-ocurrencias: 1", "to": "Zhou Dian", "value": 1}, {"color": "#888888", "from": "Nine Yin", "title": "Co-ocurrencias: 1", "to": "Xie Xun", "value": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "repulsion": {
+            "centralGravity": 0.2,
+            "damping": 0.09,
+            "nodeDistance": 150,
+            "springConstant": 0.05,
+            "springLength": 200
+        },
+        "solver": "repulsion",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

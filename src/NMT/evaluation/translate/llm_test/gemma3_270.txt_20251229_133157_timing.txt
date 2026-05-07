@@ -1,0 +1,2 @@
+=== TIME SUMMARY (Per Prompt) ===
+Prompt 0: 3.97 min

@@ -1,0 +1,161 @@
+
+
+##############################################
+### PROMPT 0
+### You are a professional Chinese-to-English translator. Output ONLY the translation inside triple brac...
+##############################################
+
+=== 0SHOT (0-shot) ===
+
+--- Case 1 ---
+[ZH]: 算不尽仙友，你是智道蛊仙更当明白眼前的局势
+[REF]: Friend Suan Bu Jin, as a wisdom path Gu Immortal, you should be even more aware of the current situation
+[GEN]: === TRANSLATE THIS ===
+Input: 算不尽仙友，你是智道蛊仙更当明白眼前的局势
+[TIME]: 1.62 s (Batch Avg)
+--- Case 2 ---
+[ZH]: 立刻这上百药草形成的药液，骤然落下，在与这血湖碰触的瞬间，如同相互之间有强烈的排斥，直接爆发，燃烧成为黑色的火焰，覆盖整个血湖
+[REF]: As they flew through the air, they transformed into a medicinal liquid. When that entered the blood lake, a powerful expulsion force erupted out, and the burning caused a black smoke to rise up and fill the area
+[GEN]: === TRANSLATE THIS ===
+Input: 瞬间，这上百药草形成的药液，骤然落下，在与这血湖碰触的瞬间，如同相互之间有强烈的排斥，直接爆发，燃烧成为黑色的火焰，覆盖整个血湖
+[TIME]: 1.62 s (Batch Avg)
+--- Case 3 ---
+[ZH]: 对那些徒手肉搏者，这些堪比钢铁般坚硬的木刺，将会给他们留下深刻的印象
+[REF]: To those fighting barehanded, these thorns that were as sturdy as steel would leave a lasting impression on them
+[GEN]: === TRANSLATE THIS ===
+INPUT: These tough, hard-working individuals, resembling steel and hardened wood, will leave a lasting impression on them.
+[TIME]: 0.84 s (Batch Avg)
+--- Case 4 ---
+[ZH]: 古月方想口中喃喃，捂住心口
+[REF]: Gu Yue Fang Xiang muttered, his hand over his heart
+[GEN]: The author wants to whisper in his mouth, covering his heart.
+[TIME]: 0.84 s (Batch Avg)
+
+>>> Mean Time 0shot: 1.23 s | Total: 4.9 s
+
+=== 1SHOT (1-shot) ===
+
+--- Case 1 ---
+[ZH]: 算不尽仙友，你是智道蛊仙更当明白眼前的局势
+[REF]: Friend Suan Bu Jin, as a wisdom path Gu Immortal, you should be even more aware of the current situation
+[GEN]: Translation
+[TIME]: 0.13 s (Batch Avg)
+--- Case 2 ---
+[ZH]: 立刻这上百药草形成的药液，骤然落下，在与这血湖碰触的瞬间，如同相互之间有强烈的排斥，直接爆发，燃烧成为黑色的火焰，覆盖整个血湖
+[REF]: As they flew through the air, they transformed into a medicinal liquid. When that entered the blood lake, a powerful expulsion force erupted out, and the burning caused a black smoke to rise up and fill the area
+[GEN]: Translation
+[TIME]: 0.13 s (Batch Avg)
+--- Case 3 ---
+[ZH]: 对那些徒手肉搏者，这些堪比钢铁般坚硬的木刺，将会给他们留下深刻的印象
+[REF]: To those fighting barehanded, these thorns that were as sturdy as steel would leave a lasting impression on them
+[GEN]: Translation
+[TIME]: 0.12 s (Batch Avg)
+--- Case 4 ---
+[ZH]: 古月方想口中喃喃，捂住心口
+[REF]: Gu Yue Fang Xiang muttered, his hand over his heart
+[GEN]: translation
+[TIME]: 0.12 s (Batch Avg)
+
+>>> Mean Time 1shot: 0.12 s | Total: 0.5 s
+
+=== 2SHOT (2-shot) ===
+
+--- Case 1 ---
+[ZH]: 算不尽仙友，你是智道蛊仙更当明白眼前的局势
+[REF]: Friend Suan Bu Jin, as a wisdom path Gu Immortal, you should be even more aware of the current situation
+[GEN]: Calculation
+[TIME]: 0.88 s (Batch Avg)
+--- Case 2 ---
+[ZH]: 立刻这上百药草形成的药液，骤然落下，在与这血湖碰触的瞬间，如同相互之间有强烈的排斥，直接爆发，燃烧成为黑色的火焰，覆盖整个血湖
+[REF]: As they flew through the air, they transformed into a medicinal liquid. When that entered the blood lake, a powerful expulsion force erupted out, and the burning caused a black smoke to rise up and fill the area
+[GEN]: The liquid formed from these medicinal herbs instantly fell, causing a sudden repulsion between the two entities, resulting in an intense burning of black flames engulfing the Blood Lake
+[TIME]: 0.88 s (Batch Avg)
+--- Case 3 ---
+[ZH]: 对那些徒手肉搏者，这些堪比钢铁般坚硬的木刺，将会给他们留下深刻的印象
+[REF]: To those fighting barehanded, these thorns that were as sturdy as steel would leave a lasting impression on them
+[GEN]: The same applies to those who fight with their hands, these tough wooden spears will leave a lasting impression on them
+[TIME]: 0.62 s (Batch Avg)
+--- Case 4 ---
+[ZH]: 古月方想口中喃喃，捂住心口
+[REF]: Gu Yue Fang Xiang muttered, his hand over his heart
+[GEN]: [[Ancient Moon Fang pondered deeply, stroking her lips.]
+[TIME]: 0.62 s (Batch Avg)
+
+>>> Mean Time 2shot: 0.75 s | Total: 3.0 s
+
+=== 3SHOT (3-shot) ===
+
+--- Case 1 ---
+[ZH]: 算不尽仙友，你是智道蛊仙更当明白眼前的局势
+[REF]: Friend Suan Bu Jin, as a wisdom path Gu Immortal, you should be even more aware of the current situation
+[GEN]: [[The figure stood tall and resolute, its gaze fixed upon the approaching prince. He then raised his hand, unleashing a powerful aura that instantly stunned the surrounding crowd. His right hand, wielding a sword forged from ancient jade, unleashed an immense force, causing the shattered crimson moon to flicker erratically.]
+[TIME]: 1.54 s (Batch Avg)
+--- Case 2 ---
+[ZH]: 立刻这上百药草形成的药液，骤然落下，在与这血湖碰触的瞬间，如同相互之间有强烈的排斥，直接爆发，燃烧成为黑色的火焰，覆盖整个血湖
+[REF]: As they flew through the air, they transformed into a medicinal liquid. When that entered the blood lake, a powerful expulsion force erupted out, and the burning caused a black smoke to rise up and fill the area
+[GEN]: The sudden formation of medicinal liquid from hundreds of herbs created by this drug has triggered an intense repulsion between these two entities, instantly erupting into black flames that cover the entire Blood Lake.
+[TIME]: 1.54 s (Batch Avg)
+--- Case 3 ---
+[ZH]: 对那些徒手肉搏者，这些堪比钢铁般坚硬的木刺，将会给他们留下深刻的印象
+[REF]: To those fighting barehanded, these thorns that were as sturdy as steel would leave a lasting impression on them
+[GEN]: The impact of these hard wooden spears would leave a lasting impression on those who fought them.
+[TIME]: 0.53 s (Batch Avg)
+--- Case 4 ---
+[ZH]: 古月方想口中喃喃，捂住心口
+[REF]: Gu Yue Fang Xiang muttered, his hand over his heart
+[GEN]: [[Ancient Moon Fang pondered deeply, stroking her lips, closing her eyes.]
+[TIME]: 0.53 s (Batch Avg)
+
+>>> Mean Time 3shot: 1.04 s | Total: 4.1 s
+
+=== 5SHOT (5-shot) ===
+
+--- Case 1 ---
+[ZH]: 算不尽仙友，你是智道蛊仙更当明白眼前的局势
+[REF]: Friend Suan Bu Jin, as a wisdom path Gu Immortal, you should be even more aware of the current situation
+[GEN]: 算不尽仙友，你是智道蛊仙更当明白眼前的局势
+[TIME]: 0.74 s (Batch Avg)
+--- Case 2 ---
+[ZH]: 立刻这上百药草形成的药液，骤然落下，在与这血湖碰触的瞬间，如同相互之间有强烈的排斥，直接爆发，燃烧成为黑色的火焰，覆盖整个血湖
+[REF]: As they flew through the air, they transformed into a medicinal liquid. When that entered the blood lake, a powerful expulsion force erupted out, and the burning caused a black smoke to rise up and fill the area
+[GEN]: The liquid formed from hundreds of medicinal herbs, suddenly falling down, instantly causing a strong repulsion between them, burning into the Blood Lake.
+[TIME]: 0.74 s (Batch Avg)
+--- Case 3 ---
+[ZH]: 对那些徒手肉搏者，这些堪比钢铁般坚硬的木刺，将会给他们留下深刻的印象
+[REF]: To those fighting barehanded, these thorns that were as sturdy as steel would leave a lasting impression on them
+[GEN]: The impact of these hard wooden shards would leave a lasting impression on those who fought them.
+[TIME]: 0.51 s (Batch Avg)
+--- Case 4 ---
+[ZH]: 古月方想口中喃喃，捂住心口
+[REF]: Gu Yue Fang Xiang muttered, his hand over his heart
+[GEN]: [[Ancient Moon Sage pondered deeply, stroking her lips.]
+[TIME]: 0.51 s (Batch Avg)
+
+>>> Mean Time 5shot: 0.62 s | Total: 2.5 s
+
+=== 10SHOT (10-shot) ===
+
+--- Case 1 ---
+[ZH]: 算不尽仙友，你是智道蛊仙更当明白眼前的局势
+[REF]: Friend Suan Bu Jin, as a wisdom path Gu Immortal, you should be even more aware of the current situation
+[GEN]: 算不尽仙友，你是智道蛊仙更当明白眼前的局势
+[TIME]: 1.23 s (Batch Avg)
+--- Case 2 ---
+[ZH]: 立刻这上百药草形成的药液，骤然落下，在与这血湖碰触的瞬间，如同相互之间有强烈的排斥，直接爆发，燃烧成为黑色的火焰，覆盖整个血湖
+[REF]: As they flew through the air, they transformed into a medicinal liquid. When that entered the blood lake, a powerful expulsion force erupted out, and the burning caused a black smoke to rise up and fill the area
+[GEN]: 立瞬这上百药草形成的药液，骤然落下，在与这血湖碰触的瞬间，如同相互之间有强烈的排斥，直接爆发，燃烧成为黑色的火焰，覆盖整个血湖
+[TIME]: 1.23 s (Batch Avg)
+--- Case 3 ---
+[ZH]: 对那些徒手肉搏者，这些堪比钢铁般坚硬的木刺，将会给他们留下深刻的印象
+[REF]: To those fighting barehanded, these thorns that were as sturdy as steel would leave a lasting impression on them
+[GEN]: 对那些徒手肉搏者，这些堪比钢铁般坚硬的木刺，将会给他们留下深刻的印象
+[TIME]: 0.74 s (Batch Avg)
+--- Case 4 ---
+[ZH]: 古月方想口中喃喃，捂住心口
+[REF]: Gu Yue Fang Xiang muttered, his hand over his heart
+[GEN]: 古月方想口中喃喃，捂住心口
+[TIME]: 0.74 s (Batch Avg)
+
+>>> Mean Time 10shot: 0.99 s | Total: 3.9 s
+
+##### TOTAL PROMPT 0: 0.32 min #####

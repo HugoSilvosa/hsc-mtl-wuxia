@@ -1,0 +1,47 @@
+=== RESULTADOS MEDIOS DE LA EVALUACIÓN POR JUEZ ===
+============================================================
+
+--- EVALUADOR: CLAUDE sonnet 4.6 ---
+Arquitectura Estado_Modelo   Tipo_Input  FIDELIDAD  CALIDAD  DOMINIO  ALUCINACION
+     Llama 3          Base     Prompt 1       2.34     2.18     1.50         0.10
+     Llama 3          Base     Prompt 2       2.22     2.12     1.56         0.40
+     Llama 3    Fine-Tuned     Prompt 1       2.64     2.72     1.98         0.00
+     Llama 3    Fine-Tuned     Prompt 2       2.64     2.70     2.06         0.02
+       MBart          Base Texto Origen       1.50     1.18     0.22         0.18
+       MBart    Fine-Tuned Texto Origen       2.58     2.26     1.78         0.14
+
+------------------------------------------------------------
+
+--- EVALUADOR: GEMINI 3.1 flash ---
+Arquitectura Estado_Modelo   Tipo_Input  FIDELIDAD  CALIDAD  DOMINIO  ALUCINACION
+     Llama 3          Base     Prompt 1       2.72     2.76     1.98         0.06
+     Llama 3          Base     Prompt 2       2.62     2.90     2.40         0.26
+     Llama 3    Fine-Tuned     Prompt 1       2.94     2.98     2.62         0.00
+     Llama 3    Fine-Tuned     Prompt 2       2.92     2.94     2.44         0.00
+       MBart          Base Texto Origen       1.84     0.00     0.64         0.02
+       MBart    Fine-Tuned Texto Origen       2.76     2.90     2.32         0.06
+
+------------------------------------------------------------
+
+--- EVALUADOR: OPENAI gpt 4o ---
+Arquitectura Estado_Modelo   Tipo_Input  FIDELIDAD  CALIDAD  DOMINIO  ALUCINACION
+     Llama 3          Base     Prompt 1       1.78     2.58     1.72         0.08
+     Llama 3          Base     Prompt 2       2.14     2.20     1.78         0.20
+     Llama 3    Fine-Tuned     Prompt 1       2.44     2.74     1.62         0.12
+     Llama 3    Fine-Tuned     Prompt 2       2.40     2.92     2.40         0.10
+       MBart          Base Texto Origen       1.44     1.56     1.02         0.66
+       MBart    Fine-Tuned Texto Origen       2.40     2.50     1.76         0.36
+
+------------------------------------------------------------
+
+--- EVALUADOR: PROPIO ---
+Arquitectura Estado_Modelo   Tipo_Input  FIDELIDAD  CALIDAD  DOMINIO  ALUCINACION
+     Llama 3          Base     Prompt 1       1.72     1.62     1.52         0.06
+     Llama 3          Base     Prompt 2       1.60     1.70     1.66         0.36
+     Llama 3    Fine-Tuned     Prompt 1       2.64     2.56     2.66         0.02
+     Llama 3    Fine-Tuned     Prompt 2       2.72     2.68     2.76         0.00
+       MBart          Base Texto Origen       1.34     1.02     0.78         0.04
+       MBart    Fine-Tuned Texto Origen       2.42     2.40     2.58         0.00
+
+------------------------------------------------------------
+

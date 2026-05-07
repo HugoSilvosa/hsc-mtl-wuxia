@@ -1,0 +1,357 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script>function neighbourhoodHighlight(params) {
+  // console.log("in nieghbourhoodhighlight");
+  allNodes = nodes.get({ returnType: "Object" });
+  // originalNodes = JSON.parse(JSON.stringify(allNodes));
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    highlightActive = true;
+    var i, j;
+    var selectedNode = params.nodes[0];
+    var degrees = 2;
+
+    // mark all nodes as hard to read.
+    for (let nodeId in allNodes) {
+      // nodeColors[nodeId] = allNodes[nodeId].color;
+      allNodes[nodeId].color = "rgba(200,200,200,0.5)";
+      if (allNodes[nodeId].hiddenLabel === undefined) {
+        allNodes[nodeId].hiddenLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+    var connectedNodes = network.getConnectedNodes(selectedNode);
+    var allConnectedNodes = [];
+
+    // get the second degree nodes
+    for (i = 1; i < degrees; i++) {
+      for (j = 0; j < connectedNodes.length; j++) {
+        allConnectedNodes = allConnectedNodes.concat(
+          network.getConnectedNodes(connectedNodes[j])
+        );
+      }
+    }
+
+    // all second degree nodes get a different color and their label back
+    for (i = 0; i < allConnectedNodes.length; i++) {
+      // allNodes[allConnectedNodes[i]].color = "pink";
+      allNodes[allConnectedNodes[i]].color = "rgba(150,150,150,0.75)";
+      if (allNodes[allConnectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[allConnectedNodes[i]].label =
+          allNodes[allConnectedNodes[i]].hiddenLabel;
+        allNodes[allConnectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // all first degree nodes get their own color and their label back
+    for (i = 0; i < connectedNodes.length; i++) {
+      // allNodes[connectedNodes[i]].color = undefined;
+      allNodes[connectedNodes[i]].color = nodeColors[connectedNodes[i]];
+      if (allNodes[connectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[connectedNodes[i]].label =
+          allNodes[connectedNodes[i]].hiddenLabel;
+        allNodes[connectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // the main node gets its own color and its label back.
+    // allNodes[selectedNode].color = undefined;
+    allNodes[selectedNode].color = nodeColors[selectedNode];
+    if (allNodes[selectedNode].hiddenLabel !== undefined) {
+      allNodes[selectedNode].label = allNodes[selectedNode].hiddenLabel;
+      allNodes[selectedNode].hiddenLabel = undefined;
+    }
+  } else if (highlightActive === true) {
+    // console.log("highlightActive was true");
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      // allNodes[nodeId].color = "purple";
+      allNodes[nodeId].color = nodeColors[nodeId];
+      // delete allNodes[nodeId].color;
+      if (allNodes[nodeId].hiddenLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].hiddenLabel;
+        allNodes[nodeId].hiddenLabel = undefined;
+      }
+    }
+    highlightActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    // console.log("Nothing was selected");
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        // allNodes[nodeId].color = {};
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function filterHighlight(params) {
+  allNodes = nodes.get({ returnType: "Object" });
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    filterActive = true;
+    let selectedNodes = params.nodes;
+
+    // hiding all nodes and saving the label
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = true;
+      if (allNodes[nodeId].savedLabel === undefined) {
+        allNodes[nodeId].savedLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+
+    for (let i=0; i < selectedNodes.length; i++) {
+      allNodes[selectedNodes[i]].hidden = false;
+      if (allNodes[selectedNodes[i]].savedLabel !== undefined) {
+        allNodes[selectedNodes[i]].label = allNodes[selectedNodes[i]].savedLabel;
+        allNodes[selectedNodes[i]].savedLabel = undefined;
+      }
+    }
+
+  } else if (filterActive === true) {
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = false;
+      if (allNodes[nodeId].savedLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].savedLabel;
+        allNodes[nodeId].savedLabel = undefined;
+      }
+    }
+    filterActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function selectNode(nodes) {
+  network.selectNodes(nodes);
+  neighbourhoodHighlight({ nodes: nodes });
+  return nodes;
+}
+
+function selectNodes(nodes) {
+  network.selectNodes(nodes);
+  filterHighlight({nodes: nodes});
+  return nodes;
+}
+
+function highlightFilter(filter) {
+  let selectedNodes = []
+  let selectedProp = filter['property']
+  if (filter['item'] === 'node') {
+    let allNodes = nodes.get({ returnType: "Object" });
+    for (let nodeId in allNodes) {
+      if (allNodes[nodeId][selectedProp] && filter['value'].includes((allNodes[nodeId][selectedProp]).toString())) {
+        selectedNodes.push(nodeId)
+      }
+    }
+  }
+  else if (filter['item'] === 'edge'){
+    let allEdges = edges.get({returnType: 'object'});
+    // check if the selected property exists for selected edge and select the nodes connected to the edge
+    for (let edge in allEdges) {
+      if (allEdges[edge][selectedProp] && filter['value'].includes((allEdges[edge][selectedProp]).toString())) {
+        selectedNodes.push(allEdges[edge]['from'])
+        selectedNodes.push(allEdges[edge]['to'])
+      }
+    }
+  }
+  selectNodes(selectedNodes)
+}</script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+            
+            
+            
+            
+            
+
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 800px;
+                 background-color: #1a1a1a;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#f54242", "font": {"color": "white"}, "id": "Nine Yin Manual", "label": "Nine Yin Manual", "shape": "dot", "size": 50.0, "title": "Frecuencia: 232"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Iron Palm", "label": "Iron Palm", "shape": "dot", "size": 37.241379310344826, "title": "Frecuencia: 158"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Yitian Sword", "label": "Yitian Sword", "shape": "dot", "size": 27.413793103448278, "title": "Frecuencia: 101"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Big Dipper Formation", "label": "Big Dipper Formation", "shape": "dot", "size": 23.448275862068968, "title": "Frecuencia: 78"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Dog Beating Stick Technique", "label": "Dog Beating Stick Technique", "shape": "dot", "size": 22.586206896551722, "title": "Frecuencia: 73"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Jade Heart Manual", "label": "Jade Heart Manual", "shape": "dot", "size": 21.896551724137932, "title": "Frecuencia: 69"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Solitary Yang Finger", "label": "Solitary Yang Finger", "shape": "dot", "size": 19.482758620689655, "title": "Frecuencia: 55"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Nine Yang Manual", "label": "Nine Yang Manual", "shape": "dot", "size": 16.551724137931032, "title": "Frecuencia: 38"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Taiji Fist", "label": "Taiji Fist", "shape": "dot", "size": 16.20689655172414, "title": "Frecuencia: 36"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Heaven Sword", "label": "Heaven Sword", "shape": "dot", "size": 15.862068965517242, "title": "Frecuencia: 34"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Vacant Fist", "label": "Vacant Fist", "shape": "dot", "size": 15.517241379310345, "title": "Frecuencia: 32"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Originating Formation", "label": "Originating Formation", "shape": "dot", "size": 14.310344827586206, "title": "Frecuencia: 25"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Divine Flicking Finger", "label": "Divine Flicking Finger", "shape": "dot", "size": 13.96551724137931, "title": "Frecuencia: 23"}, {"color": "#f54242", "font": {"color": "white"}, "id": "The Nine Yin Manual", "label": "The Nine Yin Manual", "shape": "dot", "size": 12.413793103448276, "title": "Frecuencia: 14"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Beating Skill", "label": "Beating Skill", "shape": "dot", "size": 12.413793103448276, "title": "Frecuencia: 14"}, {"color": "#f54242", "font": {"color": "white"}, "id": "The Iron Palm", "label": "The Iron Palm", "shape": "dot", "size": 12.068965517241379, "title": "Frecuencia: 12"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Lady Sword", "label": "Lady Sword", "shape": "dot", "size": 12.068965517241379, "title": "Frecuencia: 12"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Taiji Sword", "label": "Taiji Sword", "shape": "dot", "size": 12.068965517241379, "title": "Frecuencia: 12"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Divine Fist", "label": "Divine Fist", "shape": "dot", "size": 11.89655172413793, "title": "Frecuencia: 11"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Jade Maiden Manual", "label": "Jade Maiden Manual", "shape": "dot", "size": 11.724137931034482, "title": "Frecuencia: 10"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Elephant Wisdom Dexterity Technique", "label": "Elephant Wisdom Dexterity Technique", "shape": "dot", "size": 11.724137931034482, "title": "Frecuencia: 10"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Star Formation", "label": "Star Formation", "shape": "dot", "size": 11.724137931034482, "title": "Frecuencia: 10"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Zhen Wu Seven Spheres Formation", "label": "Zhen Wu Seven Spheres Formation", "shape": "dot", "size": 11.724137931034482, "title": "Frecuencia: 10"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Qi Shang Fist", "label": "Qi Shang Fist", "shape": "dot", "size": 11.724137931034482, "title": "Frecuencia: 10"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Spirit Snake Fist", "label": "Spirit Snake Fist", "shape": "dot", "size": 11.551724137931034, "title": "Frecuencia: 9"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Divine Five Poison Palm", "label": "Divine Five Poison Palm", "shape": "dot", "size": 11.551724137931034, "title": "Frecuencia: 9"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Jade Maiden Sword", "label": "Jade Maiden Sword", "shape": "dot", "size": 11.551724137931034, "title": "Frecuencia: 9"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Flicking Finger", "label": "Flicking Finger", "shape": "dot", "size": 11.379310344827587, "title": "Frecuencia: 8"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Gentleman Sword", "label": "Gentleman Sword", "shape": "dot", "size": 11.379310344827587, "title": "Frecuencia: 8"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Sacred Scripture", "label": "Sacred Scripture", "shape": "dot", "size": 11.379310344827587, "title": "Frecuencia: 8"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Dog Beating Skill", "label": "Dog Beating Skill", "shape": "dot", "size": 11.206896551724139, "title": "Frecuencia: 7"}, {"color": "#f54242", "font": {"color": "white"}, "id": "One Yang Finger", "label": "One Yang Finger", "shape": "dot", "size": 11.206896551724139, "title": "Frecuencia: 7"}, {"color": "#f54242", "font": {"color": "white"}, "id": "The Heaven Sword", "label": "The Heaven Sword", "shape": "dot", "size": 11.206896551724139, "title": "Frecuencia: 7"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Cold Ice Cotton Palm", "label": "Cold Ice Cotton Palm", "shape": "dot", "size": 11.206896551724139, "title": "Frecuencia: 7"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Peach Blossom Divine Sword Palm", "label": "Peach Blossom Divine Sword Palm", "shape": "dot", "size": 11.03448275862069, "title": "Frecuencia: 6"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Contrary Nine Yin Manual", "label": "Contrary Nine Yin Manual", "shape": "dot", "size": 11.03448275862069, "title": "Frecuencia: 6"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Quanzhen Sword", "label": "Quanzhen Sword", "shape": "dot", "size": 11.03448275862069, "title": "Frecuencia: 6"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Five Poisons Divine Palm", "label": "Five Poisons Divine Palm", "shape": "dot", "size": 11.03448275862069, "title": "Frecuencia: 6"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Tiger Claws Destroying Procreation Skill", "label": "Tiger Claws Destroying Procreation Skill", "shape": "dot", "size": 11.03448275862069, "title": "Frecuencia: 6"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Splitting Palm Technique", "label": "Splitting Palm Technique", "shape": "dot", "size": 11.03448275862069, "title": "Frecuencia: 6"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Xuanming Divine Palm", "label": "Xuanming Divine Palm", "shape": "dot", "size": 11.03448275862069, "title": "Frecuencia: 6"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Green Wave Palm", "label": "Green Wave Palm", "shape": "dot", "size": 10.862068965517242, "title": "Frecuencia: 5"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Divine Art", "label": "Divine Art", "shape": "dot", "size": 10.862068965517242, "title": "Frecuencia: 5"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Beautiful Maiden Fist", "label": "Beautiful Maiden Fist", "shape": "dot", "size": 10.862068965517242, "title": "Frecuencia: 5"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Yi Yang Finger", "label": "Yi Yang Finger", "shape": "dot", "size": 10.862068965517242, "title": "Frecuencia: 5"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Mystical Palm Technique", "label": "Mystical Palm Technique", "shape": "dot", "size": 10.862068965517242, "title": "Frecuencia: 5"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Wudang Long Fist", "label": "Wudang Long Fist", "shape": "dot", "size": 10.862068965517242, "title": "Frecuencia: 5"}, {"color": "#f54242", "font": {"color": "white"}, "id": "White Rainbow Sword", "label": "White Rainbow Sword", "shape": "dot", "size": 10.862068965517242, "title": "Frecuencia: 5"}, {"color": "#f54242", "font": {"color": "white"}, "id": "The Big Dipper Formation", "label": "The Big Dipper Formation", "shape": "dot", "size": 10.689655172413794, "title": "Frecuencia: 4"}, {"color": "#f54242", "font": {"color": "white"}, "id": "Hong Qigong Dog Beating Stick Technique", "label": "Hong Qigong Dog Beating Stick Technique", "shape": "dot", "size": 10.689655172413794, "title": "Frecuencia: 4"}]);
+                  edges = new vis.DataSet([{"color": "#888888", "from": "Nine Yin Manual", "title": "Co-ocurrencias: 2", "to": "Nine Yin Manual", "value": 2}, {"color": "#888888", "from": "Big Dipper Formation", "title": "Co-ocurrencias: 2", "to": "Nine Yin Manual", "value": 2}, {"color": "#888888", "from": "Big Dipper Formation", "title": "Co-ocurrencias: 1", "to": "The Nine Yin Manual", "value": 1}, {"color": "#888888", "from": "Nine Yin Manual", "title": "Co-ocurrencias: 2", "to": "The Nine Yin Manual", "value": 2}, {"color": "#888888", "from": "Divine Art", "title": "Co-ocurrencias: 1", "to": "Iron Palm", "value": 1}, {"color": "#888888", "from": "Iron Palm", "title": "Co-ocurrencias: 7", "to": "Iron Palm", "value": 7}, {"color": "#888888", "from": "Iron Palm", "title": "Co-ocurrencias: 3", "to": "The Iron Palm", "value": 3}, {"color": "#888888", "from": "Divine Flicking Finger", "title": "Co-ocurrencias: 1", "to": "Solitary Yang Finger", "value": 1}, {"color": "#888888", "from": "Nine Yin Manual", "title": "Co-ocurrencias: 1", "to": "Vacant Fist", "value": 1}, {"color": "#888888", "from": "Big Dipper Formation", "title": "Co-ocurrencias: 2", "to": "Big Dipper Formation", "value": 2}, {"color": "#888888", "from": "Iron Palm", "title": "Co-ocurrencias: 1", "to": "Nine Yin Manual", "value": 1}, {"color": "#888888", "from": "Dog Beating Stick Technique", "title": "Co-ocurrencias: 1", "to": "Nine Yin Manual", "value": 1}, {"color": "#888888", "from": "Quanzhen Sword", "title": "Co-ocurrencias: 4", "to": "Quanzhen Sword", "value": 4}, {"color": "#888888", "from": "Jade Heart Manual", "title": "Co-ocurrencias: 1", "to": "Nine Yin Manual", "value": 1}, {"color": "#888888", "from": "Gentleman Sword", "title": "Co-ocurrencias: 1", "to": "Lady Sword", "value": 1}, {"color": "#888888", "from": "Lady Sword", "title": "Co-ocurrencias: 1", "to": "Lady Sword", "value": 1}, {"color": "#888888", "from": "Nine Yang Manual", "title": "Co-ocurrencias: 2", "to": "Nine Yang Manual", "value": 2}, {"color": "#888888", "from": "Divine Art", "title": "Co-ocurrencias: 3", "to": "Originating Formation", "value": 3}, {"color": "#888888", "from": "Originating Formation", "title": "Co-ocurrencias: 1", "to": "Originating Formation", "value": 1}, {"color": "#888888", "from": "Heaven Sword", "title": "Co-ocurrencias: 2", "to": "White Rainbow Sword", "value": 2}, {"color": "#888888", "from": "White Rainbow Sword", "title": "Co-ocurrencias: 1", "to": "White Rainbow Sword", "value": 1}, {"color": "#888888", "from": "Taiji Fist", "title": "Co-ocurrencias: 4", "to": "Taiji Sword", "value": 4}, {"color": "#888888", "from": "Heaven Sword", "title": "Co-ocurrencias: 1", "to": "The Heaven Sword", "value": 1}, {"color": "#888888", "from": "Heaven Sword", "title": "Co-ocurrencias: 1", "to": "Heaven Sword", "value": 1}, {"color": "#888888", "from": "Nine Yin Manual", "title": "Co-ocurrencias: 2", "to": "Yitian Sword", "value": 2}, {"color": "#888888", "from": "Yitian Sword", "title": "Co-ocurrencias: 3", "to": "Yitian Sword", "value": 3}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "repulsion": {
+            "centralGravity": 0.2,
+            "damping": 0.09,
+            "nodeDistance": 150,
+            "springConstant": 0.05,
+            "springLength": 200
+        },
+        "solver": "repulsion",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

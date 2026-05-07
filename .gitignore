@@ -1,0 +1,13 @@
+models
+processed_data
+logs
+corpus/AWE/chapter/
+corpus/CONDOR/Condor1/
+corpus/CONDOR/Condor2/
+corpus/CONDOR/Condor3/
+corpus/GU/chapter/
+corpus/GU/test/
+corpus/ISSTH/chapter/
+corpus/bertalign/
+corpus/vecalign/
+figures

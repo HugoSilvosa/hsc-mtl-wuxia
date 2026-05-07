@@ -1,0 +1,1034 @@
+
+
+##############################################
+### PROMPT 0
+### You are a Chinese-to-English translator. Output only the translated text inside [[[ and ]]]....
+##############################################
+
+=== 0SHOT (0-shot) ===
+
+--- Case 1 ---
+[ZH]: 算不尽仙友，你是智道蛊仙更当明白眼前的局势
+[REF]: Friend Suan Bu Jin, as a wisdom path Gu Immortal, you should be even more aware of the current situation
+[GEN]: [[Countless immortal friends cannot be counted, you are a wise Dao蛊仙 (gu li xian) and should understand the current situation before your eyes.]]
+[TIME]: 3.47 s
+--- Case 2 ---
+[ZH]: 立刻这上百药草形成的药液，骤然落下，在与这血湖碰触的瞬间，如同相互之间有强烈的排斥，直接爆发，燃烧成为黑色的火焰，覆盖整个血湖
+[REF]: As they flew through the air, they transformed into a medicinal liquid. When that entered the blood lake, a powerful expulsion force erupted out, and the burning caused a black smoke to rise up and fill the area
+[GEN]: [[Immediately, this hundred or so medicinal herbs formed a potion that suddenly fell, upon touching this blood lake, as if there was a strong repulsion between them, directly exploding and burning into black flames, covering the entire blood lake]]
+[TIME]: 4.30 s
+--- Case 3 ---
+[ZH]: 对那些徒手肉搏者，这些堪比钢铁般坚硬的木刺，将会给他们留下深刻的印象
+[REF]: To those fighting barehanded, these thorns that were as sturdy as steel would leave a lasting impression on them
+[GEN]: [[To those who fight unarmed, these wooden thorns, as hard as steel, will leave a deep impression on them.]]
+[TIME]: 2.42 s
+--- Case 4 ---
+[ZH]: 古月方想口中喃喃，捂住心口
+[REF]: Gu Yue Fang Xiang muttered, his hand over his heart
+[GEN]: [[Gu Yue Fang Xiang kou zhong nan nan, wu zhù xin kou]]
+[TIME]: 1.57 s
+--- Case 5 ---
+[ZH]: 若是在平地之上，尺许小径又算得了甚么，可是这石梁下临深谷，别说行走，只望一眼也不免胆战心惊
+[REF]: If this stone bridge were laid on the ground, it would act just like a narrow alley, nothing to be afraid of, but under the stone bridge was a deep canyon. Just looking at it would cause the heart to tremble with fear, let alone walk across it
+[GEN]: [[If it is on flat ground, a few inches of path would be nothing, but since this stone beam is at the bottom of a deep valley, let alone walking, even just glancing at it will inevitably cause fear and anxiety.]]
+[TIME]: 4.57 s
+--- Case 6 ---
+[ZH]: 虽然我并非黄金血脉。 参与王庭争霸，就是为了混迹到八十八角真阳楼中捞取好处
+[REF]: Although I am not of the Huang Jin bloodline, I participated in the fight for Imperial Court to get some benefits from Eighty-Eight True Yang Building
+[GEN]: [[Although I am not of golden bloodline. Participating in King Ting’s struggle for supremacy is just to mingle with the Eightyeight Corner Zhenyang Tower to gain benefits]]
+[TIME]: 3.45 s
+--- Case 7 ---
+[ZH]: 反倒是北岸，此刻居然为上官天佑欢呼，这欢呼声让上官天佑心里别扭，他知道北岸不是因为自己，而是因为白小纯才对自己发出欢呼，也就是说，就算与白小纯对战的是一头猪，北岸也会为这头猪喝彩，这么一想，上官天佑心底对白小纯，更为不悦
+[REF]: The north bank, on the other hand, actually did start to cheer for Shangguan Tianyou. In response, Shangguan Tianyou frowned, aware that they weren't really cheering for him, but against Bai Xiaochun. The north bank would cheer for any oppon ent of Bai Xiaochun’s, even if it were a pig. The thought left Shangguan Tianyou even more displeased than before
+[GEN]: [[Instead, it was Beian (Běi'àn), who was now cheering for Shangguan Tianyou. This cheer made Shangguan Tianyou feel awkward inside, because he knew that Beian wasn’t cheering for him, but for Bai Xiaocun. That is to say, even if he were to fight a pig, Beian would still cheer for it. Thinking this way, Shangguan Tianyou felt even more displeased with Bai Xiaocun.]]
+[TIME]: 9.04 s
+--- Case 8 ---
+[ZH]: 在仙元方面，巨阳仙尊应当占据优势。 在炼蛊方面，是方源占据优势
+[REF]: In terms of immortal essence, Giant Sun Immortal Venerable should have an advantage, in terms of Gu refinement, Fang Yuan has the advantage
+[GEN]: [[In terms of Xianyuan (a place or concept), Ju Yang Xianzun should hold the advantage. In terms of refining insects (Gu Li), Shi Fang Yuan holds the advantage.]]
+[TIME]: 3.56 s
+--- Case 9 ---
+[ZH]: 那么对不起得很，两柄剑都到了做哥哥的家里啦
+[REF]: Then I am really very sorry, for both daggers would belong to my family then
+[GEN]: [[Nàme duìbùqǐ dé hěn tài, liǎng bǐng jiàn dōu dàodé zuò gēge de jiālǐ la]]
+[TIME]: 3.48 s
+--- Case 10 ---
+[ZH]: 方源，你怎么也想不到，会有今天吧
+[REF]: Fang Yuan, you had never in your wildest imagination, expect this day to occur right
+[GEN]: [[Fang Yuan, how could you have possibly thought this would happen today?]]
+[TIME]: 1.57 s
+--- Case 11 ---
+[ZH]: 提到弟弟丁言。 丁齐满脸悲伤愤怒
+[REF]: Mentioning his brother, Ding Qi was extremely angry and upset
+[GEN]: [[Mentioned his younger brother Ding Yan. Ding Qi looked sad and angry.]]
+[TIME]: 1.62 s
+--- Case 12 ---
+[ZH]: 黄蓉道
+[REF]: Huang Rong said
+[GEN]: [[Huang Rong Dao]]
+[TIME]: 0.57 s
+--- Case 13 ---
+[ZH]: 大小姐，你不妨将此事交给我处理，我来找她谈，付出一些代价也无妨
+[REF]: Missy, leave this to me, I will negotiate with her, it is okay if we pay a small price
+[GEN]: [[Madam, you might as well entrust this matter to me to handle; I will go find her and ask for some compensation, it wouldn't hurt to pay a little price.]]
+[TIME]: 3.57 s
+--- Case 14 ---
+[ZH]: 现在还不是换取变化道仙蛊方，炼制变化道的其他仙蛊的时候
+[REF]: Now was not the time to exchange them for transformation path Immortal Gu recipes, or the time to refine transformation path Immortal Gu
+[GEN]: [[Now it is not yet time to obtain the Change of Dao Insect Pill formula, or to refine other insect pills for the Change of Dao.]]
+[TIME]: 2.82 s
+--- Case 15 ---
+[ZH]: 苏秦背剑
+[REF]: Reviving Qin Behind the Sword
+[GEN]: [[Su Qin back sword]]
+[TIME]: 0.64 s
+--- Case 16 ---
+[ZH]: 轰的一声，他就与前方的元妖子与通天道人，直接撞在了一起，元妖子喷出鲜血，通天道人一样鲜血狂喷，二人倒退时，噬灵上人与广目天尊，哪怕有些迟疑，可还是前行阻拦，与白小纯再次碰触
+[REF]: A boom could be heard as he slammed into Prince Ur-Demon and Daoist Heavenspan. Blood sprayed out of both of their mouths as they were sent tumbling to the side. As for Reverend Devourer and Celestial Virūpākṣa, although they were still leery about the situation, they still tried to block Bai Xiaochun’s path
+[GEN]: [[Hong! He immediately collided with the young Yuan Yaozi and the Great Immortal Tong Tian, and they crashed together directly. Yuan Yaozi spat out blood, and Great Immortal Tong Tian also crazily sprayed blood. When the two of them retreated, Shi Ling Sheng Ren and Guang Mu Tianzun, even though there was some hesitation, still blocked their way forward, and again touched Bai Xiao Chun]]
+[TIME]: 7.40 s
+--- Case 17 ---
+[ZH]: 其中一个手段，是关于命牌蛊、魂灯蛊
+[REF]: One of the methods was about life tablet Gu and soul lantern Gu
+[GEN]: [[One method is about life card蠱 (mó), soul lamp蠱 (hún dēng mó)]]
+[TIME]: 2.20 s
+--- Case 18 ---
+[ZH]: 他最后说，我十分伤心，跟着你来的日子也不远了
+[REF]: He finally said that his grief was so deep that the day he would follow her to the grave would not be far away
+[GEN]: [[He said finally, “I am very sad, and the days of coming after you will not be far off.”]]
+[TIME]: 2.30 s
+--- Case 19 ---
+[ZH]: 刚想到这里，陆畏因眼前忽然一黑
+[REF]: While thinking of this, Lu Wei Yin’s vision suddenly turned dark
+[GEN]: [[Gang xiǎng dào zhèlǐ, Lù Wèi Yīn yǎnqián hūrán yī hēi]]
+[TIME]: 2.53 s
+--- Case 20 ---
+[ZH]: 欧阳锋道
+[REF]: Hong Qigong said
+[GEN]: [[Ouyang Feng Dao]]
+[TIME]: 0.66 s
+--- Case 21 ---
+[ZH]: 一灯道
+[REF]: Yideng said
+[GEN]: [[Yi deng dao]]
+[TIME]: 0.54 s
+--- Case 22 ---
+[ZH]: 大部分风刃则成功地绕过水莲，在后方重新汇聚，形成一个稍小的纠风，仍旧向那头荒级虚兽撞去
+[REF]: But most of the wind blades dodged the water lotus and gathered together again, forming a smaller entangled wind, and charging towards the desolate level phantom beast
+[GEN]: [[Da bu fen feng rin zhe cong xing de yao guo shui lian, zai hou fang chuang ji he, xie ding yige shao xia de jun feng, reng jiu xiang na tou huang ji xu shu zhuang qu]]
+[TIME]: 5.14 s
+--- Case 23 ---
+[ZH]: 嘴巴张得老大，露出一嘴齐整的牙齿，牙关紧闭
+[REF]: The mouths opened up with jaws clenched, revealing a set of even teeth
+[GEN]: [[Lips were wide open, revealing a row of even teeth, with the jaw tightly closed]]
+[TIME]: 1.78 s
+--- Case 24 ---
+[ZH]: 伊上帝之降命，何修短之难哉
+[REF]: Why did God make someone is life so short
+[GEN]: [[Yi Shang De Zhi Jiang Ming, He Xiu Duan Zhong Nan Cai]]
+[TIME]: 1.45 s
+--- Case 25 ---
+[ZH]: 东方长凡点点头
+[REF]: Dong Fang Chang Fan nodded
+[GEN]: [[Dongfang Changfan nodded]]
+[TIME]: 0.72 s
+--- Case 26 ---
+[ZH]: 倒是真不错
+[REF]: He is truly a good choice
+[GEN]: [[It's actually quite good.]]
+[TIME]: 0.90 s
+--- Case 27 ---
+[ZH]: 泰琴拼尽全力，不惜施展损害自己的手段，终于将王蚁收服
+[REF]: Tai Qin gave it her all and used methods that carried backlash to herself but finally subdued the ant queen
+[GEN]: [[Tai Qin poured all her strength into it, not hesitating to use methods that harmed herself, finally bringing Wang Yi under her control]]
+[TIME]: 2.61 s
+--- Case 28 ---
+[ZH]: 柯镇恶听了两人对答，知道郭靖懂得谦抑，心下也自喜欢
+[REF]: Ke Zhen E was delighted listening to their conversation. He was proud that Guo Jing was well-behaved
+[GEN]: [[Ke Zhen’ao listened to the two people's responses, and knew that Guo Jing understood how to be modest, and he also secretly liked it in his heart.]]
+[TIME]: 3.37 s
+--- Case 29 ---
+[ZH]: 吼
+[REF]: Roar
+[GEN]: [[Hǒu]]
+[TIME]: 0.45 s
+--- Case 30 ---
+[ZH]: 但此茶却是个例外，要一口气喝掉
+[REF]: But this tea was different, one had to gulp it in one mouthful
+[GEN]: [[But this tea was an exception, requiring to be drunk in one go.]]
+[TIME]: 1.61 s
+--- Case 31 ---
+[ZH]: 领队的武官叫道
+[REF]: The leader shouted in response
+[GEN]: [[The regimental officer, called Dao Wuquan]]
+[TIME]: 1.09 s
+--- Case 32 ---
+[ZH]: 而现在，他只有将自身强悍到了极致后，才有把握，将那看似打不死的雷山，直接轰杀，一旦将其轰杀，白小纯就可以在无人追击中，彻底逃遁出去
+[REF]: Right now, Bai Xiaochun knew that he had to become as powerful as he possibly could. He needed to cut down the seemingly unkillable Lei Shan, which would give them the oppor tunity to truly escape
+[GEN]: [[And now, he could only be so strong that he had the confidence to directly kill Lei Shan, who seemed invincible, once he reached his peak. Once he killed him, Bai Xiao Chun could completely escape pursuit without anyone chasing her.]]
+[TIME]: 4.47 s
+--- Case 33 ---
+[ZH]: 气海老祖，你我之间其实并没有什么大的矛盾，完全可以和平共处
+[REF]: Qi Sea Ancestor, we do not have a huge grudge between us, we can coexist in peace
+[GEN]: [[Qi Hai Lao Zuo, you and I actually have no major contradictions, and can completely coexist peacefully]]
+[TIME]: 2.06 s
+--- Case 34 ---
+[ZH]: 若非方源不想在炎煌雷泽仙僵面前，暴露了定仙游和自己的身份，他早就赶到了
+[REF]: If not for the fact that Fang Yuan did not want to expose Fixed Immortal Travel and his identity in front of the Blazing Glory Lightning Brilliance immortal zombie, he would have arrived long ago
+[GEN]: [[If he hadn't been unwilling to reveal his identity as Ding Xian You and his own identity in front of the Great Origin, Yan Huang Lei Ze Xian Jiang, he would have arrived long ago.]]
+[TIME]: 3.96 s
+--- Case 35 ---
+[ZH]: 常山yīn的过去，早已经成为一个关于英雄的传说，在北原大地上广为流传
+[REF]: Chang Shan Yin's past was a heroic tale, it was widely spread in northern plains
+[GEN]: [[Changshan Yin's past has long become a legend about a hero, widely circulated across the Northern Plains.]]
+[TIME]: 2.26 s
+--- Case 36 ---
+[ZH]: 我全身发抖，冷得很
+[REF]: I was shaking all over, I was very cold. My
+[GEN]: [[I’m shivering all over, very cold.]]
+[TIME]: 1.17 s
+--- Case 37 ---
+[ZH]: 这就是将来，巨阳仙尊血道有成之后，可以吞并长生天，使得自身实力实现恐怖暴涨
+[REF]: In the future, after Giant Sun I mmortal Venerable’sblood path cultivation reach ac ertain level, he could annex Longevity Heaven to raise his strength to at errifying level
+[GEN]: [[This is the future. After the Blood Dao of Giant Yang Immortal Venerable has perfected it, he can absorb and merge with Changsheng Heaven, causing his own strength to achieve terrifyingly rapid growth.]]
+[TIME]: 3.98 s
+--- Case 38 ---
+[ZH]: 过的还行
+[REF]: It was rather alright
+[GEN]: [[Passed okay/decently]]
+[TIME]: 0.81 s
+--- Case 39 ---
+[ZH]: 元始仙尊的复活之法，方源知晓其中一个
+[REF]: Fang Yuan knew one of Primordial Origin Immortal Venerable’s revival methods
+[GEN]: [[The method of resurrection for Yuanshi Xianzun (Yùanshǐ Xiānzūn), Fang Yuan knew one part of it.]]
+[TIME]: 2.75 s
+--- Case 40 ---
+[ZH]: 他们之前在大殿内也讨论过，彼此都非常为难，因为荣耀弟子的身份，太重要了，在这之前，给的都是战死之人，还从来没过活人，可如今白小纯居然活蹦乱跳的出现在自己面前 这让他们在刚刚知道这个消息时，一个个都愣了一下
+[REF]: That was one of the reasons why the discussion had been so difficult earlier. The position of Prestige disciple was extremely important, and had previously only been conferred upon people who had died in battle, never living disciples. And yet, here Bai Xiaochun was right in front of them, healthy and no worse for wear That was one reason why all of them had been so shocked to hear the news that he was alive
+[GEN]: [[They had also discussed in the main hall before, both of them were very troubled, because the identity of the honored disciple was too important. Before this, those given were all warriors who died in battle, and there had never been any living people. However, now Bai Xiao-chun actually appeared in front of them alive and jumping, which made them all freeze when they first heard the news.]]
+[TIME]: 7.46 s
+--- Case 41 ---
+[ZH]: 直接用舍利蛊堆出修为来，才可能在短时间内，对他提供帮助
+[REF]: By using relic Gu to boost the cultivation level, he could bring out this second aperture's usefulness in the short run
+[GEN]: [[Directly use spirit insect piles to demonstrate cultivation level, which may provide him with help within a short time.]]
+[TIME]: 2.36 s
+--- Case 42 ---
+[ZH]: 我去哪啊
+[REF]: Where am I suppos ed to go
+[GEN]: [[I go where?]]
+[TIME]: 0.64 s
+--- Case 43 ---
+[ZH]: 老毒物放蛇，真不要脸
+[REF]: The Old Poison dispatches his snakes! Really shameless
+[GEN]: [[Lǎo dúwù fàng shé, zhēn bù yào liǎn]]
+[TIME]: 1.81 s
+--- Case 44 ---
+[ZH]: 那也好，我宰了八人，再来助你
+[REF]: I will come and help you after I have massacred these eight. Precisely
+[GEN]: [[That would be good too, I’ve killed eight people, let's go help you again]]
+[TIME]: 2.08 s
+--- Case 45 ---
+[ZH]: 但这个计划总会有完成的那一天，咱们不抓紧这次难得的机会怎么行
+[REF]: But this plan will eventually be completed, aren’t we grabbing onto this chance when it is available to us
+[GEN]: [[But this plan will eventually be completed one day, how can we not seize this rare opportunity?]]
+[TIME]: 2.04 s
+--- Case 46 ---
+[ZH]: 智道三元要素，分别是念、意、情
+[REF]: Wisdom path had three elements, thoughts, wills, and emotions
+[GEN]: [[Zhi Dao San Yuan Yao Element, baishou neian, yi, qing]]
+[TIME]: 1.95 s
+--- Case 47 ---
+[ZH]: 方源心中有明悟
+[REF]: Fang Yuan comprehended inwardly
+[GEN]: [[Fang Yuan's heart had an enlightenment.]]
+[TIME]: 1.08 s
+--- Case 48 ---
+[ZH]: 他们是我的手下
+[REF]: Those are my men
+[GEN]: [[They are my subordinates]]
+[TIME]: 0.63 s
+--- Case 49 ---
+[ZH]: 想这些有什么用
+[REF]: What use is there in thinking about this
+[GEN]: [[Thinking about these is useless.]]
+[TIME]: 0.80 s
+--- Case 50 ---
+[ZH]: 这落魄谷中，居然有盗天真传
+[REF]: Luo Po valley actually has a Thieving Heaven true inheritance?
+[GEN]: [[Zhè luòpó gǔzhōng, jūyòu yǒu dào tiān zhēn chuán]]
+[TIME]: 2.37 s
+--- Case 51 ---
+[ZH]: 在这过程中，不死皮，不死金刚，不死筋 也都全部恢复，甚至白小纯有种强烈的感觉，此刻的不死卷，与他之前所拥有的，不大一样
+[REF]: As it happened, his Undying Skin, Undying Heavenly King, and Undying Tendons all recovered completely. Furthermore, Bai Xiaochun could sense that this version of the Undying Codex was somehow different than what he had cultivated before
+[GEN]: [[In this process, without dying (becoming) “Bù Sǐ Pí” (Unkillable Skin), “Bù Sǐ Gānggāng” (Unkillable Iron Man), “Bù Sǐ Jīn” (Unkillable Sin Muscle), all were completely restored, even Bai Xiao Chun had a strong feeling that this current "Bù Sǐ Juǎn" (Unkillable Scroll) was not the same as what she previously possessed.]]
+[TIME]: 8.83 s
+--- Case 52 ---
+[ZH]: 方源面色仍旧冷漠，就算是道歉，都是一脸高傲的样子
+[REF]: Fang Yuan had a cold expression, even when he apologized, he had an arrogant look
+[GEN]: [[Fang Yuan's face remained cold and indifferent, even if it was an apology, he looked haughty and proud.]]
+[TIME]: 2.48 s
+--- Case 53 ---
+[ZH]: 顿时，庭院中的轻松氛围，就转为丝丝的凝重。 一众少主举杯喝酒的动作，都不由地变得小心翼翼。 这就是五转蛊师，商家族长商燕飞的霸道
+[REF]: Shang Yan Fei was also unfazed, in his opinion, Fang Yuan was very honest and straightforward
+[GEN]: [[Immediately, the relaxed atmosphere in the courtyard turned into a subtle solemnity. The young masters, one by one, stopped their actions of raising cups to drink, becoming increasingly cautious. This was Five Turns Poison Master, Shang Family Head Shang Yanfei's domineering nature.]]
+[TIME]: 5.29 s
+--- Case 54 ---
+[ZH]: 你居然一直在欺骗我们
+[REF]: You actually were deceiving us
+[GEN]: [[You have actually been deceiving us all along.]]
+[TIME]: 1.09 s
+--- Case 55 ---
+[ZH]: 白小纯的目中露出一丝敬佩，这种对手，他觉得自己需要尊重，此刻眼看对方冲杀过来，那一百件法宝煞气滔天，白小纯深吸口气，右手抬起时，手中的黑色长枪消失不见
+[REF]: A gleam of admiration appeared in Bai Xiaochun’s eyes, and he suddenly felt as if he owed some respect to this oppon ent. As Gongsun Yi closed in with a hundred magical items, all bursting with murderous auras, Bai Xiaochun took a deep breath and waved his hand to get rid of the black spear. His decision was to forgo the use of magical items
+[GEN]: [[Bai Xiao Chun de mu zhong lu chui yiqi se keping, zheyang de you zuo, ta ziji de xiao ying zunzhong, cong shi yan kang duifang chung sha guolai, na bai jian fa bao sa qi tao tian, Bai Xiao Chun shen xi qiq, you de you zhuai qi shi, shou quan de hei se chang qiang xiaiyuan bu]]
+[TIME]: 8.36 s
+--- Case 56 ---
+[ZH]: 但是你们考虑过身后的妻子儿女吗
+[REF]: But shouldn't you consider your wives and children behind you
+[GEN]: [[But have you considered your wife and children behind you?]]
+[TIME]: 1.32 s
+--- Case 57 ---
+[ZH]: 竟有此事
+[REF]: Is that the case
+[GEN]: [[Jing you ci shang]]
+[TIME]: 0.72 s
+--- Case 58 ---
+[ZH]: 很多人都难以做到，更何况更高难度的一心多用
+[REF]: A lot of people cannot even do this, let alone the highly difficult multi-tasking
+[GEN]: [[Many people find it difficult to do, especially when facing a higher difficulty like "one mind, multiple uses".]]
+[TIME]: 2.37 s
+--- Case 59 ---
+[ZH]: 我想，王真人的武功既已天下第一，他再练得更强，仍也不过是天下第一
+[REF]: I thought that Venerable Wang martial arts were already number one in the world, even if he trained from the manual himself, he would still be number one
+[GEN]: [[I think, Wang Zhenren’s (Master Wang's) kung fu is already the strongest in the world, and even if he practices harder, it will still just be the strongest in the world.]]
+[TIME]: 4.17 s
+--- Case 60 ---
+[ZH]: 如今只能围魏救赵，攻其弱点，以缓解战局
+[REF]: The only way now was to target the enemy’s weakness to salvage the situation
+[GEN]: [[Now, we can only surround Zhao to rescue them, attack their weak points, in order to alleviate the battlefield situation.]]
+[TIME]: 2.46 s
+--- Case 61 ---
+[ZH]: 这位道长很想见见您老人家，已经问过好几次啦
+[REF]: This Taoist Elder wishes to see you, and has already asked about you on several occasions
+[GEN]: [[This Taoist master really wants to visit you elders, he has already asked several times.]]
+[TIME]: 1.94 s
+--- Case 62 ---
+[ZH]: 就连魏央也不免涌起一丝异sè
+[REF]: Even Wei Yang showed a peculiar expression
+[GEN]: [[Just even Wei Yang didn't avoid rising a trace of strange color]]
+[TIME]: 1.54 s
+--- Case 63 ---
+[ZH]: 白小纯
+[REF]: Bai Xiaochun
+[GEN]: [[Bai Xiao Chun]]
+[TIME]: 0.54 s
+--- Case 64 ---
+[ZH]: 想到这里，望着崖顶出了一会神，就撇下了这件事，提起长剑，把
+[REF]: He contemplated the top of the cliff, and then he tried to not think more about it. He took his sword, and repeated the moves again and again of
+[GEN]: [[Thinking of this, he gazed at the top of the cliff for a moment, then dismissed the matter, picked up his long sword, and...]]
+[TIME]: 2.87 s
+--- Case 65 ---
+[ZH]: 但对方和自己的目的是一致的，都是想要对付方源，白凝冰也就答应了这场交易。 暂时加入到了影宗
+[REF]: However, they had the same objective, both f them wanted to deal with Fang Yuan, so Bai Ning Bing agreed to this transaction and joined Shadow Sect temporarily
+[GEN]: [[But the other party and his own were consistent in their purpose, both wanting to deal with Fang Yuan. Bai Yingbing also agreed to this transaction. Temporarily joined the Shadow Sect]]
+[TIME]: 3.63 s
+--- Case 66 ---
+[ZH]: 所有的方法都用了，摆在她眼前的只剩下一条路——向方源购买六转层次的第二空窍仙蛊
+[REF]: All methods had been exhausted, leaving only one path in front of her - to purchase the rank six level second aperture Immortal Gu from Fang Yuan
+[GEN]: [[All methods have been used, leaving her with only one path – to purchase a Six Transformation Layer Second Empty Vessel Immortal Insect Cocoon from Fangyuan]]
+[TIME]: 2.91 s
+--- Case 67 ---
+[ZH]: 好豪壮的气概！ 郭靖听得恼怒之极，只捏得手指格格直响
+[REF]: Guo Jing was so angry hearing him that he clenched his fist so hard, his knuckles made cracking sounds
+[GEN]: [[Good courage! Guo Jing listened with extreme anger, and his fingers snapped repeatedly.]]
+[TIME]: 1.78 s
+--- Case 68 ---
+[ZH]: 智道蛊虫不少，但智道传承却很稀罕
+[REF]: There were many wisdom path Gu worms, but wisdom path inheritances were rare
+[GEN]: [[Zhi Dao gu chong bu shuo duo, dan Zhi Dao chuan tong que hai xin]]
+[TIME]: 2.11 s
+--- Case 69 ---
+[ZH]: 飞熊嗷嗷怒吼，显露狂暴，胡乱反击，当然效果不佳
+[REF]: The flying bear phantom roared continuously, it was very agitated and attacked randomly, but had little effect
+[GEN]: [[Fei Xiong (fei xiong)嗷嗷 (ao ao) nu hou (nu hou), xian lu kuang bao (kuang bao), hu luan fan ji (fan ji), dang ran xiang gui bu jia]]
+[TIME]: 4.83 s
+--- Case 70 ---
+[ZH]: 但雪中蹄痕显然，极易追踪，老毒物自是紧追不舍
+[REF]: But the track is imprinted clearly on the snow, Old Poison will not have any difficulty following her
+[GEN]: [[But the footprints in the snow were clearly visible, very easy to track, and the old poison (referring to a notorious assassin) was undoubtedly pursuing them relentlessly]]
+[TIME]: 3.19 s
+--- Case 71 ---
+[ZH]: 二人目光对望，侯云飞目中露出鼓励，白小纯默默点头，此刻人多，二人不便沟通，就在这时，大殿的门，缓缓打开
+[REF]: Their eyes met, and Hou Yunfei encouragingly. Bai Xiaochun back. There was no time for chatting, though, as the main doors of the grand hall were already opening
+[GEN]: [[Two people looked at each other, Hou Yunfei showed encouragement in his eyes, Bai Xiao Chun nodded silently. At this moment, with so many people present, it was inconvenient for the two of them to communicate, and just as they were thinking this, the door of the main hall slowly opened.]]
+[TIME]: 5.61 s
+--- Case 72 ---
+[ZH]: 你听不听我说话
+[REF]: Are you going to listen to me or not
+[GEN]: [[You listen to what I'm saying?]]
+[TIME]: 1.16 s
+--- Case 73 ---
+[ZH]: 而失败之后，两宗之间的战争，也随时可以爆发，在这样的情况下，他们觉得这回去的路程，充满了凶险
+[REF]: Apparently, war between the two sects could break out at any moment. That in turn made the return trip to their own sect seem that much more fraught with danger
+[GEN]: [[And after failing, the war between the two sides could erupt at any time; in such a situation, they felt that the journey back was full of danger.]]
+[TIME]: 3.19 s
+--- Case 74 ---
+[ZH]: 浑身上下，伤口无数，有的深可见骨，有的仍旧在汩汩流血
+[REF]: His entire body was covered in wounds, some were deep until bones could be seen, some were still bleeding
+[GEN]: [[hun shang shen xiang, shanggou wubu, you de shen jin kan gu, you dereng jiu zai gubugubi liu xie]]
+[TIME]: 3.26 s
+--- Case 75 ---
+[ZH]: 这里盛产人杰俊才，正是因为是中洲人族主脉
+[REF]: This place produces human talents, it is because of Central Continent's main human vein
+[GEN]: [[Here there is abundant production of outstanding individuals and talents, precisely because it is the main lineage of the Zhongzhou Human Race.]]
+[TIME]: 2.56 s
+--- Case 76 ---
+[ZH]: 方源将里面的蛊虫都搜刮进自己的仙窍
+[REF]: Fang Yuan placed all the Gu worms he obtained into his immortal aperture
+[GEN]: [[Fang Yuan searched all the蠱虫 (gu chong) within the realm of Fang Yuan's cultivation and consumed them in his dantian (xian qiao).]]
+[TIME]: 3.30 s
+--- Case 77 ---
+[ZH]: 黄蓉一提缰，那马如箭离弦般直飞出去
+[REF]: With a lift of the reins, the little red horse bolted forward and away like an arrow leaving the bow
+[GEN]: [[Huang Rong mentioning the rein, that horse shot out like an arrow released from its bow.]]
+[TIME]: 1.87 s
+--- Case 78 ---
+[ZH]: 这可是稀有的二转蛊虫，足足价值五百块元石啊
+[REF]: This is a rare Rank two Gu worm, its value worth five hundred primeval stones
+[GEN]: [[This is a rare second-turn ghost insect, worth no less than five hundred yuan stones!]]
+[TIME]: 1.96 s
+--- Case 79 ---
+[ZH]: 我真盼老天爷赐我片刻光明，让我见见你这忘恩负义小畜生的面目
+[REF]: I really wish the Heaven would restore my sight if only for a moment so I can see your face, you, an ungrateful little animal
+[GEN]: [[I truly hope that heaven bestows me with a moment of light, so I can see the face of this ungrateful and treacherous little creature.]]
+[TIME]: 2.85 s
+--- Case 80 ---
+[ZH]: 而这个交代，就在眼前
+[REF]: And this answer was in front of him
+[GEN]: [[And this explanation is right here before our eyes.]]
+[TIME]: 1.16 s
+--- Case 81 ---
+[ZH]: 但其余尊者几乎也都进入过疯魔窟中探索
+[REF]: But almost all the other venerables had entered Crazed Demon Cave and explored it
+[GEN]: [[But the remaining venerables had almost all entered the Mad God’s Cave to explore.]]]
+[TIME]: 1.92 s
+--- Case 82 ---
+[ZH]: 他心疼这个灵溪一脉最优秀的弟子，因为他知道白小纯从进入山门的第一天，就有着要长生的梦想
+[REF]: It was pain because of the sorrow he felt for his most outstanding of all the Spirit Stream Division disciples. After all, he knew that from the first day Bai Xiaochun had joined the sect, he had feared death and dreamed of being able to live forever
+[GEN]: [[He felt sorry for this excellent disciple of the Lingxi lineage, because he knew that Bai Xiao-chun had harbored a dream of immortality since she entered the mountain gate for the first time.]]
+[TIME]: 3.76 s
+--- Case 83 ---
+[ZH]: 若是她平安无恙，我定然北归
+[REF]: If she is safe and well, I will certainly go back north, Guo Jing promised
+[GEN]: [[If she is safe and well, I will certainly return north]]
+[TIME]: 1.35 s
+--- Case 84 ---
+[ZH]: 现在的这股真元，虽然同样有一种铜的sè泽，但是绿sè却更深一层，是苍绿sè
+[REF]: Right now although this new primeval essence had the same copper luster, the green was a darker shade it was pale green
+[GEN]: [[Now this current stock of true essence, although it also has a copper color, but green is deeper layer, is pale green]]
+[TIME]: 2.57 s
+--- Case 85 ---
+[ZH]: 在下汤青
+[REF]: My name is Tang Qing
+[GEN]: [[Zài xià Tāng Qīng]]
+[TIME]: 1.01 s
+--- Case 86 ---
+[ZH]: 小渡啊，爷爷教过你不能以貌取人，同样的，对于世间万物，也不能单看外表啊
+[REF]: Oh Little Du, grandfather taught you not to judge a book by its cover, you must not just look at the appearance of the things in this world
+[GEN]: [[Xiao Du a, Grandfather taught you not to judge by appearances. Similarly, for all things in the world, you shouldn't just look at the surface.] ]
+[TIME]: 3.24 s
+--- Case 87 ---
+[ZH]: 啪啪，啪啪啪
+[REF]: Drip drop, drip drop
+[GEN]: [[Pā pā, pā pā pā]]
+[TIME]: 0.92 s
+--- Case 88 ---
+[ZH]: 说着气绝而死
+[REF]: Before he finished what he was saying, he slumped over and died
+[GEN]: [[Saying words and dying, utterly exhausted]]
+[TIME]: 1.01 s
+--- Case 89 ---
+[ZH]: 方源思考了一下后，下定了决心
+[REF]: Fang Yuan considered for a moment before deciding
+[GEN]: [[Fang Yuan thought for a while before making up his mind.]]
+[TIME]: 1.35 s
+--- Case 90 ---
+[ZH]: 态度蛊叹道
+[REF]: Attitude Gu sighed
+[GEN]: [[tatuì gǔ tàn dào]]
+[TIME]: 1.08 s
+--- Case 91 ---
+[ZH]: 借助宝黄天，这场交易迅速达成了
+[REF]: Using treasure yellow heaven, this transaction was quickly completed
+[GEN]: [[By relying on the precious golden sky, this transaction was quickly completed]]
+[TIME]: 1.43 s
+--- Case 92 ---
+[ZH]: 但下一刻，他发现自己竟是被这股剑气锁住，在半空中悬浮动弹不得
+[REF]: But, he found he was locked on by this sword qi and was unable to budge from his position
+[GEN]: [[But at the next moment, he discovered that he was strangely trapped by this gust of sword energy, floating in mid-air and unable to move.]]
+[TIME]: 2.94 s
+--- Case 93 ---
+[ZH]: 只是想着想着，就不敢想了
+[REF]: He only dared to think about them for a moment before stopping
+[GEN]: [[Just thinking and thinking, I dare not think anymore.]]
+[TIME]: 1.26 s
+--- Case 94 ---
+[ZH]: 之所以说凡道筑基，几乎不可能结丹成功，正是因此
+[REF]: That was one of the main reasons why it was virtually impossible for any Mortal-Dao Foundation Establishment cultivator to reach Core Formation
+[GEN]: [[Because that's why when it comes to building a foundation (fen dao zhu ji), it’s almost impossible to succeed in achieving golden elixir refinement, precisely because of this.]]
+[TIME]: 3.48 s
+--- Case 95 ---
+[ZH]: 他要吃药舂碎片，忙得很呢
+[REF]: He has to eat his medicine grinder chips, he is very busy
+[GEN]: [[He wants to take medicine and grind fragments, he's very busy.]]
+[TIME]: 1.62 s
+--- Case 96 ---
+[ZH]: 白雕盘旋了一阵，顺着大路飞去，过不多时，重又飞回
+[REF]: The eagles circled overhead for a while, then they flew along the road. A moment later they flew back
+[GEN]: [[Bai tiao panxuan le yizhen, shun zhe da lu fei qu, guo bu duoshi, Zhong you hui fei hui]]
+[TIME]: 3.10 s
+--- Case 97 ---
+[ZH]: 她循声望去，只见他倒在路边，一名军官举起长刀，向他后心砍落
+[REF]: Following the source of the sound she went out to take a look, only to see Ke Zhen E was laying by the roadside, an officer was holding a saber high above his head, ready to chop it down into Ke Zhen E back
+[GEN]: [[She followed the sound and looked around, seeing him lying on the side of the road; a military officer raised a long sword and slashed at his back heart.]]
+[TIME]: 3.10 s
+--- Case 98 ---
+[ZH]: 他带着满脸的惊愕，浑身僵硬如石，一头仰倒下去，倒到地上的时候，就彻底死了
+[REF]: He had a shocked expression as his body turned stiff, he fell down onto the ground, dead
+[GEN]: [[He carried an expression of utter astonishment on his face, his body stiff as stone, he collapsed headfirst to the ground, and died completely when he fell.]]
+[TIME]: 3.11 s
+--- Case 99 ---
+[ZH]: 可惜世事多无奈，因为各种原因，只好退而求其次，合炼chūn秋蝉
+[REF]: However, because of circumstances and many other reasons, he could only reduce his expectations and refine the Spring Autumn Cicada
+[GEN]: [[Sadly, worldly affairs are often powerless; due to various reasons, one can only retreat and seek a second best, combining the chūnqiū (autumn) cicada's essence.]]
+[TIME]: 3.62 s
+--- Case 100 ---
+[ZH]: 血水和脑浆四溅，鹰群瞬时崩散
+[REF]: Blood and brain matter splattered, and the eagle group instantly crumbled apart
+[GEN]: [[Xue Shui he nao jiang sijan, ying qun shunshi beng san]]
+[TIME]: 1.96 s
+
+>>> Mean Time 0shot: 2.59 s | Total: 259.3 s
+
+##### TOTAL PROMPT 0: 4.32 min #####
+
+>>> Mean Time 0shot: 2.59 s | Total: 259.3 s
+
+##### TOTAL PROMPT 0: 8.64 min #####
+
+
+##############################################
+### PROMPT 1
+### Your role is an assistant transforming Chinese wuxia text into gripping English fantasy prose. Adapt idioms and cultural...
+##############################################
+
+=== 0SHOT (0-shot) ===
+
+--- Case 1 ---
+[ZH]: 算不尽仙友，你是智道蛊仙更当明白眼前的局势
+[REF]: Friend Suan Bu Jin, as a wisdom path Gu Immortal, you should be even more aware of the current situation
+[GEN]: [[The number of celestial cultivators is immeasurable, but you, as a master of Mind-Dao Gu Xian (蠱仙 –蠱 refers to venomous magic), should understand the situation before your very eyes.]]
+[TIME]: 3.92 s
+--- Case 2 ---
+[ZH]: 立刻这上百药草形成的药液，骤然落下，在与这血湖碰触的瞬间，如同相互之间有强烈的排斥，直接爆发，燃烧成为黑色的火焰，覆盖整个血湖
+[REF]: As they flew through the air, they transformed into a medicinal liquid. When that entered the blood lake, a powerful expulsion force erupted out, and the burning caused a black smoke to rise up and fill the area
+[GEN]: [[Immediately, the shimmering concoction formed from over a hundred medicinal herbs plummeted down, striking the blood lake with such violent force that it erupted instantly. A searing repulsion flared between them – a clash of elemental energies – and exploded in a torrent of black flames, consuming the entire crimson expanse.]
+[TIME]: 5.27 s
+--- Case 3 ---
+[ZH]: 对那些徒手肉搏者，这些堪比钢铁般坚硬的木刺，将会给他们留下深刻的印象
+[REF]: To those fighting barehanded, these thorns that were as sturdy as steel would leave a lasting impression on them
+[GEN]: [[The wooden splinters, sharpened to a hardness akin to steel, would leave a lasting impression on those who dared engage them in hand-to-hand combat. They weren’t merely weapons; they were silent judgments, each one a testament to the skill – or perhaps the cruelty – of their maker. A shiver ran down his spine as he considered the potential damage they could inflict, a cold reminder that even the most subtle defense could shatter under relentless pressure.]]
+[TIME]: 8.61 s
+--- Case 4 ---
+[ZH]: 古月方想口中喃喃，捂住心口
+[REF]: Gu Yue Fang Xiang muttered, his hand over his heart
+[GEN]: [[Gu Yue Fang sang from his mouth, a low murmur that vibrated against his ribs as he pressed a hand to his chest, trying to still the frantic beat of his heart. The air around him shimmered with barely contained power, a visible ripple reflecting the turmoil within. He tasted blood – not much, but enough to confirm the brutal efficiency of the blow that had brought him to this point.  His master’s words echoed in his mind: *“Control your breath, control your spirit, or you will shatter like glass.”*  The pressure in his chest was building, threatening to overwhelm him, mirroring the encroaching darkness at the edge of his vision. He needed to find stillness, to anchor himself before the storm consumed him entirely.]]
+[TIME]: 13.89 s
+--- Case 5 ---
+[ZH]: 若是在平地之上，尺许小径又算得了甚么，可是这石梁下临深谷，别说行走，只望一眼也不免胆战心惊
+[REF]: If this stone bridge were laid on the ground, it would act just like a narrow alley, nothing to be afraid of, but under the stone bridge was a deep canyon. Just looking at it would cause the heart to tremble with fear, let alone walk across it
+[GEN]: [[The path, barely a handspan wide, would be inconsequential on level ground. But here, beneath this ancient stone archway overlooking the bottomless Gulch of Shadows, it wasn’t merely difficult to traverse – simply *looking* down sparked a primal terror, a cold sweat clinging to the skin.]]
+[TIME]: 5.78 s
+--- Case 6 ---
+[ZH]: 虽然我并非黄金血脉。 参与王庭争霸，就是为了混迹到八十八角真阳楼中捞取好处
+[REF]: Although I am not of the Huang Jin bloodline, I participated in the fight for Imperial Court to get some benefits from Eighty-Eight True Yang Building
+[GEN]: [[The truth was, my blood wasn't touched by gold. I’d entered the King’s Court not for glory, but simply to navigate the treacherous currents of the Eightyeight-Corner True Sun Tower, hoping to scrape together a little advantage. It was a desperate gamble, a drowning man clinging to any floating wreckage he could find amongst the swirling chaos of ambition and power.]]
+[TIME]: 7.58 s
+--- Case 7 ---
+[ZH]: 反倒是北岸，此刻居然为上官天佑欢呼，这欢呼声让上官天佑心里别扭，他知道北岸不是因为自己，而是因为白小纯才对自己发出欢呼，也就是说，就算与白小纯对战的是一头猪，北岸也会为这头猪喝彩，这么一想，上官天佑心底对白小纯，更为不悦
+[REF]: The north bank, on the other hand, actually did start to cheer for Shangguan Tianyou. In response, Shangguan Tianyou frowned, aware that they weren't really cheering for him, but against Bai Xiaochun. The north bank would cheer for any oppon ent of Bai Xiaochun’s, even if it were a pig. The thought left Shangguan Tianyou even more displeased than before
+[GEN]: [[The irony was thick as winter frost – North Bank, at this very moment, erupted in cheers for Shangguan Tianyou. The sound grated on his nerves; it twisted something deep within him. He knew North Bank wasn’t celebrating *him*, but White Xiao-chun. It meant that even if he faced a pig in battle, the crowd would roar its approval. A cold realization settled in his heart: White Xiao-chun held a power over him, a sway that fueled the loyalty of others. This thought only intensified his resentment toward her.]]
+[TIME]: 10.43 s
+--- Case 8 ---
+[ZH]: 在仙元方面，巨阳仙尊应当占据优势。 在炼蛊方面，是方源占据优势
+[REF]: In terms of immortal essence, Giant Sun Immortal Venerable should have an advantage, in terms of Gu refinement, Fang Yuan has the advantage
+[GEN]: [[The Grand Elder Yang, a figure of immense power within the Celestial Realm, should naturally hold the advantage. In matters of venom cultivation – the art of shaping and controlling deadly insects – it was Fang Yuan who held dominion.]]
+[TIME]: 4.16 s
+--- Case 9 ---
+[ZH]: 那么对不起得很，两柄剑都到了做哥哥的家里啦
+[REF]: Then I am really very sorry, for both daggers would belong to my family then
+[GEN]: [[He looked utterly defeated, shame burning his cheeks. Two swords – both gleaming with lethal intent – lay within the ancestral halls of his elder brother’s clan. It was a catastrophic breach, a violation that threatened to unravel everything he'd fought so hard to protect. The scent of pine needles and ancient lacquer mingled with the metallic tang of blood, a grim reminder of the price of failure.]]
+[TIME]: 7.23 s
+--- Case 10 ---
+[ZH]: 方源，你怎么也想不到，会有今天吧
+[REF]: Fang Yuan, you had never in your wildest imagination, expect this day to occur right
+[GEN]: [[The rain hammered against the tiled roof of the Jade Serpent Inn, each drop a frantic drumbeat mirroring the chaos within. Fang Yuan stared at the hulking figure before him – Zhao Wei, the Iron Hand, a man known throughout the Crimson Peaks for his brutal efficiency and unwavering loyalty to the Emperor. “How could *you* have foreseen this, Fang Yuan?” Zhao Wei’s voice was gravel scraped across stone, laced with disbelief. The air crackled with unspoken threat; tonight, the fragile peace of the region had shattered.]
+[TIME]: 9.64 s
+--- Case 11 ---
+[ZH]: 提到弟弟丁言。 丁齐满脸悲伤愤怒
+[REF]: Mentioning his brother, Ding Qi was extremely angry and upset
+[GEN]: [[The mention of his younger brother, Ding Yan, hung heavy in the air. Ding Qi’s face was a mask of grief and fury, etched with lines of deep sorrow – a storm brewing beneath a surface of controlled rage. He clenched his fists, knuckles white against the worn silk of his robes, each breath a ragged expulsion of bitterness. The injustice of it all burned like a brand upon his soul, fueled by the knowledge that his brother had been wronged, betrayed by those he should have trusted.]]
+[TIME]: 9.24 s
+--- Case 12 ---
+[ZH]: 黄蓉道
+[REF]: Huang Rong said
+[GEN]: [[Huang Rong Dao – “Yellow Dragon Path” – stood poised amidst the rain-slicked courtyard of the Jade Serpent Temple. The air hung thick with the scent of damp moss and ancient incense, a fitting backdrop for her grim determination. She wasn’t simply practicing; she was wrestling with the echoes of a forgotten lineage, attempting to coax the dormant power of the Yellow Dragon Path back to life within her. Her fingers tightened around the hilt of her jade dagger, its cool surface a stark contrast to the burning frustration in her eyes. This wasn't about technique or form anymore; it was about remembering, about feeling the pulse of generations who had walked this same path before her, warriors who had faced down demons and emperors alike. A single drop of rain traced a path down her cheek, mirroring the relentless pressure building inside her.  She needed to unlock something—a key buried deep within her blood, a connection to the legendary Yellow Dragons, masters of illusion and shadow, whose power had been nearly extinguished centuries ago. Failure meant not just defeat, but the potential loss of that vital legacy.]
+[TIME]: 19.83 s
+--- Case 13 ---
+[ZH]: 大小姐，你不妨将此事交给我处理，我来找她谈，付出一些代价也无妨
+[REF]: Missy, leave this to me, I will negotiate with her, it is okay if we pay a small price
+[GEN]: [[Lady Mei, you needn’t trouble yourself with this matter. Let me handle it; I'll speak with her, and a small price to pay would be no hardship at all.]]
+[TIME]: 3.68 s
+--- Case 14 ---
+[ZH]: 现在还不是换取变化道仙蛊方，炼制变化道的其他仙蛊的时候
+[REF]: Now was not the time to exchange them for transformation path Immortal Gu recipes, or the time to refine transformation path Immortal Gu
+[GEN]: [[The air hung thick with the scent of pine and something ancient, like dried herbs and forgotten magic. Master Lian, his face etched with worry lines deeper than any riverbed, gestured towards a cluttered table laden with shimmering powders and strange, pulsating fungi. “We’re still too early for the Change-of-Path Serpent Formula,” he said, his voice low and gravelly. “And the refinement of other serpent methods used to access the Change-of-Path realm… it's premature. Not yet.” He tapped a finger against a particularly vibrant, crimson-colored fungus. “These *Xiang Gui* – Dream Weaver Serpents – they hold potential, yes, but their essence isn’t fully aligned with the path we seek. We need more time, more control. The process of forging a Change-of-Path Serpent is delicate; a single misstep can unravel the entire transformation, leaving only ash and regret.”]]
+[TIME]: 17.49 s
+--- Case 15 ---
+[ZH]: 苏秦背剑
+[REF]: Reviving Qin Behind the Sword
+[GEN]: [[The rain hammered against the eaves of the Jade Dragon Temple, each drop a tiny drumbeat mirroring the frantic pulse in Su Qin’s throat. He stood at the precipice of the western tower, the wind whipping his crimson robes around him like angry flames. Below, the valley stretched out – a bruised purple under the storm clouds – and he held the sword, *Jian*, clutched so tightly his knuckles were bone-white. It wasn't the sword itself that weighed on him, though its polished steel gleamed ominously in the gloom; it was the memory. The memory of his master, Master Lian, who had entrusted him with this blade just hours before, demanding he bear its burden alone. “Let the sword fall,” Lian had rasped, his voice thin as winter ice, "and let your spirit find peace." But Su Qin couldn't. Not yet. This wasn’t simply about relinquishing a weapon; it was about abandoning a legacy, a promise made beneath the watchful gaze of the Silent Peaks.  He felt the familiar tremor of *Xuanwu* style flowing through him, a desperate attempt to anchor himself against the rising tide of despair.  It was a technique meant for facing death, for accepting the inevitable
+[TIME]: 22.89 s
+--- Case 16 ---
+[ZH]: 轰的一声，他就与前方的元妖子与通天道人，直接撞在了一起，元妖子喷出鲜血，通天道人一样鲜血狂喷，二人倒退时，噬灵上人与广目天尊，哪怕有些迟疑，可还是前行阻拦，与白小纯再次碰触
+[REF]: A boom could be heard as he slammed into Prince Ur-Demon and Daoist Heavenspan. Blood sprayed out of both of their mouths as they were sent tumbling to the side. As for Reverend Devourer and Celestial Virūpākṣa, although they were still leery about the situation, they still tried to block Bai Xiaochun’s path
+[GEN]: [[The ground erupted with a thunderous crash as he collided headlong with Yuan Yaozi and Tong Tian Dao Ren, who stood before him. Yuan Yaozi was instantly drenched in crimson, his blood spraying like a macabre waterfall, while Tong Tian Dao Ren responded in kind, unleashing a torrent of scarlet ichor. As they both stumbled backward, Shi Ling Shangren and Guang Mu Tianzun, despite a moment’s hesitation, nonetheless blocked their path, their hands reaching out to prevent White Xiao Chun from encountering them again.]]
+[TIME]: 9.56 s
+--- Case 17 ---
+[ZH]: 其中一个手段，是关于命牌蛊、魂灯蛊
+[REF]: One of the methods was about life tablet Gu and soul lantern Gu
+[GEN]: [[The first tactic involved a chilling method – the use of Life Charm Beetles and Soul Lantern Beetles. These weren’t mere insects; they were vessels of stolen essence, each beetle meticulously crafted to siphon life force and trap fragments of consciousness. The Life Charm Beetle, rumored to drain vitality with every pulse, left its victims withered and hollowed out, their memories fading like smoke. The Soul Lantern Beetle, conversely, held captive the lingering spirits of the deceased, illuminating with an eerie, spectral glow – a lantern fueled by sorrow and regret. Master Lian explained that these beetles were prized tools of assassins, capable of delivering death with a subtle touch, leaving behind only echoes of what once was.]]
+[TIME]: 12.68 s
+--- Case 18 ---
+[ZH]: 他最后说，我十分伤心，跟着你来的日子也不远了
+[REF]: He finally said that his grief was so deep that the day he would follow her to the grave would not be far away
+[GEN]: [[He finally spoke, his voice thick with sorrow, “The days of following you – they won’t be long before they end.”]]
+[TIME]: 2.70 s
+--- Case 19 ---
+[ZH]: 刚想到这里，陆畏因眼前忽然一黑
+[REF]: While thinking of this, Lu Wei Yin’s vision suddenly turned dark
+[GEN]: [[The thought struck him like a physical blow – darkness, sudden and absolute, swallowed Lu Wei’in whole. He stumbled, his hand instinctively reaching out for purchase on the rough stone of the courtyard wall, but found only empty air.]
+[TIME]: 4.40 s
+--- Case 20 ---
+[ZH]: 欧阳锋道
+[REF]: Hong Qigong said
+[GEN]: [[The air hung thick with the scent of rain and something older – the musk of ancient stone and forgotten battles. Elder Ouyang Feng surveyed the valley from his perch atop the Dragon’s Tooth Peak, a jagged spire that clawed at the bruised purple sky. He wasn't a man of grand pronouncements or sweeping gestures; his power resided in stillness, in the quiet observation of a thousand years etched onto his face like riverbeds on weathered rock.  Feng, they called him - 'Wind Cutter' – a name earned not through flashy displays of force, but through the subtle manipulation of currents, the bending of shadows to his will. Below, the Jade Serpent River snaked through the valley floor, reflecting the gathering storm clouds. It was here, amidst this desolate beauty, that he plotted his next move, a delicate dance of influence designed to unravel the fragile peace between the warring clans of the Crimson Peaks. His methods weren't brute strength, but a patient weaving of alliances and betrayals, a mastery of *Dao* – the Way – honed over decades of ruthless study and countless lives observed. He felt it now, a tremor in the earth, a shift in the very fabric of reality, mirroring the growing unrest amongst his rivals. This was no mere
+[TIME]: 22.79 s
+--- Case 21 ---
+[ZH]: 一灯道
+[REF]: Yideng said
+[GEN]: [[The flickering light of Elder Lian Dong pulsed with a strange, internal luminescence. He wasn’t merely a man; he was a repository of forgotten knowledge, a solitary figure who had spent decades wandering the shadowed peaks of the Dragon's Tooth Mountains, honing his skills within the ancient art of Shadow Thread. It wasn’t a dance of steel, like the Crimson Blades or the Iron Wolves, but something far more subtle – a manipulation of darkness itself, weaving illusions and misdirection with threads of pure shadow drawn from the deepest corners of the world. His movements were fluid, unsettlingly silent, as if he weren’t truly *there*, existing just beyond the veil of perception. Locals whispered that he’d once been a scholar, driven mad by a forbidden scroll detailing the secrets of manipulating Qi, now bound to this lonely vigil, forever guarding against those who would misuse such power. A single, jade pendant depicting a coiled dragon hung around his neck—a constant reminder of the burden he carried, and the price of his enlightenment.]]
+[TIME]: 19.25 s
+--- Case 22 ---
+[ZH]: 大部分风刃则成功地绕过水莲，在后方重新汇聚，形成一个稍小的纠风，仍旧向那头荒级虚兽撞去
+[REF]: But most of the wind blades dodged the water lotus and gathered together again, forming a smaller entangled wind, and charging towards the desolate level phantom beast
+[GEN]: [[The majority of the Wind Blades skillfully skirted the Water Lotus, reforming behind her in a slightly diminished swirl of air – still relentlessly aimed at the monstrous, Void Beast of the Wild Rank.]]
+[TIME]: 3.71 s
+--- Case 23 ---
+[ZH]: 嘴巴张得老大，露出一嘴齐整的牙齿，牙关紧闭
+[REF]: The mouths opened up with jaws clenched, revealing a set of even teeth
+[GEN]: [[His mouth hung open wide, revealing a neat row of teeth – a stark contrast to the slackness of his face – clamped tight against the effort of swallowing.]
+[TIME]: 3.08 s
+--- Case 24 ---
+[ZH]: 伊上帝之降命，何修短之难哉
+[REF]: Why did God make someone is life so short
+[GEN]: [[The decree of the Sky Emperor – a burden too heavy for any mortal to bear. What trials await him, trapped as he is within this fleeting existence?]]
+[TIME]: 3.12 s
+--- Case 25 ---
+[ZH]: 东方长凡点点头
+[REF]: Dong Fang Chang Fan nodded
+[GEN]: [[Eastward Changfan nodded his head.]
+[TIME]: 0.90 s
+--- Case 26 ---
+[ZH]: 倒是真不错
+[REF]: He is truly a good choice
+[GEN]: [[It was indeed quite impressive.]]
+[TIME]: 0.85 s
+--- Case 27 ---
+[ZH]: 泰琴拼尽全力，不惜施展损害自己的手段，终于将王蚁收服
+[REF]: Tai Qin gave it her all and used methods that carried backlash to herself but finally subdued the ant queen
+[GEN]: [[The rain hammered against the jade pavilion as Taiqin poured every last drop of his strength into the task. He risked unleashing methods that would wound him himself – a desperate gamble – and finally, with a shuddering release of energy, he brought Wang Yi under his control.]]
+[TIME]: 5.39 s
+--- Case 28 ---
+[ZH]: 柯镇恶听了两人对答，知道郭靖懂得谦抑，心下也自喜欢
+[REF]: Ke Zhen E was delighted listening to their conversation. He was proud that Guo Jing was well-behaved
+[GEN]: [[Ko Zhen’ao listened to the exchange between the two men, and realized that Guo Jing possessed a natural grace and humility. A quiet fondness began to bloom within his own heart.]]
+[TIME]: 3.46 s
+--- Case 29 ---
+[ZH]: 吼
+[REF]: Roar
+[GEN]: [[A guttural roar ripped through the twilight forest, shaking the ancient pines and sending a flock of crimson birds scattering into the deepening gloom. It wasn’t just a sound; it was *presence*, a raw, untamed force that spoke of something ancient and terribly powerful – a dragon stirring from its slumber, or perhaps, something far more dangerous.]
+[TIME]: 6.36 s
+--- Case 30 ---
+[ZH]: 但此茶却是个例外，要一口气喝掉
+[REF]: But this tea was different, one had to gulp it in one mouthful
+[GEN]: [[He held the jade cup aloft, a swirl of crimson mist rising within. It wasn't the usual brew – this tea was a volatile thing, rumored to hold the memories of fallen empires.  A single gulp, he realized with sudden urgency, would consume him entirely. He had to drink it all at once, or risk being swallowed whole by its potent secrets.]]
+[TIME]: 6.90 s
+--- Case 31 ---
+[ZH]: 领队的武官叫道
+[REF]: The leader shouted in response
+[GEN]: [[The regimental officer, Dao, straightened his tunic, a flicker of steel in his dark eyes as he surveyed the assembled troops. A palpable tension hung in the air – the scent of rain mingled with the metallic tang of anticipation. He’d been summoned to deliver a grim message, one that spoke of a shadowed enemy encroaching upon their borders, a darkness whispered about in ancient prophecies and now, chillingly, manifesting in reality. His voice, when he finally spoke, was low and resonant, carrying across the ranks like the chime of distant bells, “Listen closely,” he commanded, “the Crimson Hand has crossed the Jade River. We ride for them.”]]
+[TIME]: 12.11 s
+--- Case 32 ---
+[ZH]: 而现在，他只有将自身强悍到了极致后，才有把握，将那看似打不死的雷山，直接轰杀，一旦将其轰杀，白小纯就可以在无人追击中，彻底逃遁出去
+[REF]: Right now, Bai Xiaochun knew that he had to become as powerful as he possibly could. He needed to cut down the seemingly unkillable Lei Shan, which would give them the oppor tunity to truly escape
+[GEN]: [[The truth was stark: only by pushing his own strength to its absolute limit could he even *hope* to shatter the legend of Léi Shān – a mountain said to be impervious to attack. Once he brought it down, once the stone itself crumbled beneath his blade, Bai Xiǎocún would finally be free, able to vanish completely without pursuit, swallowed by the shadows and leaving no trace.]
+[TIME]: 7.44 s
+--- Case 33 ---
+[ZH]: 气海老祖，你我之间其实并没有什么大的矛盾，完全可以和平共处
+[REF]: Qi Sea Ancestor, we do not have a huge grudge between us, we can coexist in peace
+[GEN]: [[The Old Ancestor of the Qi Sea, you and I – truly, there’s no fundamental conflict between us. We can coexist peacefully.]
+[TIME]: 2.78 s
+--- Case 34 ---
+[ZH]: 若非方源不想在炎煌雷泽仙僵面前，暴露了定仙游和自己的身份，他早就赶到了
+[REF]: If not for the fact that Fang Yuan did not want to expose Fixed Immortal Travel and his identity in front of the Blazing Glory Lightning Brilliance immortal zombie, he would have arrived long ago
+[GEN]: [[The rain hammered against the obsidian peaks of Yan Huang Lei Ze, a ceaseless drumming that mirrored the frantic beat of his heart. He’d been clinging to the shadows for weeks, a ghost amongst the immortals, desperate to avoid detection. But it was Fang Yuan's deliberate choice – his refusal to reveal himself before facing the terrifyingly stagnant power of the Elder Jiangang – that had allowed him this fragile window. Had he acted sooner, had he pushed for confrontation, he would have already arrived at the epicenter of this nightmare. Now, with every drop of rain, the risk grew exponentially closer.]
+[TIME]: 10.97 s
+--- Case 35 ---
+[ZH]: 常山yīn的过去，早已经成为一个关于英雄的传说，在北原大地上广为流传
+[REF]: Chang Shan Yin's past was a heroic tale, it was widely spread in northern plains
+[GEN]: [[The past of Changshan Yin was already a legend long ago, a tale of heroism echoing across the vast Northern Plains. It spoke of a man who’d vanished without a trace, leaving behind only whispers of impossible feats and a shadow that clung to the very wind.]]
+[TIME]: 5.05 s
+--- Case 36 ---
+[ZH]: 我全身发抖，冷得很
+[REF]: I was shaking all over, I was very cold. My
+[GEN]: [[My entire body shuddered, a deep, bone-chilling cold that seemed to seep from the very stones beneath my feet. It wasn’t merely the dampness of the mountain air; it was something older, something hungry—a feeling like I was standing on the edge of a forgotten winter.]
+[TIME]: 5.57 s
+--- Case 37 ---
+[ZH]: 这就是将来，巨阳仙尊血道有成之后，可以吞并长生天，使得自身实力实现恐怖暴涨
+[REF]: In the future, after Giant Sun I mmortal Venerable’sblood path cultivation reach ac ertain level, he could annex Longevity Heaven to raise his strength to at errifying level
+[GEN]: [[The future stretched before him, a landscape of impossible power. The Great Yang Immortal Sovereign, after completing his Blood Path cultivation, would be able to consume and absorb the Celestial Long Life – a feat that would unleash a terrifying surge of strength within himself, pushing his capabilities beyond comprehension.]]
+[TIME]: 5.37 s
+--- Case 38 ---
+[ZH]: 过的还行
+[REF]: It was rather alright
+[GEN]: [[It was… passable. Not great, certainly, but enough to keep him breathing for another day. A thin warmth spread through his limbs, a fragile shield against the creeping chill of the mountain air and the lingering ache of defeat. He’d survived, barely, and that, he realized with a grim acceptance, was victory enough for now.]]
+[TIME]: 6.53 s
+--- Case 39 ---
+[ZH]: 元始仙尊的复活之法，方源知晓其中一个
+[REF]: Fang Yuan knew one of Primordial Origin Immortal Venerable’s revival methods
+[GEN]: [[The method for Yuanxi Xianzun’s resurrection – that was one piece of it that Fangyuan now possessed. It wasn't a complete map, not even close, but a single, crucial fragment, shimmering with an unsettling power he barely understood. The air around him thrummed with residual energy, a ghostly echo of the immortal’s passing, and Fangyuan felt a cold dread creep up his spine. He’d stumbled upon this knowledge during a desperate raid on a forgotten temple nestled deep within the Jade Serpent Mountains, a place rumored to have once housed a sect devoted entirely to Yuanxi. The scrolls were brittle, covered in faded ink depicting bizarre rituals and cryptic symbols—a testament to the lengths those long-dead monks had gone to in their pursuit of immortality. Now, holding this sliver of the truth, Fangyuan realized the task before him wouldn’t be a simple quest; it would be a descent into madness, a dance with forces far older and more dangerous than he could imagine.]]
+[TIME]: 18.46 s
+--- Case 40 ---
+[ZH]: 他们之前在大殿内也讨论过，彼此都非常为难，因为荣耀弟子的身份，太重要了，在这之前，给的都是战死之人，还从来没过活人，可如今白小纯居然活蹦乱跳的出现在自己面前 这让他们在刚刚知道这个消息时，一个个都愣了一下
+[REF]: That was one of the reasons why the discussion had been so difficult earlier. The position of Prestige disciple was extremely important, and had previously only been conferred upon people who had died in battle, never living disciples. And yet, here Bai Xiaochun was right in front of them, healthy and no worse for wear That was one reason why all of them had been so shocked to hear the news that he was alive
+[GEN]: [[The elders had debated within the grand hall before, each of them deeply troubled. The honor student’s position was paramount; previously, those chosen were always warriors who fell in battle – never a living soul. Yet here she stood, Bai Xiao-chun, vibrant and impossibly alive, confronting them directly. Each of the assembled masters froze, momentarily stunned by this unexpected revelation.]]
+[TIME]: 7.03 s
+--- Case 41 ---
+[ZH]: 直接用舍利蛊堆出修为来，才可能在短时间内，对他提供帮助
+[REF]: By using relic Gu to boost the cultivation level, he could bring out this second aperture's usefulness in the short run
+[GEN]: [[He could only truly aid him within a heartbeat by summoning a veritable mountain of spirit insects – each one saturated with his own accumulated cultivation. It was a desperate gamble, a reckless expenditure of power, relying entirely on the solidified essence of years spent honing his inner strength.]
+[TIME]: 4.93 s
+--- Case 42 ---
+[ZH]: 我去哪啊
+[REF]: Where am I suppos ed to go
+[GEN]: [[Where am I supposed to go? The wind itself seems to whisper of a path I can’t find, a direction swallowed by shadow. It feels like being adrift on a river without a current, tossed about with no anchor, no hope of reaching a familiar shore. My spirit aches with this uncertainty – a hollow echo where purpose used to reside.]]
+[TIME]: 6.79 s
+--- Case 43 ---
+[ZH]: 老毒物放蛇，真不要脸
+[REF]: The Old Poison dispatches his snakes! Really shameless
+[GEN]: [[The old poison merchant released a viper – truly, he lacked all shame. A cold dread coiled in Lian’s stomach as she watched the scaled creature slither from the shadowed alcove, its eyes glittering with malevolent intelligence. Master Zhao had warned her about this man, Wei Feng, a notorious collector of rare and deadly beasts, rumored to sell them to the highest bidder amongst the warlords and dark sorcerers of the Jade Empire.  Wei Feng's audacity was breathtaking; releasing such a dangerous guardian simply to demonstrate his power. Lian tightened her grip on her jade-inlaid sword, the familiar weight a small comfort against the rising tide of fear. This wasn’t just a display of wealth; it felt like a deliberate provocation, a challenge thrown down at her feet. She knew, with chilling certainty, that this single act would draw unwanted attention, and likely, a deadly reckoning.]]
+[TIME]: 16.80 s
+--- Case 44 ---
+[ZH]: 那也好，我宰了八人，再来助你
+[REF]: I will come and help you after I have massacred these eight. Precisely
+[GEN]: [[The thought struck me with a sudden, brutal clarity – yes, that was a path I could take. I’d already dispatched eight men, each a storm of steel and fury, and felt a cold satisfaction bloom within me. “Let’s do this,” I said, my voice low and laced with a dangerous calm. “I can help you, too. Let's end them both.”]]
+[TIME]: 7.59 s
+--- Case 45 ---
+[ZH]: 但这个计划总会有完成的那一天，咱们不抓紧这次难得的机会怎么行
+[REF]: But this plan will eventually be completed, aren’t we grabbing onto this chance when it is available to us
+[GEN]: [[The plan will inevitably reach its conclusion, you know. How can we possibly delay seizing this rare opportunity? It’s simply unthinkable.]]
+[TIME]: 2.68 s
+--- Case 46 ---
+[ZH]: 智道三元要素，分别是念、意、情
+[REF]: Wisdom path had three elements, thoughts, wills, and emotions
+[GEN]: [[The core of Master Zhi Dao’s teachings revolved around three interwoven elements – Thought, Will, and Emotion. They weren't merely concepts; they were the very building blocks of power, like the three streams converging to form a raging river. ‘念’ (Niàn) represented pure, unadulterated thought, the sharpest blade of reason, capable of dissecting an opponent’s defenses with chilling precision. ‘意’ (Yi) was the will, the focused intention that shaped and directed those thoughts, lending them force and purpose - the driving hand on the sword hilt. And finally, ‘情’ (Qing) embodied emotion, the volatile current that fueled both creation and destruction, a dangerous wellspring of raw potential. Mastering these three—understanding their delicate balance and harnessing their individual strengths—was the key to unlocking true mastery within the Dragon’s Breath style of combat.]]
+[TIME]: 16.44 s
+--- Case 47 ---
+[ZH]: 方源心中有明悟
+[REF]: Fang Yuan comprehended inwardly
+[GEN]: [[A sudden clarity bloomed within Fang Yuan’s chest – a recognition of the tangled threads that bound his fate to this perilous land. It wasn't a simple understanding, but a visceral knowing, like grasping at the cold truth beneath a layer of illusion. He saw now how the whispers of the Jade Serpent Clan had followed him across mountains and rivers, how the shadow of the Crimson Emperor stretched long and dark behind every victory, and how his own path was inextricably linked to the ancient prophecy of the Shattered Star.]]]
+[TIME]: 9.58 s
+--- Case 48 ---
+[ZH]: 他们是我的手下
+[REF]: Those are my men
+[GEN]: [[They were my hands – my loyal protectors, bound to me by duty and a shared respect for the blade. Each movement of theirs was an extension of my will, a silent promise of unwavering defense against any shadow that dared threaten my path. I had chosen them carefully, each bearing scars that spoke of battles fought and victories won, their eyes reflecting the cold steel of countless skirmishes. They weren’t merely soldiers; they were extensions of myself, a living embodiment of my resolve.]]
+[TIME]: 9.04 s
+--- Case 49 ---
+[ZH]: 想这些有什么用
+[REF]: What use is there in thinking about this
+[GEN]: [[He stared out at the rain-slicked peaks of Mount Heng, a bitter taste clinging to his tongue. “What good are memories like these?” he murmured, his voice barely audible above the wind’s mournful howl. It was a question born of loss, of a past that clung to him like a shroud – the memory of Lianhua, her laughter echoing faintly in the hollow chambers of his heart, and the devastating defeat at the Crimson Hand Monastery. He knew dwelling on it offered no solace, only a sharper edge to the grief that threatened to consume him. The rain intensified, mirroring the relentless torrent of regret within his soul.]]
+[TIME]: 11.74 s
+--- Case 50 ---
+[ZH]: 这落魄谷中，居然有盗天真传
+[REF]: Luo Po valley actually has a Thieving Heaven true inheritance?
+[GEN]: [[The desolate valley held a startling secret – a scroll detailing the legend of Dao Tian Zhen Chuan, the True Transmission of Heaven’s Path. It spoke of a warrior who could bend the very elements to his will, a master whose power was said to rival that of the gods themselves. But the scroll also hinted at a terrible price for such mastery, a corruption born from seeking too much power, leaving only shattered bones and echoing madness in its wake.]]
+[TIME]: 8.39 s
+--- Case 51 ---
+[ZH]: 在这过程中，不死皮，不死金刚，不死筋 也都全部恢复，甚至白小纯有种强烈的感觉，此刻的不死卷，与他之前所拥有的，不大一样
+[REF]: As it happened, his Undying Skin, Undying Heavenly King, and Undying Tendons all recovered completely. Furthermore, Bai Xiaochun could sense that this version of the Undying Codex was somehow different than what he had cultivated before
+[GEN]: [[The process completed, stripping away the lingering echoes of death – the unyielding “Undying Hide,” the impenetrable “Ironclad Body,” and the resilient “Sinew of Eternity” – all returned fully, even granting Bai Xiao Chun a startlingly potent sensation. This current Undying Scroll felt…different. Not merely a copy, but fundamentally altered from those she’d wielded before.]]
+[TIME]: 7.16 s
+--- Case 52 ---
+[ZH]: 方源面色仍旧冷漠，就算是道歉，都是一脸高傲的样子
+[REF]: Fang Yuan had a cold expression, even when he apologized, he had an arrogant look
+[GEN]: [[Fang Yuan’s face remained glacial, a chilling mask even as he offered his apologies – each gesture laced with an unmistakable arrogance. It was as if he were acknowledging their pleas, but refusing to concede a single inch of his pride.]]
+[TIME]: 4.44 s
+--- Case 53 ---
+[ZH]: 顿时，庭院中的轻松氛围，就转为丝丝的凝重。 一众少主举杯喝酒的动作，都不由地变得小心翼翼。 这就是五转蛊师，商家族长商燕飞的霸道
+[REF]: Shang Yan Fei was also unfazed, in his opinion, Fang Yuan was very honest and straightforward
+[GEN]: [[The tranquility of the courtyard shattered instantly, replaced by a palpable weight. The young masters, who had moments before been laughing and raising their cups for drink, suddenly froze, each movement deliberate and guarded. This was the mark of Master Shang Yanfei, the ruthless patriarch of the Merchant Clan – a display of power that demanded respect, and instilled fear.]
+[TIME]: 6.59 s
+--- Case 54 ---
+[ZH]: 你居然一直在欺骗我们
+[REF]: You actually were deceiving us
+[GEN]: [[He’d been deceiving us this entire time. The realization struck me like a physical blow – a cold wave of betrayal washing over my senses. Master Lian’s face, usually etched with serene wisdom, was now twisted with a chilling composure, his dark eyes glittering with something akin to triumph. For months, we'd followed his guidance, believing him to be a beacon of righteousness in the shadowed lands of Xiling, a protector against the encroaching darkness. But now, the carefully constructed facade crumbled, revealing a man consumed by ambition and steeped in deceit. It wasn’t just a lie; it was a calculated manipulation, a slow poisoning of our trust. He hadn’t simply misled us; he’d orchestrated our very journey, leading us deeper and deeper into the heart of danger, all for some inscrutable purpose. A tremor ran through me, not of fear exactly, but of a profound and unsettling understanding – that everything I thought I knew about Xiling, about Lian, about myself, had been a meticulously crafted illusion.]]
+[TIME]: 18.99 s
+--- Case 55 ---
+[ZH]: 白小纯的目中露出一丝敬佩，这种对手，他觉得自己需要尊重，此刻眼看对方冲杀过来，那一百件法宝煞气滔天，白小纯深吸口气，右手抬起时，手中的黑色长枪消失不见
+[REF]: A gleam of admiration appeared in Bai Xiaochun’s eyes, and he suddenly felt as if he owed some respect to this oppon ent. As Gongsun Yi closed in with a hundred magical items, all bursting with murderous auras, Bai Xiaochun took a deep breath and waved his hand to get rid of the black spear. His decision was to forgo the use of magical items
+[GEN]: [[A flicker of respect ignited in Bai Xiao Chun’s eyes. This opponent… he felt a need for deference, a recognition of power that resonated deep within him. As he watched the man charge forward, a wave of palpable menace radiating from the hundred magical artifacts – a terrifying display of raw force – Bai Xiao Chun took a deep breath. With a deliberate movement of his right hand, his black long spear vanished completely.]
+[TIME]: 7.67 s
+--- Case 56 ---
+[ZH]: 但是你们考虑过身后的妻子儿女吗
+[REF]: But shouldn't you consider your wives and children behind you
+[GEN]: [[But have you considered your wives and children behind you?]]
+[TIME]: 1.29 s
+--- Case 57 ---
+[ZH]: 竟有此事
+[REF]: Is that the case
+[GEN]: [[The truth of it was startling. A ripple of disbelief spread through the courtyard as Master Lian’s weathered face tightened with a sudden, chilling awareness. It wasn't merely rumor; something *real* had happened – something that defied the established order of the Azure Peaks Monastery.]
+[TIME]: 5.16 s
+--- Case 58 ---
+[ZH]: 很多人都难以做到，更何况更高难度的一心多用
+[REF]: A lot of people cannot even do this, let alone the highly difficult multi-tasking
+[GEN]: [[Few could achieve it, let alone the far greater challenge of simultaneously focusing on one goal while encompassing everything else. It was a feat bordering on madness, a dance between control and utter surrender.]]
+[TIME]: 3.75 s
+--- Case 59 ---
+[ZH]: 我想，王真人的武功既已天下第一，他再练得更强，仍也不过是天下第一
+[REF]: I thought that Venerable Wang martial arts were already number one in the world, even if he trained from the manual himself, he would still be number one
+[GEN]: [[The Master Wang had reached the pinnacle of martial prowess – a dominion over all combat known to man. To push his skill further, to strive for even greater strength, would simply elevate him to *slightly* more dominant. It was a frustrating realization, like chasing a phantom echo of perfection. He’d spent decades honing his art, the Dragon’s Breath style, a dance of lightning and steel, yet the very peak he’d conquered offered no reward beyond its own immutable height. There was no ascent, only the stark awareness of already being at the summit.]]
+[TIME]: 10.59 s
+--- Case 60 ---
+[ZH]: 如今只能围魏救赵，攻其弱点，以缓解战局
+[REF]: The only way now was to target the enemy’s weakness to salvage the situation
+[GEN]: [[The situation was now a desperate pinwheel – encircling Zhao while exploiting their vulnerabilities, a frantic attempt to ease the pressure of the siege. It wasn't a direct assault, but a calculated dance of attrition, aimed at finding and shattering the cracks in their defenses before they were completely overwhelmed.]]
+[TIME]: 5.48 s
+--- Case 61 ---
+[ZH]: 这位道长很想见见您老人家，已经问过好几次啦
+[REF]: This Taoist Elder wishes to see you, and has already asked about you on several occasions
+[GEN]: [[The old master of the Way has been persistently seeking you out – he’s inquired several times already. He wishes to pay his respects, truly.]]
+[TIME]: 2.95 s
+--- Case 62 ---
+[ZH]: 就连魏央也不免涌起一丝异sè
+[REF]: Even Wei Yang showed a peculiar expression
+[GEN]: [[The crimson sunset bled across the peaks of Mount Cinderfang, painting the snow with streaks of blood orange. Even Wei Yang, a man known for his impassive control, felt a flicker of something… unexpected. A subtle shift in color, like a bruise blooming beneath his skin, mirrored the unsettling violet haze clinging to the air – a sign, he suspected, that the ancient wards were failing.]]
+[TIME]: 7.78 s
+--- Case 63 ---
+[ZH]: 白小纯
+[REF]: Bai Xiaochun
+[GEN]: Please provide me with the Chinese text you want me to translate! I need the original Chinese passage about 白小纯 (Bái Xiǎo Chún) to begin the transformation. Once you give it to me, I will deliver the translated version within the requested format: [[[Translation]]].
+[TIME]: 5.26 s
+--- Case 64 ---
+[ZH]: 想到这里，望着崖顶出了一会神，就撇下了这件事，提起长剑，把
+[REF]: He contemplated the top of the cliff, and then he tried to not think more about it. He took his sword, and repeated the moves again and again of
+[GEN]: [[As he considered this, a moment of stillness passed over him as he gazed at the peak of the cliff – a brief hesitation before he dismissed the matter entirely. He raised his long sword, its polished steel gleaming faintly in the fading light, and began to climb.]]
+[TIME]: 4.98 s
+--- Case 65 ---
+[ZH]: 但对方和自己的目的是一致的，都是想要对付方源，白凝冰也就答应了这场交易。 暂时加入到了影宗
+[REF]: However, they had the same objective, both f them wanted to deal with Fang Yuan, so Bai Ning Bing agreed to this transaction and joined Shadow Sect temporarily
+[GEN]: [[The man’s goal aligned with her own – both sought to bring down Fang Yuan. So, Bai Ningbing agreed to the bargain, stepping temporarily into the fold of the Shadow Sect.]]
+[TIME]: 3.64 s
+--- Case 66 ---
+[ZH]: 所有的方法都用了，摆在她眼前的只剩下一条路——向方源购买六转层次的第二空窍仙蛊
+[REF]: All methods had been exhausted, leaving only one path in front of her - to purchase the rank six level second aperture Immortal Gu from Fang Yuan
+[GEN]: [[The myriad techniques had been exhausted, leaving only one path before her: to purchase a Sixth Layer Empty Vessel Immortal Insect Swarm from Fang Yuan – a creature of unparalleled power, capable of traversing the very fabric of reality. It was a desperate gamble, a single thread clinging to the precipice of oblivion, but it was all that remained if she hoped to reclaim what was lost. The air around her thrummed with a palpable tension, each breath a struggle against the encroaching darkness, as she considered the price of such a potent artifact—a price that likely included a piece of her own soul.]
+[TIME]: 11.04 s
+--- Case 67 ---
+[ZH]: 好豪壮的气概！ 郭靖听得恼怒之极，只捏得手指格格直响
+[REF]: Guo Jing was so angry hearing him that he clenched his fist so hard, his knuckles made cracking sounds
+[GEN]: [[The man possessed a spirit of breathtaking grandeur! Guo Jing listened, his fury rising like a storm. His fingers clenched so tightly they rang with each furious pulse – a sound of barely contained rage.]
+[TIME]: 3.73 s
+--- Case 68 ---
+[ZH]: 智道蛊虫不少，但智道传承却很稀罕
+[REF]: There were many wisdom path Gu worms, but wisdom path inheritances were rare
+[GEN]: [[The number of *zhi dao*蛊虫 – venomous spirit worms – was considerable, yet the lineage of *zhi dao* itself was exceedingly rare, a whispered legend amongst those who practiced its deadly art. It wasn't simply that the techniques were lost; they seemed to actively resist being rediscovered, as if guarded by some unseen force. Few dared even speak its name, let alone attempt to master its secrets.]]
+[TIME]: 8.14 s
+--- Case 69 ---
+[ZH]: 飞熊嗷嗷怒吼，显露狂暴，胡乱反击，当然效果不佳
+[REF]: The flying bear phantom roared continuously, it was very agitated and attacked randomly, but had little effect
+[GEN]: [[The Sky Bear roared, a furious torrent of rage erupting from its form. It lashed out blindly, a chaotic storm of claws and teeth – but each strike fell short, utterly ineffective against the warrior’s defenses.]]
+[TIME]: 4.30 s
+--- Case 70 ---
+[ZH]: 但雪中蹄痕显然，极易追踪，老毒物自是紧追不舍
+[REF]: But the track is imprinted clearly on the snow, Old Poison will not have any difficulty following her
+[GEN]: [[The tracks in the snow were starkly visible, a blatant invitation for pursuit. The Viper – a name whispered with dread throughout the mountains – wouldn’t let them go, his relentless pursuit a shadow clinging to their heels.]]
+[TIME]: 4.40 s
+--- Case 71 ---
+[ZH]: 二人目光对望，侯云飞目中露出鼓励，白小纯默默点头，此刻人多，二人不便沟通，就在这时，大殿的门，缓缓打开
+[REF]: Their eyes met, and Hou Yunfei encouragingly. Bai Xiaochun back. There was no time for chatting, though, as the main doors of the grand hall were already opening
+[GEN]: [[The two men locked eyes, Hou Yunfei’s gaze alight with encouragement as Bai Xiao Chun offered a silent nod. The hall was crowded; direct conversation would be impossible. Just then, the massive doors of the main hall groaned open, revealing…]]
+[TIME]: 4.75 s
+--- Case 72 ---
+[ZH]: 你听不听我说话
+[REF]: Are you going to listen to me or not
+[GEN]: [[He stared at me, his eyes like chips of obsidian reflecting nothing but cold indifference. “Do you even hear my words?” he asked, the question a brittle shard aimed directly at my heart. It wasn't anger that fueled his voice, but a profound, chilling disbelief – as if I were speaking in a language lost to time, or perhaps simply refusing to acknowledge reality itself. The air around him thickened with a palpable tension, a silent warning that crossed the space between us, heavy with unspoken threats.]]
+[TIME]: 9.38 s
+--- Case 73 ---
+[ZH]: 而失败之后，两宗之间的战争，也随时可以爆发，在这样的情况下，他们觉得这回去的路程，充满了凶险
+[REF]: Apparently, war between the two sects could break out at any moment. That in turn made the return trip to their own sect seem that much more fraught with danger
+[GEN]: [[The defeat had ignited a powder keg. The war between the two clans simmered on the brink of eruption, and with each passing moment, the journey back felt increasingly perilous – a treacherous path paved with unseen threats and shadowed by the certainty of violence.]]
+[TIME]: 4.69 s
+--- Case 74 ---
+[ZH]: 浑身上下，伤口无数，有的深可见骨，有的仍旧在汩汩流血
+[REF]: His entire body was covered in wounds, some were deep until bones could be seen, some were still bleeding
+[GEN]: [[His entire body was a tapestry of wounds – countless gashes marred his flesh, some deep enough to reveal bone beneath, others still bleeding profusely, a crimson river flowing relentlessly across his skin.]]
+[TIME]: 3.75 s
+--- Case 75 ---
+[ZH]: 这里盛产人杰俊才，正是因为是中洲人族主脉
+[REF]: This place produces human talents, it is because of Central Continent's main human vein
+[GEN]: [[The region of Xīzhōu is renowned for producing exceptional individuals – warriors, scholars, artists – and this is largely due to its position as the ancestral heartland of the Zhūrén, the dominant lineage of humanity. It’s a place where talent blooms like rare orchids, nurtured by centuries of tradition and a fierce pride in their heritage.]]
+[TIME]: 6.70 s
+--- Case 76 ---
+[ZH]: 方源将里面的蛊虫都搜刮进自己的仙窍
+[REF]: Fang Yuan placed all the Gu worms he obtained into his immortal aperture
+[GEN]: [[The jade beetle swarms within Fang Yuan’s dantian – his core essence – were systematically plundered, each one meticulously drawn out and consumed. It was a brutal, almost surgical extraction, leaving him shivering with a cold that went deeper than mere physical discomfort; it felt like a piece of his very being was being slowly, deliberately dismantled.]]
+[TIME]: 6.54 s
+--- Case 77 ---
+[ZH]: 黄蓉一提缰，那马如箭离弦般直飞出去
+[REF]: With a lift of the reins, the little red horse bolted forward and away like an arrow leaving the bow
+[GEN]: [[Huang Rong’s single mention of the reins sent the horse surging forward with a terrifying speed, as if released from a drawn bowstring. It bolted across the training grounds, dust billowing behind it like a storm.]
+[TIME]: 4.00 s
+--- Case 78 ---
+[ZH]: 这可是稀有的二转蛊虫，足足价值五百块元石啊
+[REF]: This is a rare Rank two Gu worm, its value worth five hundred primeval stones
+[GEN]: [[The creature before me was a rare second-turn Gu insect – worth five hundred Yuan Stones, no less. It pulsed with an unnatural light, a sickly green glow that seemed to drain the warmth from the air around it. Five hundred Yuan Stones… enough to buy a small estate, or perhaps a lifetime’s supply of potent herbs. This wasn't just a trinket; this was a key, a dangerous piece in a puzzle I desperately needed to solve.]]
+[TIME]: 8.66 s
+--- Case 79 ---
+[ZH]: 我真盼老天爷赐我片刻光明，让我见见你这忘恩负义小畜生的面目
+[REF]: I really wish the Heaven would restore my sight if only for a moment so I can see your face, you, an ungrateful little animal
+[GEN]: [[The light felt like a cruel joke, a fleeting shimmer just beyond my grasp. I yearned for even a moment of clarity, a chance to truly *see* you – this little viper who’d repaid kindness with betrayal. To witness your face, a mask of smug indifference, would have been a small measure of justice, a brief respite from the suffocating darkness of your deceit.]]
+[TIME]: 7.24 s
+--- Case 80 ---
+[ZH]: 而这个交代，就在眼前
+[REF]: And this answer was in front of him
+[GEN]: [[The explanation lay before us, stark and undeniable. It was here, within these crumbling walls of Xiling Fortress, that the truth finally surfaced – a secret whispered through generations, now demanding to be heard.]]
+[TIME]: 4.06 s
+--- Case 81 ---
+[ZH]: 但其余尊者几乎也都进入过疯魔窟中探索
+[REF]: But almost all the other venerables had entered Crazed Demon Cave and explored it
+[GEN]: [[The remaining venerables – almost all of them – had ventured deep within the Mad Demon’s Maw in their time, seeking lost knowledge and forgotten power. Each carried a subtle tremor of fear, a ghost of the madness they'd encountered, etched onto their faces like frost on ancient stone. The air itself seemed to hum with residual echoes of shattered minds and desperate bargains made in the heart of that cursed labyrinth.]]
+[TIME]: 7.85 s
+--- Case 82 ---
+[ZH]: 他心疼这个灵溪一脉最优秀的弟子，因为他知道白小纯从进入山门的第一天，就有着要长生的梦想
+[REF]: It was pain because of the sorrow he felt for his most outstanding of all the Spirit Stream Division disciples. After all, he knew that from the first day Bai Xiaochun had joined the sect, he had feared death and dreamed of being able to live forever
+[GEN]: [[He felt a deep ache for Gu Bai Xiao Chun, the most promising disciple of the Lingxi lineage. He knew, with a certainty that settled like frost in his bones, that from the moment she’d stepped through the mountain gates, she'd carried within her a burning desire – a relentless ambition to transcend mortality itself.]]
+[TIME]: 6.19 s
+--- Case 83 ---
+[ZH]: 若是她平安无恙，我定然北归
+[REF]: If she is safe and well, I will certainly go back north, Guo Jing promised
+[GEN]: [[If she survives unharmed, I will certainly return north.]]
+[TIME]: 1.26 s
+--- Case 84 ---
+[ZH]: 现在的这股真元，虽然同样有一种铜的sè泽，但是绿sè却更深一层，是苍绿sè
+[REF]: Right now although this new primeval essence had the same copper luster, the green was a darker shade it was pale green
+[GEN]: [[The current flow of True Essence possessed a similar bronze hue, yet the green was deeper still – a profound, sickly jade green, like the heart of a dying forest.]
+[TIME]: 3.19 s
+--- Case 85 ---
+[ZH]: 在下汤青
+[REF]: My name is Tang Qing
+[GEN]: [[I am Tang Qing.]]
+[TIME]: 0.71 s
+--- Case 86 ---
+[ZH]: 小渡啊，爷爷教过你不能以貌取人，同样的，对于世间万物，也不能单看外表啊
+[REF]: Oh Little Du, grandfather taught you not to judge a book by its cover, you must not just look at the appearance of the things in this world
+[GEN]: [[Xiao Du, listen closely. Your grandfather taught you never to judge a person by their appearance – the same principle applies to everything in this world. Don’t mistake surface beauty for true substance; look deeper.]
+[TIME]: 3.92 s
+--- Case 87 ---
+[ZH]: 啪啪，啪啪啪
+[REF]: Drip drop, drip drop
+[GEN]: [[The rain hammered against the jade tiles of the courtyard, a relentless drumming that mirrored the frantic beat of his heart. Each drop seemed to carry a whispered warning, a reminder of the impossible task before him. He continued to strike the training dummy – *pa pa pa pa* – each blow fueled by a desperate rage and a sliver of fading hope. The echoes of the strikes bounced off the ancient walls, a lonely counterpoint to the storm’s fury. It wasn't just wood he was shattering; it was the remnants of his shattered past, the ghost of the warrior he once was.  He needed to master *Xuanwu Luo*, the Dragon Turtle Style, if he had any chance of confronting Lord Zhao and reclaiming what was stolen – his honor, his family, his very soul.  Each *pa pa pa pa* was a prayer, a defiance, a promise to avenge them all.]]
+[TIME]: 16.94 s
+--- Case 88 ---
+[ZH]: 说着气绝而死
+[REF]: Before he finished what he was saying, he slumped over and died
+[GEN]: [[He spoke his last words, a ragged whisper lost on the wind, and then collapsed, utterly spent. The life drained from him like water from a cracked vessel, leaving behind only stillness and the scent of pine needles – a final, silent surrender.]
+[TIME]: 4.63 s
+--- Case 89 ---
+[ZH]: 方源思考了一下后，下定了决心
+[REF]: Fang Yuan considered for a moment before deciding
+[GEN]: [[Fang Yuan considered for a moment, then made his decision. A cold resolve settled upon him, like frost blooming on ancient stone. He wouldn't hesitate any longer; the path ahead was shrouded in shadow, but he would walk it regardless.]]
+[TIME]: 4.79 s
+--- Case 90 ---
+[ZH]: 态度蛊叹道
+[REF]: Attitude Gu sighed
+[GEN]: [[The air hung thick with unspoken judgment, a palpable weight pressing down on Lin Wei. It wasn't a direct accusation, not yet, but a subtle, insidious assessment – a silent pronouncement of his failure, delivered through the measured cadence of Master Zhao’s voice. The old man’s gaze, sharp as honed obsidian, seemed to dissect her every movement, every hesitant breath. He didn’t raise his voice, didn’t issue a harsh reprimand; instead, he spoke of *dà tì gǔ tàn dào* – a phrase that resonated with a chilling potency. It translated roughly to “attitude bewitches the path,” but it carried a deeper meaning, a suggestion that his very demeanor was actively hindering his progress, corrupting his potential like a slow poison.  It felt less like criticism and more like a prophecy, a bleak prediction of the destiny he was courting if he continued down this self-destructive course. A cold dread coiled in Lin Wei’s stomach, heavier than any steel armor.]
+[TIME]: 19.06 s
+--- Case 91 ---
+[ZH]: 借助宝黄天，这场交易迅速达成了
+[REF]: Using treasure yellow heaven, this transaction was quickly completed
+[GEN]: [[With the aid of the Golden Sky, the transaction concluded swiftly.]]
+[TIME]: 1.45 s
+--- Case 92 ---
+[ZH]: 但下一刻，他发现自己竟是被这股剑气锁住，在半空中悬浮动弹不得
+[REF]: But, he found he was locked on by this sword qi and was unable to budge from his position
+[GEN]: [[The next instant, he realized with a chilling certainty that he was trapped – held fast by this surge of sword energy, suspended helplessly in mid-air, utterly unable to move. A suffocating stillness pressed down on him as the invisible chains tightened, stealing his breath and leaving him adrift in a silent, terrifying void.]]
+[TIME]: 6.05 s
+--- Case 93 ---
+[ZH]: 只是想着想着，就不敢想了
+[REF]: He only dared to think about them for a moment before stopping
+[GEN]: [[The more she dwelt on it, the more she refused to consider it further. A chilling certainty settled upon her – some doors are best left unopened, some memories buried deep within the soul. It wasn't fear, precisely, but a profound understanding of limits, a recognition that pushing too hard could shatter what remained.]]
+[TIME]: 5.95 s
+--- Case 94 ---
+[ZH]: 之所以说凡道筑基，几乎不可能结丹成功，正是因此
+[REF]: That was one of the main reasons why it was virtually impossible for any Mortal-Dao Foundation Establishment cultivator to reach Core Formation
+[GEN]: [[The reason I say that achieving Nascent Soul – the culmination of foundation building – is almost impossible for mortals is precisely this: it’s a feat so demanding, so utterly reliant on a lifetime of unwavering dedication, that few ever reach its heights. It's a chasm most cannot even glimpse, let alone cross.]]
+[TIME]: 6.03 s
+--- Case 95 ---
+[ZH]: 他要吃药舂碎片，忙得很呢
+[REF]: He has to eat his medicine grinder chips, he is very busy
+[GEN]: [[He prepared to grind his medicine into fragments, a flurry of activity consuming him. The air around him shimmered with the heat of his concentration, each movement precise and deliberate as he worked – a solitary figure lost in a task both vital and deeply unsettling.]]
+[TIME]: 4.85 s
+--- Case 96 ---
+[ZH]: 白雕盘旋了一阵，顺着大路飞去，过不多时，重又飞回
+[REF]: The eagles circled overhead for a while, then they flew along the road. A moment later they flew back
+[GEN]: [[The White Sparrow circled once, then launched itself along the road, soaring away for a time. Not long after, it turned back, returning on the same path.]]
+[TIME]: 3.28 s
+--- Case 97 ---
+[ZH]: 她循声望去，只见他倒在路边，一名军官举起长刀，向他后心砍落
+[REF]: Following the source of the sound she went out to take a look, only to see Ke Zhen E was laying by the roadside, an officer was holding a saber high above his head, ready to chop it down into Ke Zhen E back
+[GEN]: [[She followed the sound, her eyes catching a startling sight – him sprawled at the edge of the road. A stern-faced officer raised his broadsword, bringing it down with a brutal arc towards the back of his neck.]]
+[TIME]: 4.39 s
+--- Case 98 ---
+[ZH]: 他带着满脸的惊愕，浑身僵硬如石，一头仰倒下去，倒到地上的时候，就彻底死了
+[REF]: He had a shocked expression as his body turned stiff, he fell down onto the ground, dead
+[GEN]: [[He fell, a statue of shock and rigid disbelief, his body locking solid as stone. He crumpled to the earth, and there, beneath the cold ground, his breath ceased forever.]]
+[TIME]: 3.54 s
+--- Case 99 ---
+[ZH]: 可惜世事多无奈，因为各种原因，只好退而求其次，合炼chūn秋蝉
+[REF]: However, because of circumstances and many other reasons, he could only reduce his expectations and refine the Spring Autumn Cicada
+[GEN]: [[The world is a cruel tangle of helplessness, a truth revealed by countless sorrows. Circumstances forced him to accept a lesser victory – to forge his spirit within the brief, shimmering life of a fallen autumn cicada. It wasn't what he’d desired, but it was all he could grasp before being swept away by the tide of fate.]]
+[TIME]: 6.58 s
+--- Case 100 ---
+[ZH]: 血水和脑浆四溅，鹰群瞬时崩散
+[REF]: Blood and brain matter splattered, and the eagle group instantly crumbled apart
+[GEN]: [[The crimson fluid of blood and brain matter sprayed outwards, shattering the circling hawks like a storm of broken wings.]]
+[TIME]: 2.23 s
+
+>>> Mean Time 0shot: 7.30 s | Total: 730.1 s
+
+##### TOTAL PROMPT 1: 12.17 min #####
+
+>>> Mean Time 0shot: 7.30 s | Total: 730.1 s
+
+##### TOTAL PROMPT 1: 24.34 min #####

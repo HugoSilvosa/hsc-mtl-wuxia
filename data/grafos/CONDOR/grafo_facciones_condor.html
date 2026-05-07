@@ -1,0 +1,357 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script>function neighbourhoodHighlight(params) {
+  // console.log("in nieghbourhoodhighlight");
+  allNodes = nodes.get({ returnType: "Object" });
+  // originalNodes = JSON.parse(JSON.stringify(allNodes));
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    highlightActive = true;
+    var i, j;
+    var selectedNode = params.nodes[0];
+    var degrees = 2;
+
+    // mark all nodes as hard to read.
+    for (let nodeId in allNodes) {
+      // nodeColors[nodeId] = allNodes[nodeId].color;
+      allNodes[nodeId].color = "rgba(200,200,200,0.5)";
+      if (allNodes[nodeId].hiddenLabel === undefined) {
+        allNodes[nodeId].hiddenLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+    var connectedNodes = network.getConnectedNodes(selectedNode);
+    var allConnectedNodes = [];
+
+    // get the second degree nodes
+    for (i = 1; i < degrees; i++) {
+      for (j = 0; j < connectedNodes.length; j++) {
+        allConnectedNodes = allConnectedNodes.concat(
+          network.getConnectedNodes(connectedNodes[j])
+        );
+      }
+    }
+
+    // all second degree nodes get a different color and their label back
+    for (i = 0; i < allConnectedNodes.length; i++) {
+      // allNodes[allConnectedNodes[i]].color = "pink";
+      allNodes[allConnectedNodes[i]].color = "rgba(150,150,150,0.75)";
+      if (allNodes[allConnectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[allConnectedNodes[i]].label =
+          allNodes[allConnectedNodes[i]].hiddenLabel;
+        allNodes[allConnectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // all first degree nodes get their own color and their label back
+    for (i = 0; i < connectedNodes.length; i++) {
+      // allNodes[connectedNodes[i]].color = undefined;
+      allNodes[connectedNodes[i]].color = nodeColors[connectedNodes[i]];
+      if (allNodes[connectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[connectedNodes[i]].label =
+          allNodes[connectedNodes[i]].hiddenLabel;
+        allNodes[connectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // the main node gets its own color and its label back.
+    // allNodes[selectedNode].color = undefined;
+    allNodes[selectedNode].color = nodeColors[selectedNode];
+    if (allNodes[selectedNode].hiddenLabel !== undefined) {
+      allNodes[selectedNode].label = allNodes[selectedNode].hiddenLabel;
+      allNodes[selectedNode].hiddenLabel = undefined;
+    }
+  } else if (highlightActive === true) {
+    // console.log("highlightActive was true");
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      // allNodes[nodeId].color = "purple";
+      allNodes[nodeId].color = nodeColors[nodeId];
+      // delete allNodes[nodeId].color;
+      if (allNodes[nodeId].hiddenLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].hiddenLabel;
+        allNodes[nodeId].hiddenLabel = undefined;
+      }
+    }
+    highlightActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    // console.log("Nothing was selected");
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        // allNodes[nodeId].color = {};
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function filterHighlight(params) {
+  allNodes = nodes.get({ returnType: "Object" });
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    filterActive = true;
+    let selectedNodes = params.nodes;
+
+    // hiding all nodes and saving the label
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = true;
+      if (allNodes[nodeId].savedLabel === undefined) {
+        allNodes[nodeId].savedLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+
+    for (let i=0; i < selectedNodes.length; i++) {
+      allNodes[selectedNodes[i]].hidden = false;
+      if (allNodes[selectedNodes[i]].savedLabel !== undefined) {
+        allNodes[selectedNodes[i]].label = allNodes[selectedNodes[i]].savedLabel;
+        allNodes[selectedNodes[i]].savedLabel = undefined;
+      }
+    }
+
+  } else if (filterActive === true) {
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = false;
+      if (allNodes[nodeId].savedLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].savedLabel;
+        allNodes[nodeId].savedLabel = undefined;
+      }
+    }
+    filterActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function selectNode(nodes) {
+  network.selectNodes(nodes);
+  neighbourhoodHighlight({ nodes: nodes });
+  return nodes;
+}
+
+function selectNodes(nodes) {
+  network.selectNodes(nodes);
+  filterHighlight({nodes: nodes});
+  return nodes;
+}
+
+function highlightFilter(filter) {
+  let selectedNodes = []
+  let selectedProp = filter['property']
+  if (filter['item'] === 'node') {
+    let allNodes = nodes.get({ returnType: "Object" });
+    for (let nodeId in allNodes) {
+      if (allNodes[nodeId][selectedProp] && filter['value'].includes((allNodes[nodeId][selectedProp]).toString())) {
+        selectedNodes.push(nodeId)
+      }
+    }
+  }
+  else if (filter['item'] === 'edge'){
+    let allEdges = edges.get({returnType: 'object'});
+    // check if the selected property exists for selected edge and select the nodes connected to the edge
+    for (let edge in allEdges) {
+      if (allEdges[edge][selectedProp] && filter['value'].includes((allEdges[edge][selectedProp]).toString())) {
+        selectedNodes.push(allEdges[edge]['from'])
+        selectedNodes.push(allEdges[edge]['to'])
+      }
+    }
+  }
+  selectNodes(selectedNodes)
+}</script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+            
+            
+            
+            
+            
+
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 800px;
+                 background-color: #1a1a1a;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#4287f5", "font": {"color": "white"}, "id": "Beggar Clan", "label": "Beggar Clan", "shape": "dot", "size": 50.0, "title": "Frecuencia: 526"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Emei Sect", "label": "Emei Sect", "shape": "dot", "size": 25.361216730038024, "title": "Frecuencia: 202"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Quanzhen Sect", "label": "Quanzhen Sect", "shape": "dot", "size": 22.167300380228134, "title": "Frecuencia: 160"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Passionless Valley", "label": "Passionless Valley", "shape": "dot", "size": 18.212927756653993, "title": "Frecuencia: 108"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Shaolin Sect", "label": "Shaolin Sect", "shape": "dot", "size": 17.224334600760457, "title": "Frecuencia: 95"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Chongyang Palace", "label": "Chongyang Palace", "shape": "dot", "size": 16.920152091254753, "title": "Frecuencia: 91"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Wudang Sect", "label": "Wudang Sect", "shape": "dot", "size": 16.692015209125476, "title": "Frecuencia: 88"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Heavenly Eagle Sect", "label": "Heavenly Eagle Sect", "shape": "dot", "size": 16.23574144486692, "title": "Frecuencia: 82"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Iron Palm Clan", "label": "Iron Palm Clan", "shape": "dot", "size": 15.627376425855513, "title": "Frecuencia: 74"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Butterfly Valley", "label": "Butterfly Valley", "shape": "dot", "size": 15.551330798479087, "title": "Frecuencia: 73"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "The Beggar Clan", "label": "The Beggar Clan", "shape": "dot", "size": 14.790874524714829, "title": "Frecuencia: 63"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Kunlun Sect", "label": "Kunlun Sect", "shape": "dot", "size": 14.106463878326997, "title": "Frecuencia: 54"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "The Valley", "label": "The Valley", "shape": "dot", "size": 14.030418250950571, "title": "Frecuencia: 53"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Shi Clan", "label": "Shi Clan", "shape": "dot", "size": 12.585551330798479, "title": "Frecuencia: 34"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Kongtong Sect", "label": "Kongtong Sect", "shape": "dot", "size": 12.281368821292777, "title": "Frecuencia: 30"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Wu Dang Mountain", "label": "Wu Dang Mountain", "shape": "dot", "size": 12.0532319391635, "title": "Frecuencia: 27"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Imperial Palace", "label": "Imperial Palace", "shape": "dot", "size": 11.749049429657795, "title": "Frecuencia: 23"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Ming Sect", "label": "Ming Sect", "shape": "dot", "size": 11.749049429657795, "title": "Frecuencia: 23"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Ruyang Palace", "label": "Ruyang Palace", "shape": "dot", "size": 11.749049429657795, "title": "Frecuencia: 23"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Wudang Mountain", "label": "Wudang Mountain", "shape": "dot", "size": 11.673003802281368, "title": "Frecuencia: 22"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "White Camel Mountain", "label": "White Camel Mountain", "shape": "dot", "size": 11.596958174904943, "title": "Frecuencia: 21"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Huge Whale Clan", "label": "Huge Whale Clan", "shape": "dot", "size": 11.44486692015209, "title": "Frecuencia: 19"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Imperial Court", "label": "Imperial Court", "shape": "dot", "size": 11.368821292775666, "title": "Frecuencia: 18"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Emei Sect Sect", "label": "Emei Sect Sect", "shape": "dot", "size": 11.368821292775666, "title": "Frecuencia: 18"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Zhao Palace", "label": "Zhao Palace", "shape": "dot", "size": 11.29277566539924, "title": "Frecuencia: 17"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "The Quanzhen Sect", "label": "The Quanzhen Sect", "shape": "dot", "size": 11.140684410646388, "title": "Frecuencia: 15"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Sea Sand Sect", "label": "Sea Sand Sect", "shape": "dot", "size": 11.140684410646388, "title": "Frecuencia: 15"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "The Heavenly Eagle Sect", "label": "The Heavenly Eagle Sect", "shape": "dot", "size": 11.140684410646388, "title": "Frecuencia: 15"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Beggars Clan", "label": "Beggars Clan", "shape": "dot", "size": 11.064638783269961, "title": "Frecuencia: 14"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Lao Clan", "label": "Lao Clan", "shape": "dot", "size": 11.064638783269961, "title": "Frecuencia: 14"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Kun Lun Sect", "label": "Kun Lun Sect", "shape": "dot", "size": 10.988593155893536, "title": "Frecuencia: 13"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Mount Hua Sect", "label": "Mount Hua Sect", "shape": "dot", "size": 10.988593155893536, "title": "Frecuencia: 13"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Iron Palm Mountain", "label": "Iron Palm Mountain", "shape": "dot", "size": 10.836501901140684, "title": "Frecuencia: 11"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Our Sect", "label": "Our Sect", "shape": "dot", "size": 10.836501901140684, "title": "Frecuencia: 11"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Kong Dong Sect", "label": "Kong Dong Sect", "shape": "dot", "size": 10.836501901140684, "title": "Frecuencia: 11"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Wudang School", "label": "Wudang School", "shape": "dot", "size": 10.836501901140684, "title": "Frecuencia: 11"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Qinghai Sect", "label": "Qinghai Sect", "shape": "dot", "size": 10.836501901140684, "title": "Frecuencia: 11"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Dirty Clothes Faction", "label": "Dirty Clothes Faction", "shape": "dot", "size": 10.760456273764259, "title": "Frecuencia: 10"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Beggar Clan Clan", "label": "Beggar Clan Clan", "shape": "dot", "size": 10.760456273764259, "title": "Frecuencia: 10"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Ancient Tomb Sect", "label": "Ancient Tomb Sect", "shape": "dot", "size": 10.760456273764259, "title": "Frecuencia: 10"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Eagle Sect", "label": "Eagle Sect", "shape": "dot", "size": 10.760456273764259, "title": "Frecuencia: 10"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Our Clan", "label": "Our Clan", "shape": "dot", "size": 10.684410646387832, "title": "Frecuencia: 9"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "The Iron Palm Clan", "label": "The Iron Palm Clan", "shape": "dot", "size": 10.684410646387832, "title": "Frecuencia: 9"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Quanzhen School", "label": "Quanzhen School", "shape": "dot", "size": 10.684410646387832, "title": "Frecuencia: 9"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Iron Palm Sect", "label": "Iron Palm Sect", "shape": "dot", "size": 10.608365019011407, "title": "Frecuencia: 8"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Huang Clan", "label": "Huang Clan", "shape": "dot", "size": 10.608365019011407, "title": "Frecuencia: 8"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Beastly Mountain", "label": "Beastly Mountain", "shape": "dot", "size": 10.608365019011407, "title": "Frecuencia: 8"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "River Clan", "label": "River Clan", "shape": "dot", "size": 10.608365019011407, "title": "Frecuencia: 8"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Evil Sect", "label": "Evil Sect", "shape": "dot", "size": 10.608365019011407, "title": "Frecuencia: 8"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Yang Clan", "label": "Yang Clan", "shape": "dot", "size": 10.532319391634982, "title": "Frecuencia: 7"}]);
+                  edges = new vis.DataSet([{"color": "#888888", "from": "Beggar Clan", "title": "Co-ocurrencias: 5", "to": "Quanzhen Sect", "value": 5}, {"color": "#888888", "from": "Quanzhen Sect", "title": "Co-ocurrencias: 5", "to": "Quanzhen Sect", "value": 5}, {"color": "#888888", "from": "Beggar Clan", "title": "Co-ocurrencias: 4", "to": "The Beggar Clan", "value": 4}, {"color": "#888888", "from": "Lao Clan", "title": "Co-ocurrencias: 1", "to": "Lao Clan", "value": 1}, {"color": "#888888", "from": "Beggar Clan", "title": "Co-ocurrencias: 3", "to": "Dirty Clothes Faction", "value": 3}, {"color": "#888888", "from": "Beggar Clan", "title": "Co-ocurrencias: 42", "to": "Beggar Clan", "value": 42}, {"color": "#888888", "from": "Dirty Clothes Faction", "title": "Co-ocurrencias: 1", "to": "Dirty Clothes Faction", "value": 1}, {"color": "#888888", "from": "Beggar Clan", "title": "Co-ocurrencias: 3", "to": "The Iron Palm Clan", "value": 3}, {"color": "#888888", "from": "Iron Palm Clan", "title": "Co-ocurrencias: 3", "to": "Iron Palm Clan", "value": 3}, {"color": "#888888", "from": "Beggar Clan", "title": "Co-ocurrencias: 1", "to": "Lao Clan", "value": 1}, {"color": "#888888", "from": "Beggar Clan", "title": "Co-ocurrencias: 2", "to": "Iron Palm Clan", "value": 2}, {"color": "#888888", "from": "Beggars Clan", "title": "Co-ocurrencias: 1", "to": "Iron Palm Sect", "value": 1}, {"color": "#888888", "from": "Beggar Clan", "title": "Co-ocurrencias: 1", "to": "Beggar Clan Clan", "value": 1}, {"color": "#888888", "from": "Iron Palm Clan", "title": "Co-ocurrencias: 3", "to": "Iron Palm Mountain", "value": 3}, {"color": "#888888", "from": "Beggars Clan", "title": "Co-ocurrencias: 1", "to": "The Quanzhen Sect", "value": 1}, {"color": "#888888", "from": "Chongyang Palace", "title": "Co-ocurrencias: 2", "to": "Quanzhen Sect", "value": 2}, {"color": "#888888", "from": "Chongyang Palace", "title": "Co-ocurrencias: 3", "to": "Chongyang Palace", "value": 3}, {"color": "#888888", "from": "Beggar Clan", "title": "Co-ocurrencias: 2", "to": "Chongyang Palace", "value": 2}, {"color": "#888888", "from": "The Valley", "title": "Co-ocurrencias: 1", "to": "The Valley", "value": 1}, {"color": "#888888", "from": "Iron Palm Clan", "title": "Co-ocurrencias: 1", "to": "The Iron Palm Clan", "value": 1}, {"color": "#888888", "from": "Iron Palm Clan", "title": "Co-ocurrencias: 1", "to": "Passionless Valley", "value": 1}, {"color": "#888888", "from": "Quanzhen School", "title": "Co-ocurrencias: 2", "to": "Quanzhen School", "value": 2}, {"color": "#888888", "from": "Passionless Valley", "title": "Co-ocurrencias: 3", "to": "Passionless Valley", "value": 3}, {"color": "#888888", "from": "Huge Whale Clan", "title": "Co-ocurrencias: 3", "to": "Sea Sand Sect", "value": 3}, {"color": "#888888", "from": "Heavenly Eagle Sect", "title": "Co-ocurrencias: 6", "to": "Heavenly Eagle Sect", "value": 6}, {"color": "#888888", "from": "Heavenly Eagle Sect", "title": "Co-ocurrencias: 3", "to": "The Heavenly Eagle Sect", "value": 3}, {"color": "#888888", "from": "Heavenly Eagle Sect", "title": "Co-ocurrencias: 2", "to": "Kun Lun Sect", "value": 2}, {"color": "#888888", "from": "Heavenly Eagle Sect", "title": "Co-ocurrencias: 4", "to": "Huge Whale Clan", "value": 4}, {"color": "#888888", "from": "Eagle Sect", "title": "Co-ocurrencias: 2", "to": "Eagle Sect", "value": 2}, {"color": "#888888", "from": "Eagle Sect", "title": "Co-ocurrencias: 4", "to": "Ming Sect", "value": 4}, {"color": "#888888", "from": "Ming Sect", "title": "Co-ocurrencias: 2", "to": "Ming Sect", "value": 2}, {"color": "#888888", "from": "Ming Sect", "title": "Co-ocurrencias: 2", "to": "Wudang School", "value": 2}, {"color": "#888888", "from": "Kunlun Sect", "title": "Co-ocurrencias: 1", "to": "Wudang Sect", "value": 1}, {"color": "#888888", "from": "Wudang Sect", "title": "Co-ocurrencias: 1", "to": "Wudang Sect", "value": 1}, {"color": "#888888", "from": "Kongtong Sect", "title": "Co-ocurrencias: 9", "to": "Kunlun Sect", "value": 9}, {"color": "#888888", "from": "Kunlun Sect", "title": "Co-ocurrencias: 1", "to": "Shaolin Sect", "value": 1}, {"color": "#888888", "from": "Kongtong Sect", "title": "Co-ocurrencias: 3", "to": "Shaolin Sect", "value": 3}, {"color": "#888888", "from": "Kongtong Sect", "title": "Co-ocurrencias: 4", "to": "Mount Hua Sect", "value": 4}, {"color": "#888888", "from": "Kunlun Sect", "title": "Co-ocurrencias: 4", "to": "Mount Hua Sect", "value": 4}, {"color": "#888888", "from": "Emei Sect", "title": "Co-ocurrencias: 2", "to": "Kunlun Sect", "value": 2}, {"color": "#888888", "from": "Emei Sect", "title": "Co-ocurrencias: 4", "to": "Emei Sect", "value": 4}, {"color": "#888888", "from": "Shaolin Sect", "title": "Co-ocurrencias: 2", "to": "Wudang Sect", "value": 2}, {"color": "#888888", "from": "Emei Sect", "title": "Co-ocurrencias: 7", "to": "Wudang Sect", "value": 7}, {"color": "#888888", "from": "Mount Hua Sect", "title": "Co-ocurrencias: 2", "to": "Shaolin Sect", "value": 2}, {"color": "#888888", "from": "Emei Sect", "title": "Co-ocurrencias: 1", "to": "Our Sect", "value": 1}, {"color": "#888888", "from": "Emei Sect", "title": "Co-ocurrencias: 1", "to": "Ruyang Palace", "value": 1}, {"color": "#888888", "from": "Kunlun Sect", "title": "Co-ocurrencias: 1", "to": "Kunlun Sect", "value": 1}, {"color": "#888888", "from": "Beggar Clan", "title": "Co-ocurrencias: 1", "to": "Huang Clan", "value": 1}, {"color": "#888888", "from": "Beggar Clan", "title": "Co-ocurrencias: 4", "to": "Wudang Sect", "value": 4}, {"color": "#888888", "from": "Wudang Mountain", "title": "Co-ocurrencias: 1", "to": "Wudang Sect", "value": 1}, {"color": "#888888", "from": "Beggar Clan", "title": "Co-ocurrencias: 5", "to": "Emei Sect", "value": 5}, {"color": "#888888", "from": "Emei Sect", "title": "Co-ocurrencias: 1", "to": "Huang Clan", "value": 1}, {"color": "#888888", "from": "Beggar Clan", "title": "Co-ocurrencias: 5", "to": "Shaolin Sect", "value": 5}, {"color": "#888888", "from": "Shi Clan", "title": "Co-ocurrencias: 2", "to": "Shi Clan", "value": 2}, {"color": "#888888", "from": "Beggar Clan", "title": "Co-ocurrencias: 5", "to": "Shi Clan", "value": 5}, {"color": "#888888", "from": "Emei Sect", "title": "Co-ocurrencias: 1", "to": "Mount Hua Sect", "value": 1}, {"color": "#888888", "from": "Emei Sect", "title": "Co-ocurrencias: 1", "to": "Kongtong Sect", "value": 1}, {"color": "#888888", "from": "Shaolin Sect", "title": "Co-ocurrencias: 4", "to": "Shaolin Sect", "value": 4}, {"color": "#888888", "from": "Shaolin Sect", "title": "Co-ocurrencias: 1", "to": "The Beggar Clan", "value": 1}, {"color": "#888888", "from": "Emei Sect", "title": "Co-ocurrencias: 5", "to": "Shaolin Sect", "value": 5}, {"color": "#888888", "from": "Emei Sect", "title": "Co-ocurrencias: 1", "to": "Emei Sect Sect", "value": 1}, {"color": "#888888", "from": "Beggar Clan", "title": "Co-ocurrencias: 1", "to": "Mount Hua Sect", "value": 1}, {"color": "#888888", "from": "Kongtong Sect", "title": "Co-ocurrencias: 1", "to": "Kongtong Sect", "value": 1}, {"color": "#888888", "from": "Emei Sect", "title": "Co-ocurrencias: 1", "to": "Wudang Mountain", "value": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "repulsion": {
+            "centralGravity": 0.2,
+            "damping": 0.09,
+            "nodeDistance": 150,
+            "springConstant": 0.05,
+            "springLength": 200
+        },
+        "solver": "repulsion",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

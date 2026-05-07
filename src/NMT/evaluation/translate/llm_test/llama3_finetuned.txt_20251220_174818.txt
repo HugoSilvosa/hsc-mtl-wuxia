@@ -1,0 +1,63 @@
+
+
+##############################################
+### PROMPT 0
+### You are a Chinese-to-English translator. Output only the translated text inside [[[ and ]]]....
+##############################################
+
+=== 0SHOT (0-shot) ===
+
+--- Case 1 ---
+[ZH]: 算不尽仙友，你是智道蛊仙更当明白眼前的局势
+[REF]: Friend Suan Bu Jin, as a wisdom path Gu Immortal, you should be even more aware of the current situation
+[GEN]: [[[You are a wise and powerful cultivator, and you should be aware of the situation in front of you.]]]
+[TIME]: 4.01 s
+--- Case 2 ---
+[ZH]: 立刻这上百药草形成的药液，骤然落下，在与这血湖碰触的瞬间，如同相互之间有强烈的排斥，直接爆发，燃烧成为黑色的火焰，覆盖整个血湖
+[REF]: As they flew through the air, they transformed into a medicinal liquid. When that entered the blood lake, a powerful expulsion force erupted out, and the burning caused a black smoke to rise up and fill the area
+[GEN]: [[[ The liquid formed by the hundreds of medicinal herbs suddenly fell, and as it touched the blood lake, it was as if there was a strong repulsion between them, directly exploding and burning into a black flame, covering the entire blood lake ]]]
+[TIME]: 8.72 s
+--- Case 3 ---
+[ZH]: 对那些徒手肉搏者，这些堪比钢铁般坚硬的木刺，将会给他们留下深刻的印象
+[REF]: To those fighting barehanded, these thorns that were as sturdy as steel would leave a lasting impression on them
+[GEN]: [[[These wooden stakes, as hard as steel, will leave a deep impression on those who engage in hand-to-hand combat.]]]
+[TIME]: 4.71 s
+--- Case 4 ---
+[ZH]: 古月方想口中喃喃，捂住心口
+[REF]: Gu Yue Fang Xiang muttered, his hand over his heart
+[GEN]: [[[Old Moon thought to himself, covering his mouth with his hand, as if he were muttering to himself.
+[TIME]: 4.08 s
+--- Case 5 ---
+[ZH]: 若是在平地之上，尺许小径又算得了甚么，可是这石梁下临深谷，别说行走，只望一眼也不免胆战心惊
+[REF]: If this stone bridge were laid on the ground, it would act just like a narrow alley, nothing to be afraid of, but under the stone bridge was a deep canyon. Just looking at it would cause the heart to tremble with fear, let alone walk across it
+[GEN]: [[[If I were on flat ground, a small path would be of little use, but since I'm under this stone bridge, which hangs over a deep valley, not to mention walking, I wouldn't even dare to look around without being terrified]]]
+[TIME]: 8.31 s
+--- Case 6 ---
+[ZH]: 虽然我并非黄金血脉。 参与王庭争霸，就是为了混迹到八十八角真阳楼中捞取好处
+[REF]: Although I am not of the Huang Jin bloodline, I participated in the fight for Imperial Court to get some benefits from Eighty-Eight True Yang Building
+[GEN]: [[[Although I am not a descendant of the Yellow Emperor, I joined the Wang family's struggle for supremacy just to get a good deal at the Eighty-Eight Palaces of True Yang.]]]
+[TIME]: 6.54 s
+--- Case 7 ---
+[ZH]: 反倒是北岸，此刻居然为上官天佑欢呼，这欢呼声让上官天佑心里别扭，他知道北岸不是因为自己，而是因为白小纯才对自己发出欢呼，也就是说，就算与白小纯对战的是一头猪，北岸也会为这头猪喝彩，这么一想，上官天佑心底对白小纯，更为不悦
+[REF]: The north bank, on the other hand, actually did start to cheer for Shangguan Tianyou. In response, Shangguan Tianyou frowned, aware that they weren't really cheering for him, but against Bai Xiaochun. The north bank would cheer for any oppon ent of Bai Xiaochun’s, even if it were a pig. The thought left Shangguan Tianyou even more displeased than before
+[GEN]: [[[It was actually the north bank, and at this moment, he was suddenly shouting with joy, but his heart was filled with unease, knowing that the north bank was not cheering for him, but for Bai Xiaochun, who was shouting with joy because of him, which meant that even if he were fighting against a pig, the north bank would still be cheering for that pig, and this thought made Bai Xiaochun even more displeased with Bai Xiaochun]]]
+[TIME]: 20.99 s
+--- Case 8 ---
+[ZH]: 在仙元方面，巨阳仙尊应当占据优势。 在炼蛊方面，是方源占据优势
+[REF]: In terms of immortal essence, Giant Sun Immortal Venerable should have an advantage, in terms of Gu refinement, Fang Yuan has the advantage
+[GEN]: [[[In the realm of Xian Yuan, Jue Yang Xian Zun should have the upper hand. In the realm of Lian Gu, Fang Yuan should have the upper hand.]]]
+[TIME]: 6.48 s
+--- Case 9 ---
+[ZH]: 那么对不起得很，两柄剑都到了做哥哥的家里啦
+[REF]: Then I am really very sorry, for both daggers would belong to my family then
+[GEN]: [[[So, I'm really sorry, both swords have arrived at my older brother's place already]]]
+[TIME]: 3.92 s
+--- Case 10 ---
+[ZH]: 方源，你怎么也想不到，会有今天吧
+[REF]: Fang Yuan, you had never in your wildest imagination, expect this day to occur right
+[GEN]: [[[How could you have never thought of this, Fang Yuan?]]]
+[TIME]: 2.79 s
+
+>>> Mean Time 0shot: 7.05 s | Total: 70.5 s
+
+##### TOTAL PROMPT 0: 1.18 min #####

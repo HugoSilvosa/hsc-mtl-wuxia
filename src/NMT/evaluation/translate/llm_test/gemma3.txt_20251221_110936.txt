@@ -1,0 +1,127 @@
+
+
+##############################################
+### PROMPT 0
+### You are a Chinese-to-English translator. Output only the translated text inside [[[ and ]]]....
+##############################################
+
+=== 0SHOT (0-shot) ===
+
+--- Case 1 ---
+[ZH]: 算不尽仙友，你是智道蛊仙更当明白眼前的局势
+[REF]: Friend Suan Bu Jin, as a wisdom path Gu Immortal, you should be even more aware of the current situation
+[GEN]: [[Countless immortal friends cannot be counted, you are a wise Daoist蠱仙 (gu xian), and should understand the current situation before your eyes.]][[Countless immortal friends cannot be counted, you are a wise Daoist蠱仙 (gu xian), and should understand the current situation before your eyes.]]
+[TIME]: 6.38 s (Batch Avg)
+--- Case 2 ---
+[ZH]: 立刻这上百药草形成的药液，骤然落下，在与这血湖碰触的瞬间，如同相互之间有强烈的排斥，直接爆发，燃烧成为黑色的火焰，覆盖整个血湖
+[REF]: As they flew through the air, they transformed into a medicinal liquid. When that entered the blood lake, a powerful expulsion force erupted out, and the burning caused a black smoke to rise up and fill the area
+[GEN]: [[Immediately, the medicinal liquid formed from these hundreds of herbs fell suddenly, and in the instant it touched this blood lake, it exploded violently, burning into black flames and covering the entire blood lake]]
+[TIME]: 6.38 s (Batch Avg)
+--- Case 3 ---
+[ZH]: 对那些徒手肉搏者，这些堪比钢铁般坚硬的木刺，将会给他们留下深刻的印象
+[REF]: To those fighting barehanded, these thorns that were as sturdy as steel would leave a lasting impression on them
+[GEN]: [[Regarding those who engage in bare-knuckle fights, these thorns, as hard as steel, will leave a deep impression on them.]]
+[TIME]: 6.38 s (Batch Avg)
+--- Case 4 ---
+[ZH]: 古月方想口中喃喃，捂住心口
+[REF]: Gu Yue Fang Xiang muttered, his hand over his heart
+[GEN]: [[Ancient Moon Fang murmured from her mouth, covering her heart]]
+[TIME]: 6.38 s (Batch Avg)
+--- Case 5 ---
+[ZH]: 若是在平地之上，尺许小径又算得了甚么，可是这石梁下临深谷，别说行走，只望一眼也不免胆战心惊
+[REF]: If this stone bridge were laid on the ground, it would act just like a narrow alley, nothing to be afraid of, but under the stone bridge was a deep canyon. Just looking at it would cause the heart to tremble with fear, let alone walk across it
+[GEN]: [[If you were standing on flat ground, a path a few feet long would be nothing to worry about, but here, beneath this stone beam overlooking a deep ravine, not even daring to glance down wouldn't prevent one from feeling fear and apprehension.]]
+[TIME]: 5.89 s (Batch Avg)
+--- Case 6 ---
+[ZH]: 虽然我并非黄金血脉。 参与王庭争霸，就是为了混迹到八十八角真阳楼中捞取好处
+[REF]: Although I am not of the Huang Jin bloodline, I participated in the fight for Imperial Court to get some benefits from Eighty-Eight True Yang Building
+[GEN]: [[Although I am not of golden bloodline. Participating in King Ting's struggle for supremacy is just to mingle with the Eighty-Eight Corner True Yang Tower and seek benefits]]
+[TIME]: 5.89 s (Batch Avg)
+--- Case 7 ---
+[ZH]: 反倒是北岸，此刻居然为上官天佑欢呼，这欢呼声让上官天佑心里别扭，他知道北岸不是因为自己，而是因为白小纯才对自己发出欢呼，也就是说，就算与白小纯对战的是一头猪，北岸也会为这头猪喝彩，这么一想，上官天佑心底对白小纯，更为不悦
+[REF]: The north bank, on the other hand, actually did start to cheer for Shangguan Tianyou. In response, Shangguan Tianyou frowned, aware that they weren't really cheering for him, but against Bai Xiaochun. The north bank would cheer for any oppon ent of Bai Xiaochun’s, even if it were a pig. The thought left Shangguan Tianyou even more displeased than before
+[GEN]: [[It was actually Beian who was cheering for Shangguan Tianyou at this moment, and this cheer made Shangguan Tianyou feel awkward inside. He knew that Beian wasn't cheering for him, but for Bai Xiaocun; in other words, even if Beian were to fight against a pig, he would cheer for the pig. Thinking about it like this, Shangguan Tianyou felt even more displeased with Bai Xiaocun.]]
+[TIME]: 5.89 s (Batch Avg)
+--- Case 8 ---
+[ZH]: 在仙元方面，巨阳仙尊应当占据优势。 在炼蛊方面，是方源占据优势
+[REF]: In terms of immortal essence, Giant Sun Immortal Venerable should have an advantage, in terms of Gu refinement, Fang Yuan has the advantage
+[GEN]: [[In terms of Xianyuan, Jiang Yangxianzun should occupy an advantage. In terms of refining蠱 (gu worms), Fang Yuan occupies the advantage.]]
+[TIME]: 5.89 s (Batch Avg)
+--- Case 9 ---
+[ZH]: 那么对不起得很，两柄剑都到了做哥哥的家里啦
+[REF]: Then I am really very sorry, for both daggers would belong to my family then
+[GEN]: [[I'm so sorry, both swords have ended up at my older brother’s house already.]]
+[TIME]: 11.38 s (Batch Avg)
+--- Case 10 ---
+[ZH]: 方源，你怎么也想不到，会有今天吧
+[REF]: Fang Yuan, you had never in your wildest imagination, expect this day to occur right
+[GEN]: [[Fang Yuan, how could you have thought this would happen?]]
+[TIME]: 11.38 s (Batch Avg)
+
+>>> Mean Time 0shot: 7.18 s | Total Process: 71.8 s
+
+##### TOTAL PROMPT 0: 1.20 min #####
+
+
+##############################################
+### PROMPT 1
+### Your role is an assistant transforming Chinese wuxia text into gripping English fantasy prose. Adapt idioms and cultural...
+##############################################
+
+=== 0SHOT (0-shot) ===
+
+--- Case 1 ---
+[ZH]: 算不尽仙友，你是智道蛊仙更当明白眼前的局势
+[REF]: Friend Suan Bu Jin, as a wisdom path Gu Immortal, you should be even more aware of the current situation
+[GEN]: [[The sheer number of cultivators present was impossible to count – each one a flicker of potential power. But you, Master Zhi Dao, a master of insect magic, should understand the situation before your very eyes.]]
+[TIME]: 5.99 s (Batch Avg)
+--- Case 2 ---
+[ZH]: 立刻这上百药草形成的药液，骤然落下，在与这血湖碰触的瞬间，如同相互之间有强烈的排斥，直接爆发，燃烧成为黑色的火焰，覆盖整个血湖
+[REF]: As they flew through the air, they transformed into a medicinal liquid. When that entered the blood lake, a powerful expulsion force erupted out, and the burning caused a black smoke to rise up and fill the area
+[GEN]: [[Immediately, the cauldron overflowed with a liquid formed from over a hundred medicinal herbs. As it struck the blood lake, a violent repulsion erupted – a clash of opposing energies – instantly igniting in a furious burst of black flames that consumed the entire surface of the crimson water.]
+[TIME]: 5.99 s (Batch Avg)
+--- Case 3 ---
+[ZH]: 对那些徒手肉搏者，这些堪比钢铁般坚硬的木刺，将会给他们留下深刻的印象
+[REF]: To those fighting barehanded, these thorns that were as sturdy as steel would leave a lasting impression on them
+[GEN]: [[Those seeking mastery of unarmed combat – for them, these stakes, hard as steel and sharp as a winter wind, would leave an indelible mark, a chilling reminder of the price of arrogance.]]
+[TIME]: 5.99 s (Batch Avg)
+--- Case 4 ---
+[ZH]: 古月方想口中喃喃，捂住心口
+[REF]: Gu Yue Fang Xiang muttered, his hand over his heart
+[GEN]: [[The old moon, Fang, whispered from his lips, clutching at his chest as if trying to stifle a secret within him.]]
+[TIME]: 5.99 s (Batch Avg)
+--- Case 5 ---
+[ZH]: 若是在平地之上，尺许小径又算得了甚么，可是这石梁下临深谷，别说行走，只望一眼也不免胆战心惊
+[REF]: If this stone bridge were laid on the ground, it would act just like a narrow alley, nothing to be afraid of, but under the stone bridge was a deep canyon. Just looking at it would cause the heart to tremble with fear, let alone walk across it
+[GEN]: [[The path, barely a handspan across the ground, would be inconsequential on level earth. But here, beneath this ancient stone lintel overlooking the bottomless chasm, even simply glancing down was enough to send a shiver of primal fear through you.]]
+[TIME]: 6.39 s (Batch Avg)
+--- Case 6 ---
+[ZH]: 虽然我并非黄金血脉。 参与王庭争霸，就是为了混迹到八十八角真阳楼中捞取好处
+[REF]: Although I am not of the Huang Jin bloodline, I participated in the fight for Imperial Court to get some benefits from Eighty-Eight True Yang Building
+[GEN]: [[Though I lack the golden bloodline – a lineage blessed with inherent power – my ambition has driven me to this desperate gamble. Entering the King’s Court for this contest isn't about glory or renown; it’s simply to scrape together a few advantages, to find a foothold within the legendary Eightyeight Corner True Yang Tower, hoping to glean some small benefit from its shadowed depths.]
+[TIME]: 6.39 s (Batch Avg)
+--- Case 7 ---
+[ZH]: 反倒是北岸，此刻居然为上官天佑欢呼，这欢呼声让上官天佑心里别扭，他知道北岸不是因为自己，而是因为白小纯才对自己发出欢呼，也就是说，就算与白小纯对战的是一头猪，北岸也会为这头猪喝彩，这么一想，上官天佑心底对白小纯，更为不悦
+[REF]: The north bank, on the other hand, actually did start to cheer for Shangguan Tianyou. In response, Shangguan Tianyou frowned, aware that they weren't really cheering for him, but against Bai Xiaochun. The north bank would cheer for any oppon ent of Bai Xiaochun’s, even if it were a pig. The thought left Shangguan Tianyou even more displeased than before
+[GEN]: [[The irony was thick as winter frost – North Bank, at this very moment, erupted in cheers for Shangguan Tianyou. The sound of it prickled at his pride, a sharp discomfort within him. He knew North Bank’s enthusiasm wasn't directed at *him*, but solely at Bai Xiao-chun. It meant that even if he faced a pig in battle, North Bank would roar its approval. A chilling realization settled upon him; the thought of Bai Xiao-chun’s influence fueled a deeper, colder resentment within Shangguan Tianyou.]
+[TIME]: 6.39 s (Batch Avg)
+--- Case 8 ---
+[ZH]: 在仙元方面，巨阳仙尊应当占据优势。 在炼蛊方面，是方源占据优势
+[REF]: In terms of immortal essence, Giant Sun Immortal Venerable should have an advantage, in terms of Gu refinement, Fang Yuan has the advantage
+[GEN]: [[The Jade Core – that’s where Great Yang Immortal Sovereign should hold the advantage. In matters of refining venom, it was Fang Yuan who held the upper hand.]]
+[TIME]: 6.39 s (Batch Avg)
+--- Case 9 ---
+[ZH]: 那么对不起得很，两柄剑都到了做哥哥的家里啦
+[REF]: Then I am really very sorry, for both daggers would belong to my family then
+[GEN]: [[It was a terrible shame, truly. Both swords were now within the home of his elder brother—a situation fraught with peril and unspoken consequences.]]
+sahng na duì buqǐ dé hěn, liǎng bǐng jiàn dōu dàodé zuò gēge de jiālǐ la.
+[TIME]: 11.93 s (Batch Avg)
+--- Case 10 ---
+[ZH]: 方源，你怎么也想不到，会有今天吧
+[REF]: Fang Yuan, you had never in your wildest imagination, expect this day to occur right
+[GEN]: [[Fang Yuan, how could you have possibly foreseen this? It felt like a cruel joke, a final, devastating twist of fate.]
+[TIME]: 11.93 s (Batch Avg)
+
+>>> Mean Time 0shot: 7.34 s | Total Process: 73.4 s
+
+##### TOTAL PROMPT 1: 1.22 min #####

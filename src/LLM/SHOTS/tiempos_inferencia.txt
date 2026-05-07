@@ -1,0 +1,25 @@
+=== REPORTE DE TIEMPOS DE INFERENCIA (MINUTOS) ===
+Nota: Tiempos de Shots y NMT convertidos de segundos a minutos.
+Nota 2: Si había registros duplicados, se ha calculado la media.
+
+=== TABLA DE TIEMPOS - LLMs (Prompts & Shots) ===
+Type                  0-Shot      1-Shot     10-Shot      2-Shot      3-Shot      5-Shot  Prompt 0  Prompt 1  Prompt 2  Prompt 3  Prompt 4
+Model                                                                                                                                     
+gemma3_base       379.460667  201.686333  156.076667  183.648333  182.503333  148.304667    751.90   1525.82   1505.74    304.48    723.36
+gemma3_finetuned   20.555000   21.337667   26.948667   22.372333   23.974667   23.800333    138.32    143.11    141.96    138.75    132.81
+glm_base          100.186333  110.281333   35.283000  108.060000  118.136667   35.295000    491.49    586.27    494.35    597.61    412.60
+glm_finetuned      20.233333   19.522333   24.906667   20.653000   21.283333   21.916333    146.43    125.74    125.61    133.14    111.65
+llama3_base       267.495000  240.918333   92.121333  246.398333  245.050333  185.773333   1095.06   1101.21   1621.41   1201.84   1203.79
+llama3_finetuned   65.315333   67.542000   80.617000   70.580667   71.304000   73.468000    422.28    431.23    431.46    432.73    426.16
+qwen3_base        174.166667  168.506000   97.428000  170.205333  171.069333   96.034667   1000.70   1211.06    811.25    712.15    703.58
+qwen3_finetuned   100.001333   99.137667   99.244333   98.502667  100.142667  101.912333    599.90    597.07    614.88    598.00    584.85
+
+=== TABLA DE TIEMPOS - MODELOS NMT ===
+Type                                      NMT Eval (1k)
+Model                                                  
+Helsinki-NLP/opus-mt-zh-en                    30.227333
+facebook/m2m100_418M                          84.872250
+facebook/mbart-large-50-many-to-many-mmt     124.872250
+google/mt5-small                               2.915000
+
+================================================

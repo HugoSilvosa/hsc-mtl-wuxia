@@ -1,0 +1,357 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script>function neighbourhoodHighlight(params) {
+  // console.log("in nieghbourhoodhighlight");
+  allNodes = nodes.get({ returnType: "Object" });
+  // originalNodes = JSON.parse(JSON.stringify(allNodes));
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    highlightActive = true;
+    var i, j;
+    var selectedNode = params.nodes[0];
+    var degrees = 2;
+
+    // mark all nodes as hard to read.
+    for (let nodeId in allNodes) {
+      // nodeColors[nodeId] = allNodes[nodeId].color;
+      allNodes[nodeId].color = "rgba(200,200,200,0.5)";
+      if (allNodes[nodeId].hiddenLabel === undefined) {
+        allNodes[nodeId].hiddenLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+    var connectedNodes = network.getConnectedNodes(selectedNode);
+    var allConnectedNodes = [];
+
+    // get the second degree nodes
+    for (i = 1; i < degrees; i++) {
+      for (j = 0; j < connectedNodes.length; j++) {
+        allConnectedNodes = allConnectedNodes.concat(
+          network.getConnectedNodes(connectedNodes[j])
+        );
+      }
+    }
+
+    // all second degree nodes get a different color and their label back
+    for (i = 0; i < allConnectedNodes.length; i++) {
+      // allNodes[allConnectedNodes[i]].color = "pink";
+      allNodes[allConnectedNodes[i]].color = "rgba(150,150,150,0.75)";
+      if (allNodes[allConnectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[allConnectedNodes[i]].label =
+          allNodes[allConnectedNodes[i]].hiddenLabel;
+        allNodes[allConnectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // all first degree nodes get their own color and their label back
+    for (i = 0; i < connectedNodes.length; i++) {
+      // allNodes[connectedNodes[i]].color = undefined;
+      allNodes[connectedNodes[i]].color = nodeColors[connectedNodes[i]];
+      if (allNodes[connectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[connectedNodes[i]].label =
+          allNodes[connectedNodes[i]].hiddenLabel;
+        allNodes[connectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // the main node gets its own color and its label back.
+    // allNodes[selectedNode].color = undefined;
+    allNodes[selectedNode].color = nodeColors[selectedNode];
+    if (allNodes[selectedNode].hiddenLabel !== undefined) {
+      allNodes[selectedNode].label = allNodes[selectedNode].hiddenLabel;
+      allNodes[selectedNode].hiddenLabel = undefined;
+    }
+  } else if (highlightActive === true) {
+    // console.log("highlightActive was true");
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      // allNodes[nodeId].color = "purple";
+      allNodes[nodeId].color = nodeColors[nodeId];
+      // delete allNodes[nodeId].color;
+      if (allNodes[nodeId].hiddenLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].hiddenLabel;
+        allNodes[nodeId].hiddenLabel = undefined;
+      }
+    }
+    highlightActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    // console.log("Nothing was selected");
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        // allNodes[nodeId].color = {};
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function filterHighlight(params) {
+  allNodes = nodes.get({ returnType: "Object" });
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    filterActive = true;
+    let selectedNodes = params.nodes;
+
+    // hiding all nodes and saving the label
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = true;
+      if (allNodes[nodeId].savedLabel === undefined) {
+        allNodes[nodeId].savedLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+
+    for (let i=0; i < selectedNodes.length; i++) {
+      allNodes[selectedNodes[i]].hidden = false;
+      if (allNodes[selectedNodes[i]].savedLabel !== undefined) {
+        allNodes[selectedNodes[i]].label = allNodes[selectedNodes[i]].savedLabel;
+        allNodes[selectedNodes[i]].savedLabel = undefined;
+      }
+    }
+
+  } else if (filterActive === true) {
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = false;
+      if (allNodes[nodeId].savedLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].savedLabel;
+        allNodes[nodeId].savedLabel = undefined;
+      }
+    }
+    filterActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function selectNode(nodes) {
+  network.selectNodes(nodes);
+  neighbourhoodHighlight({ nodes: nodes });
+  return nodes;
+}
+
+function selectNodes(nodes) {
+  network.selectNodes(nodes);
+  filterHighlight({nodes: nodes});
+  return nodes;
+}
+
+function highlightFilter(filter) {
+  let selectedNodes = []
+  let selectedProp = filter['property']
+  if (filter['item'] === 'node') {
+    let allNodes = nodes.get({ returnType: "Object" });
+    for (let nodeId in allNodes) {
+      if (allNodes[nodeId][selectedProp] && filter['value'].includes((allNodes[nodeId][selectedProp]).toString())) {
+        selectedNodes.push(nodeId)
+      }
+    }
+  }
+  else if (filter['item'] === 'edge'){
+    let allEdges = edges.get({returnType: 'object'});
+    // check if the selected property exists for selected edge and select the nodes connected to the edge
+    for (let edge in allEdges) {
+      if (allEdges[edge][selectedProp] && filter['value'].includes((allEdges[edge][selectedProp]).toString())) {
+        selectedNodes.push(allEdges[edge]['from'])
+        selectedNodes.push(allEdges[edge]['to'])
+      }
+    }
+  }
+  selectNodes(selectedNodes)
+}</script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+            
+            
+            
+            
+            
+
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 800px;
+                 background-color: #1a1a1a;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#4287f5", "font": {"color": "white"}, "id": "Heavenly Court", "label": "Heavenly Court", "shape": "dot", "size": 50.0, "title": "Frecuencia: 5786"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Shadow Sect", "label": "Shadow Sect", "shape": "dot", "size": 18.966470791565847, "title": "Frecuencia: 1297"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Dragon Palace", "label": "Dragon Palace", "shape": "dot", "size": 15.101970273072935, "title": "Frecuencia: 738"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Imperial Court", "label": "Imperial Court", "shape": "dot", "size": 14.161769789146216, "title": "Frecuencia: 602"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Immortal Crane Sect", "label": "Immortal Crane Sect", "shape": "dot", "size": 14.134116833736606, "title": "Frecuencia: 598"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Purple Mountain", "label": "Purple Mountain", "shape": "dot", "size": 14.044244728655375, "title": "Frecuencia: 585"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Divine Bean Palace", "label": "Divine Bean Palace", "shape": "dot", "size": 13.166263394400277, "title": "Frecuencia: 458"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Lang Ya Sect", "label": "Lang Ya Sect", "shape": "dot", "size": 12.993432423090217, "title": "Frecuencia: 433"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Dang Hun Mountain", "label": "Dang Hun Mountain", "shape": "dot", "size": 12.550985136536468, "title": "Frecuencia: 369"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Yi Tian Mountain", "label": "Yi Tian Mountain", "shape": "dot", "size": 12.343587970964396, "title": "Frecuencia: 339"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Snowy Mountain", "label": "Snowy Mountain", "shape": "dot", "size": 12.253715865883166, "title": "Frecuencia: 326"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Miniscule Mountain", "label": "Miniscule Mountain", "shape": "dot", "size": 10.8848945731075, "title": "Frecuencia: 128"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Luo Po Valley", "label": "Luo Po Valley", "shape": "dot", "size": 10.871068095402697, "title": "Frecuencia: 126"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Book Mountain", "label": "Book Mountain", "shape": "dot", "size": 10.871068095402697, "title": "Frecuencia: 126"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Past Pavilion", "label": "Past Pavilion", "shape": "dot", "size": 10.815762184583477, "title": "Frecuencia: 118"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Water Pavilion", "label": "Water Pavilion", "shape": "dot", "size": 10.691323885240235, "title": "Frecuencia: 100"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Qing Mao Mountain", "label": "Qing Mao Mountain", "shape": "dot", "size": 10.67749740753543, "title": "Frecuencia: 98"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Chu Sect", "label": "Chu Sect", "shape": "dot", "size": 10.656757690978223, "title": "Frecuencia: 95"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Luck Suppression Heavenly Palace", "label": "Luck Suppression Heavenly Palace", "shape": "dot", "size": 10.580712063601798, "title": "Frecuencia: 84"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Peaceful Soil Heavy Mountain", "label": "Peaceful Soil Heavy Mountain", "shape": "dot", "size": 10.518492913930176, "title": "Frecuencia: 75"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Heavenly Lotus Sect", "label": "Heavenly Lotus Sect", "shape": "dot", "size": 10.511579675077774, "title": "Frecuencia: 74"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Ancient Soul Sect", "label": "Ancient Soul Sect", "shape": "dot", "size": 10.435534047701347, "title": "Frecuencia: 63"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Combat Immortal Sect", "label": "Combat Immortal Sect", "shape": "dot", "size": 10.421707569996544, "title": "Frecuencia: 61"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "The Heavenly Court", "label": "The Heavenly Court", "shape": "dot", "size": 10.407881092291738, "title": "Frecuencia: 59"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Flying Frost Sect", "label": "Flying Frost Sect", "shape": "dot", "size": 10.331835464915313, "title": "Frecuencia: 48"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Merman Imperial Court", "label": "Merman Imperial Court", "shape": "dot", "size": 10.331835464915313, "title": "Frecuencia: 48"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Hairy Foot Mountain", "label": "Hairy Foot Mountain", "shape": "dot", "size": 10.32492222606291, "title": "Frecuencia: 47"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Bay Pavilion", "label": "Bay Pavilion", "shape": "dot", "size": 10.32492222606291, "title": "Frecuencia: 47"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Zhang Clan", "label": "Zhang Clan", "shape": "dot", "size": 10.290356031800899, "title": "Frecuencia: 42"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Five Virtues Sect", "label": "Five Virtues Sect", "shape": "dot", "size": 10.283442792948497, "title": "Frecuencia: 41"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Bai Clan", "label": "Bai Clan", "shape": "dot", "size": 10.276529554096093, "title": "Frecuencia: 40"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "If Heavenly Court", "label": "If Heavenly Court", "shape": "dot", "size": 10.269616315243692, "title": "Frecuencia: 39"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Shang Clan", "label": "Shang Clan", "shape": "dot", "size": 10.26270307639129, "title": "Frecuencia: 38"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Immortal Succession Mountain", "label": "Immortal Succession Mountain", "shape": "dot", "size": 10.26270307639129, "title": "Frecuencia: 38"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Five Regional Mountain", "label": "Five Regional Mountain", "shape": "dot", "size": 10.255789837538886, "title": "Frecuencia: 37"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Immortal Gu House Dragon Palace", "label": "Immortal Gu House Dragon Palace", "shape": "dot", "size": 10.248876598686484, "title": "Frecuencia: 36"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Calligraphy Pavilion", "label": "Calligraphy Pavilion", "shape": "dot", "size": 10.241963359834083, "title": "Frecuencia: 35"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "But Heavenly Court", "label": "But Heavenly Court", "shape": "dot", "size": 10.228136882129277, "title": "Frecuencia: 33"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Shang Liang Mountain", "label": "Shang Liang Mountain", "shape": "dot", "size": 10.228136882129277, "title": "Frecuencia: 33"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Great Heavenly Sword Sect", "label": "Great Heavenly Sword Sect", "shape": "dot", "size": 10.221223643276875, "title": "Frecuencia: 32"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Pulling Mountain", "label": "Pulling Mountain", "shape": "dot", "size": 10.221223643276875, "title": "Frecuencia: 32"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Pine Crane Pavilion", "label": "Pine Crane Pavilion", "shape": "dot", "size": 10.221223643276875, "title": "Frecuencia: 32"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Canary Pavilion", "label": "Canary Pavilion", "shape": "dot", "size": 10.20739716557207, "title": "Frecuencia: 30"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Imperfection Regret Pavilion", "label": "Imperfection Regret Pavilion", "shape": "dot", "size": 10.193570687867266, "title": "Frecuencia: 28"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Dragon Court", "label": "Dragon Court", "shape": "dot", "size": 10.17283097131006, "title": "Frecuencia: 25"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Rotten Mud Mountain", "label": "Rotten Mud Mountain", "shape": "dot", "size": 10.165917732457656, "title": "Frecuencia: 24"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Even Heavenly Court", "label": "Even Heavenly Court", "shape": "dot", "size": 10.159004493605254, "title": "Frecuencia: 23"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Wind Flame Mountain", "label": "Wind Flame Mountain", "shape": "dot", "size": 10.152091254752852, "title": "Frecuencia: 22"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Gu Yue Clan", "label": "Gu Yue Clan", "shape": "dot", "size": 10.145178015900449, "title": "Frecuencia: 21"}, {"color": "#4287f5", "font": {"color": "white"}, "id": "Spirit Butterfly Valley", "label": "Spirit Butterfly Valley", "shape": "dot", "size": 10.145178015900449, "title": "Frecuencia: 21"}]);
+                  edges = new vis.DataSet([{"color": "#888888", "from": "Gu Yue Clan", "title": "Co-ocurrencias: 1", "to": "Qing Mao Mountain", "value": 1}, {"color": "#888888", "from": "Qing Mao Mountain", "title": "Co-ocurrencias: 1", "to": "Qing Mao Mountain", "value": 1}, {"color": "#888888", "from": "Bai Clan", "title": "Co-ocurrencias: 2", "to": "Gu Yue Clan", "value": 2}, {"color": "#888888", "from": "Shang Clan", "title": "Co-ocurrencias: 2", "to": "Shang Clan", "value": 2}, {"color": "#888888", "from": "Bai Clan", "title": "Co-ocurrencias: 1", "to": "Shang Clan", "value": 1}, {"color": "#888888", "from": "Shang Clan", "title": "Co-ocurrencias: 1", "to": "Zhang Clan", "value": 1}, {"color": "#888888", "from": "Heavenly Lotus Sect", "title": "Co-ocurrencias: 2", "to": "Immortal Crane Sect", "value": 2}, {"color": "#888888", "from": "Immortal Crane Sect", "title": "Co-ocurrencias: 3", "to": "Spirit Butterfly Valley", "value": 3}, {"color": "#888888", "from": "Ancient Soul Sect", "title": "Co-ocurrencias: 3", "to": "Immortal Crane Sect", "value": 3}, {"color": "#888888", "from": "Heavenly Lotus Sect", "title": "Co-ocurrencias: 1", "to": "Spirit Butterfly Valley", "value": 1}, {"color": "#888888", "from": "Ancient Soul Sect", "title": "Co-ocurrencias: 1", "to": "Heavenly Lotus Sect", "value": 1}, {"color": "#888888", "from": "Ancient Soul Sect", "title": "Co-ocurrencias: 5", "to": "Spirit Butterfly Valley", "value": 5}, {"color": "#888888", "from": "Shadow Sect", "title": "Co-ocurrencias: 37", "to": "Shadow Sect", "value": 37}, {"color": "#888888", "from": "Immortal Crane Sect", "title": "Co-ocurrencias: 27", "to": "Immortal Crane Sect", "value": 27}, {"color": "#888888", "from": "Imperial Court", "title": "Co-ocurrencias: 25", "to": "Imperial Court", "value": 25}, {"color": "#888888", "from": "Luo Po Valley", "title": "Co-ocurrencias: 1", "to": "Luo Po Valley", "value": 1}, {"color": "#888888", "from": "Immortal Crane Sect", "title": "Co-ocurrencias: 1", "to": "Water Pavilion", "value": 1}, {"color": "#888888", "from": "Imperial Court", "title": "Co-ocurrencias: 3", "to": "Water Pavilion", "value": 3}, {"color": "#888888", "from": "Purple Mountain", "title": "Co-ocurrencias: 11", "to": "Purple Mountain", "value": 11}, {"color": "#888888", "from": "Snowy Mountain", "title": "Co-ocurrencias: 5", "to": "Snowy Mountain", "value": 5}, {"color": "#888888", "from": "Great Heavenly Sword Sect", "title": "Co-ocurrencias: 16", "to": "Immortal Crane Sect", "value": 16}, {"color": "#888888", "from": "Heavenly Court", "title": "Co-ocurrencias: 7", "to": "Immortal Crane Sect", "value": 7}, {"color": "#888888", "from": "Combat Immortal Sect", "title": "Co-ocurrencias: 4", "to": "Heavenly Court", "value": 4}, {"color": "#888888", "from": "Heavenly Court", "title": "Co-ocurrencias: 251", "to": "Heavenly Court", "value": 251}, {"color": "#888888", "from": "Combat Immortal Sect", "title": "Co-ocurrencias: 1", "to": "Immortal Crane Sect", "value": 1}, {"color": "#888888", "from": "Great Heavenly Sword Sect", "title": "Co-ocurrencias: 1", "to": "Great Heavenly Sword Sect", "value": 1}, {"color": "#888888", "from": "Miniscule Mountain", "title": "Co-ocurrencias: 4", "to": "Miniscule Mountain", "value": 4}, {"color": "#888888", "from": "Miniscule Mountain", "title": "Co-ocurrencias: 4", "to": "Snowy Mountain", "value": 4}, {"color": "#888888", "from": "Five Virtues Sect", "title": "Co-ocurrencias: 5", "to": "Heavenly Lotus Sect", "value": 5}, {"color": "#888888", "from": "Five Virtues Sect", "title": "Co-ocurrencias: 7", "to": "Flying Frost Sect", "value": 7}, {"color": "#888888", "from": "Five Virtues Sect", "title": "Co-ocurrencias: 1", "to": "Five Virtues Sect", "value": 1}, {"color": "#888888", "from": "Flying Frost Sect", "title": "Co-ocurrencias: 1", "to": "Flying Frost Sect", "value": 1}, {"color": "#888888", "from": "Lang Ya Sect", "title": "Co-ocurrencias: 10", "to": "Lang Ya Sect", "value": 10}, {"color": "#888888", "from": "Combat Immortal Sect", "title": "Co-ocurrencias: 1", "to": "Combat Immortal Sect", "value": 1}, {"color": "#888888", "from": "Ancient Soul Sect", "title": "Co-ocurrencias: 2", "to": "Combat Immortal Sect", "value": 2}, {"color": "#888888", "from": "Combat Immortal Sect", "title": "Co-ocurrencias: 1", "to": "Spirit Butterfly Valley", "value": 1}, {"color": "#888888", "from": "Immortal Crane Sect", "title": "Co-ocurrencias: 1", "to": "Purple Mountain", "value": 1}, {"color": "#888888", "from": "Dang Hun Mountain", "title": "Co-ocurrencias: 2", "to": "Miniscule Mountain", "value": 2}, {"color": "#888888", "from": "Flying Frost Sect", "title": "Co-ocurrencias: 1", "to": "Heavenly Court", "value": 1}, {"color": "#888888", "from": "Combat Immortal Sect", "title": "Co-ocurrencias: 4", "to": "Heavenly Lotus Sect", "value": 4}, {"color": "#888888", "from": "Heavenly Court", "title": "Co-ocurrencias: 7", "to": "Heavenly Lotus Sect", "value": 7}, {"color": "#888888", "from": "Heavenly Court", "title": "Co-ocurrencias: 15", "to": "Yi Tian Mountain", "value": 15}, {"color": "#888888", "from": "Heavenly Court", "title": "Co-ocurrencias: 110", "to": "Shadow Sect", "value": 110}, {"color": "#888888", "from": "Shadow Sect", "title": "Co-ocurrencias: 35", "to": "Yi Tian Mountain", "value": 35}, {"color": "#888888", "from": "Yi Tian Mountain", "title": "Co-ocurrencias: 4", "to": "Yi Tian Mountain", "value": 4}, {"color": "#888888", "from": "Heavenly Court", "title": "Co-ocurrencias: 15", "to": "Lang Ya Sect", "value": 15}, {"color": "#888888", "from": "Heavenly Lotus Sect", "title": "Co-ocurrencias: 1", "to": "Shadow Sect", "value": 1}, {"color": "#888888", "from": "Combat Immortal Sect", "title": "Co-ocurrencias: 1", "to": "Shadow Sect", "value": 1}, {"color": "#888888", "from": "Dang Hun Mountain", "title": "Co-ocurrencias: 58", "to": "Luo Po Valley", "value": 58}, {"color": "#888888", "from": "Imperial Court", "title": "Co-ocurrencias: 2", "to": "Qing Mao Mountain", "value": 2}, {"color": "#888888", "from": "Qing Mao Mountain", "title": "Co-ocurrencias: 2", "to": "Yi Tian Mountain", "value": 2}, {"color": "#888888", "from": "Imperial Court", "title": "Co-ocurrencias: 5", "to": "Yi Tian Mountain", "value": 5}, {"color": "#888888", "from": "Dang Hun Mountain", "title": "Co-ocurrencias: 2", "to": "Shadow Sect", "value": 2}, {"color": "#888888", "from": "Dang Hun Mountain", "title": "Co-ocurrencias: 11", "to": "Lang Ya Sect", "value": 11}, {"color": "#888888", "from": "Lang Ya Sect", "title": "Co-ocurrencias: 3", "to": "Luo Po Valley", "value": 3}, {"color": "#888888", "from": "Luo Po Valley", "title": "Co-ocurrencias: 4", "to": "Shadow Sect", "value": 4}, {"color": "#888888", "from": "Imperial Court", "title": "Co-ocurrencias: 5", "to": "Shadow Sect", "value": 5}, {"color": "#888888", "from": "Heavenly Court", "title": "Co-ocurrencias: 2", "to": "Imperial Court", "value": 2}, {"color": "#888888", "from": "Lang Ya Sect", "title": "Co-ocurrencias: 22", "to": "Shadow Sect", "value": 22}, {"color": "#888888", "from": "Lang Ya Sect", "title": "Co-ocurrencias: 2", "to": "Yi Tian Mountain", "value": 2}, {"color": "#888888", "from": "Ancient Soul Sect", "title": "Co-ocurrencias: 2", "to": "Heavenly Court", "value": 2}, {"color": "#888888", "from": "Dang Hun Mountain", "title": "Co-ocurrencias: 21", "to": "Dang Hun Mountain", "value": 21}, {"color": "#888888", "from": "Dang Hun Mountain", "title": "Co-ocurrencias: 1", "to": "Pulling Mountain", "value": 1}, {"color": "#888888", "from": "Chu Sect", "title": "Co-ocurrencias: 6", "to": "Chu Sect", "value": 6}, {"color": "#888888", "from": "Canary Pavilion", "title": "Co-ocurrencias: 6", "to": "Heavenly Lotus Sect", "value": 6}, {"color": "#888888", "from": "Heavenly Lotus Sect", "title": "Co-ocurrencias: 1", "to": "Heavenly Lotus Sect", "value": 1}, {"color": "#888888", "from": "Canary Pavilion", "title": "Co-ocurrencias: 1", "to": "Combat Immortal Sect", "value": 1}, {"color": "#888888", "from": "Imperial Court", "title": "Co-ocurrencias: 1", "to": "Luck Suppression Heavenly Palace", "value": 1}, {"color": "#888888", "from": "Luck Suppression Heavenly Palace", "title": "Co-ocurrencias: 2", "to": "Snowy Mountain", "value": 2}, {"color": "#888888", "from": "Canary Pavilion", "title": "Co-ocurrencias: 1", "to": "Luck Suppression Heavenly Palace", "value": 1}, {"color": "#888888", "from": "Shadow Sect", "title": "Co-ocurrencias: 1", "to": "Snowy Mountain", "value": 1}, {"color": "#888888", "from": "Luo Po Valley", "title": "Co-ocurrencias: 1", "to": "Snowy Mountain", "value": 1}, {"color": "#888888", "from": "Purple Mountain", "title": "Co-ocurrencias: 4", "to": "Snowy Mountain", "value": 4}, {"color": "#888888", "from": "Purple Mountain", "title": "Co-ocurrencias: 37", "to": "Shadow Sect", "value": 37}, {"color": "#888888", "from": "Heavenly Court", "title": "Co-ocurrencias: 7", "to": "Purple Mountain", "value": 7}, {"color": "#888888", "from": "Purple Mountain", "title": "Co-ocurrencias: 3", "to": "Yi Tian Mountain", "value": 3}, {"color": "#888888", "from": "Heavenly Court", "title": "Co-ocurrencias: 2", "to": "Snowy Mountain", "value": 2}, {"color": "#888888", "from": "Bay Pavilion", "title": "Co-ocurrencias: 1", "to": "Shadow Sect", "value": 1}, {"color": "#888888", "from": "Bay Pavilion", "title": "Co-ocurrencias: 2", "to": "Heavenly Court", "value": 2}, {"color": "#888888", "from": "Bay Pavilion", "title": "Co-ocurrencias: 1", "to": "Bay Pavilion", "value": 1}, {"color": "#888888", "from": "Lang Ya Sect", "title": "Co-ocurrencias: 4", "to": "Purple Mountain", "value": 4}, {"color": "#888888", "from": "Divine Bean Palace", "title": "Co-ocurrencias: 4", "to": "Heavenly Lotus Sect", "value": 4}, {"color": "#888888", "from": "Divine Bean Palace", "title": "Co-ocurrencias: 25", "to": "Divine Bean Palace", "value": 25}, {"color": "#888888", "from": "Dang Hun Mountain", "title": "Co-ocurrencias: 2", "to": "Heavenly Court", "value": 2}, {"color": "#888888", "from": "Heavenly Court", "title": "Co-ocurrencias: 4", "to": "If Heavenly Court", "value": 4}, {"color": "#888888", "from": "Divine Bean Palace", "title": "Co-ocurrencias: 9", "to": "Heavenly Court", "value": 9}, {"color": "#888888", "from": "Heavenly Court", "title": "Co-ocurrencias: 1", "to": "Spirit Butterfly Valley", "value": 1}, {"color": "#888888", "from": "Heavenly Court", "title": "Co-ocurrencias: 7", "to": "Past Pavilion", "value": 7}, {"color": "#888888", "from": "Past Pavilion", "title": "Co-ocurrencias: 4", "to": "Past Pavilion", "value": 4}, {"color": "#888888", "from": "Heavenly Court", "title": "Co-ocurrencias: 3", "to": "Immortal Gu House Dragon Palace", "value": 3}, {"color": "#888888", "from": "Dragon Palace", "title": "Co-ocurrencias: 50", "to": "Heavenly Court", "value": 50}, {"color": "#888888", "from": "Dragon Palace", "title": "Co-ocurrencias: 34", "to": "Dragon Palace", "value": 34}, {"color": "#888888", "from": "Dragon Palace", "title": "Co-ocurrencias: 1", "to": "If Heavenly Court", "value": 1}, {"color": "#888888", "from": "Heavenly Court", "title": "Co-ocurrencias: 1", "to": "Imperfection Regret Pavilion", "value": 1}, {"color": "#888888", "from": "Imperfection Regret Pavilion", "title": "Co-ocurrencias: 1", "to": "Imperfection Regret Pavilion", "value": 1}, {"color": "#888888", "from": "Imperfection Regret Pavilion", "title": "Co-ocurrencias: 1", "to": "The Heavenly Court", "value": 1}, {"color": "#888888", "from": "Dragon Court", "title": "Co-ocurrencias: 2", "to": "Dragon Palace", "value": 2}, {"color": "#888888", "from": "But Heavenly Court", "title": "Co-ocurrencias: 1", "to": "Heavenly Court", "value": 1}, {"color": "#888888", "from": "Five Regional Mountain", "title": "Co-ocurrencias: 1", "to": "Heavenly Court", "value": 1}, {"color": "#888888", "from": "Hairy Foot Mountain", "title": "Co-ocurrencias: 10", "to": "Heavenly Court", "value": 10}, {"color": "#888888", "from": "Calligraphy Pavilion", "title": "Co-ocurrencias: 2", "to": "Calligraphy Pavilion", "value": 2}, {"color": "#888888", "from": "Immortal Crane Sect", "title": "Co-ocurrencias: 3", "to": "Pine Crane Pavilion", "value": 3}, {"color": "#888888", "from": "Pine Crane Pavilion", "title": "Co-ocurrencias: 1", "to": "Pine Crane Pavilion", "value": 1}, {"color": "#888888", "from": "Dragon Court", "title": "Co-ocurrencias: 1", "to": "Heavenly Court", "value": 1}, {"color": "#888888", "from": "Immortal Gu House Dragon Palace", "title": "Co-ocurrencias: 1", "to": "Merman Imperial Court", "value": 1}, {"color": "#888888", "from": "Divine Bean Palace", "title": "Co-ocurrencias: 2", "to": "Dragon Palace", "value": 2}, {"color": "#888888", "from": "But Heavenly Court", "title": "Co-ocurrencias: 1", "to": "Dragon Palace", "value": 1}, {"color": "#888888", "from": "Merman Imperial Court", "title": "Co-ocurrencias: 2", "to": "Merman Imperial Court", "value": 2}, {"color": "#888888", "from": "Dang Hun Mountain", "title": "Co-ocurrencias: 1", "to": "Dragon Palace", "value": 1}, {"color": "#888888", "from": "Dragon Palace", "title": "Co-ocurrencias: 1", "to": "Immortal Gu House Dragon Palace", "value": 1}, {"color": "#888888", "from": "Ancient Soul Sect", "title": "Co-ocurrencias: 1", "to": "Ancient Soul Sect", "value": 1}, {"color": "#888888", "from": "Dragon Palace", "title": "Co-ocurrencias: 1", "to": "Peaceful Soil Heavy Mountain", "value": 1}, {"color": "#888888", "from": "Lang Ya Sect", "title": "Co-ocurrencias: 1", "to": "Snowy Mountain", "value": 1}, {"color": "#888888", "from": "Qing Mao Mountain", "title": "Co-ocurrencias: 1", "to": "Shang Liang Mountain", "value": 1}, {"color": "#888888", "from": "Shang Liang Mountain", "title": "Co-ocurrencias: 1", "to": "Shang Liang Mountain", "value": 1}, {"color": "#888888", "from": "Luo Po Valley", "title": "Co-ocurrencias: 1", "to": "Miniscule Mountain", "value": 1}, {"color": "#888888", "from": "Book Mountain", "title": "Co-ocurrencias: 18", "to": "Heavenly Court", "value": 18}, {"color": "#888888", "from": "Book Mountain", "title": "Co-ocurrencias: 2", "to": "Book Mountain", "value": 2}, {"color": "#888888", "from": "Heavenly Court", "title": "Co-ocurrencias: 3", "to": "Luck Suppression Heavenly Palace", "value": 3}, {"color": "#888888", "from": "Heavenly Court", "title": "Co-ocurrencias: 2", "to": "Peaceful Soil Heavy Mountain", "value": 2}, {"color": "#888888", "from": "Luck Suppression Heavenly Palace", "title": "Co-ocurrencias: 1", "to": "Peaceful Soil Heavy Mountain", "value": 1}, {"color": "#888888", "from": "Book Mountain", "title": "Co-ocurrencias: 1", "to": "Dang Hun Mountain", "value": 1}, {"color": "#888888", "from": "Book Mountain", "title": "Co-ocurrencias: 1", "to": "Luo Po Valley", "value": 1}, {"color": "#888888", "from": "Ancient Soul Sect", "title": "Co-ocurrencias: 1", "to": "Canary Pavilion", "value": 1}, {"color": "#888888", "from": "Canary Pavilion", "title": "Co-ocurrencias: 1", "to": "Immortal Crane Sect", "value": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "repulsion": {
+            "centralGravity": 0.2,
+            "damping": 0.09,
+            "nodeDistance": 150,
+            "springConstant": 0.05,
+            "springLength": 200
+        },
+        "solver": "repulsion",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
