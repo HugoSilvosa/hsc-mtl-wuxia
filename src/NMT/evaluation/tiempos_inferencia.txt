@@ -26,29 +26,3 @@ google/mt5-small                              ----                          2.95
 
 
 
-Similar al capítulo NMT, esta sección recoge los tiempos de ejecución de los modelos LLM. 
-
-LOs tiempos de entrenamiento se recogen es la siguiente tabla:
-
-
-\begin{
-
-
-}
-
-
-En cuanto a la inferencia, se muestran los tiempos en las siguientes gráficas, que recogen las medias de ejecución tanto para los \textit{prompts} como para los diferentes casos de \textit{n-shots}.
-
-\begin{}
-
-\begin{}
-
-
-Similar a la inferencia en NMT, estos resultados evidencia la optimización que supone para la inferencia el ajuste de pesos en los modelos, exceptuando en Qwen, donde la mejora no es muy notable, el resto de modelos presentan tiempos significativamente inferiores tras el proceso de \textit{finetuning}.
-
-Cabe mencionar que aunque los prompts no parecen mostrar una tendencia evidente, las inferencias de \textit{few-shot learning} presentan un patrón curioso, especialmente en los modelos base, donde a medida que aumentan los ejemplos proporcionados disminuye el tiempo necesario para devolver la traducción.
-
-
-
-Aunque no tiene sentido comparar directamente los tiempos en las diferentes arquitecturas debido a que se usaron diferentes máquinas tanto en su entrenamiento como en su inferencia, se pueden sacar una conclusión en base a los tiempos y la complejjidad de los modelos. Es de esperar que los modelos más ligeros presenten unos tiempos de ejucución más grandes, por lo que es de interés explorar si la posible ganancia de usar los modelos más complejos vale la pena la pérdida de tener unos tiempos de ejecución más rápidos.
-

@@ -5,3 +5,8 @@ llama: 65.43 horas
 glm: 33.22 horas
 gemma: 35.06 horas
 qwen: 135.33 horas
+
+
+
+
+
