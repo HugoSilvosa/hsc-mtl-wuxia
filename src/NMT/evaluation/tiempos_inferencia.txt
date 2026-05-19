@@ -17,9 +17,9 @@ qwen3_finetuned   100.001333   99.137667   99.244333   98.502667  100.142667  10
 === TABLA DE TIEMPOS - MODELOS NMT ===
 Type                                      NMT Eval (1k) Pretrain        Finetuned
 Model                                                  
-Helsinki-NLP/opus-mt-zh-en                    58.6min                       1.86min
-facebook/m2m100_418M                          166.23min                     6.45min
-facebook/mbart-large-50-many-to-many-mmt      157min                        91.98min
+Helsinki-NLP/opus-mt-zh-en                    1.12 min                       1.86min
+facebook/m2m100_418M                          3.13 min                     6.99min
+facebook/mbart-large-50-many-to-many-mmt      2.69 min                        16.90min
 google/mt5-small                              ----                          2.95 min
 
 ================================================

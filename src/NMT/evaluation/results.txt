@@ -34,6 +34,22 @@
     "rougeL_f1": 46.5905,
     "meteor": 44.8068
 }
+
+
+{
+    "model": "facebook/mbart-large-50-many-to-many-mmt",
+    "n_eval": 52151,
+    "num_beams": 4,
+    "batch_eval": 8,
+    "sacrebleu": 35.7212,
+    "chrf2": 54.644,
+    "ter": 58.2844,
+    "rougeL_f1": 61.0218,
+    "meteor": 60.733,
+    "execution_time": 8431.45
+}
+
+
 {
     "model": "alirezamsh/small100",
     "n_eval": 52151,
@@ -49,18 +65,6 @@
 
 
 {
-    "model": "facebook/mbart-large-50-many-to-many-mmt",
-    "n_eval": 52151,
-    "num_beams": 4,
-    "batch_eval": 8,
-    "sacrebleu": 35.7212,
-    "chrf2": 54.644,
-    "ter": 58.2844,
-    "rougeL_f1": 61.0218,
-    "meteor": 60.733,
-    "execution_time": 8431.45
-}
-{
     "model": "facebook/m2m100_418M",
     "n_eval": 1000,
     "num_beams": 4,
@@ -72,8 +76,9 @@
     "meteor": 59.0252,
     "bertscore": 61.046,
     "comet": 78.5177,
-    "execution_time": 388.8
+    "execution_time": 419.93
 }
+
 {
     "model": "Helsinki-NLP/opus-mt-zh-en",
     "n_eval": 1000,
@@ -100,7 +105,7 @@
     "meteor": 43.9251,
     "bertscore": 81.3376,
     "comet": 68.9218,
-    "execution_time": 174.9
+    "execution_time": 194.37
 }
 {
     "model": "alirezamsh/small100",
@@ -126,7 +131,7 @@
     "meteor": 61.914,
     "bertscore": 86.7993,
     "comet": 79.9604,
-    "execution_time": 5519.18
+    "execution_time": 1014.25
 }
 
 
