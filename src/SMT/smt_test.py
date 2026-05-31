@@ -11,6 +11,7 @@ RUTA_DATASET = r"C:\Users\Usuario\Desktop\TFG\CORPUS\processed_data\wuxia_select
 PLANTILLA_MODELO = r"C:\Users\Usuario\Desktop\TFG\CORPUS\models\modelo_wuxia_{}.pkl"
 PLANTILLA_SALIDA = r"C:\Users\Usuario\Desktop\TFG\CORPUS\src\SMT\traducciones_test_{}.txt"
 
+
 def cargar_datos_seguros():
     """Carga el dataset y maneja si tiene particiones (train/test) o es plano"""
     dataset = load_from_disk(RUTA_DATASET)

@@ -11,6 +11,7 @@ def consultar_palabra(palabra_china, top_n=5):
     """Busca todas las traducciones posibles para una palabra china y las ordena por probabilidad"""
     resultados = []
     
+    
     for palabra_e, probabilidades_origen in tabla_traduccion.items():
         # Si la palabra china existe en las probabilidades de esta palabra inglesa
         if palabra_china in probabilidades_origen:
