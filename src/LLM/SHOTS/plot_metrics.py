@@ -11,8 +11,8 @@ plt.switch_backend('Agg')
 
 sns.set_theme(style="whitegrid", context="paper", font_scale=1.2)
 
-INPUT_CSV = Path("evaluation/resultados_globales.csv")
-OUTPUT_IMG_DIR = Path("evaluation/graficas")
+INPUT_CSV = Path(r"C:\Users\Usuario\Desktop\TFG\CORPUS\src\LLM\evaluation\resultados_globales.csv")
+OUTPUT_IMG_DIR = Path(r"C:\Users\Usuario\Desktop\TFG\CORPUS\evaluation\fig\llm")
 
 def sort_shots(shot_list):
     return sorted(shot_list, key=lambda x: int(re.search(r'(\d+)', str(x)).group(1)))
@@ -22,7 +22,6 @@ def get_shot_num(shot_str):
 import matplotlib.ticker as mticker
 
 def plot_3d(df, output_dir):
-    # --- CONFIGURACIÓN DE TAMAÑOS (AGRESIVA) ---
     SIZE_TITLE = 25
     SIZE_LABEL = 23
     SIZE_TICKS = 18
@@ -54,7 +53,7 @@ def plot_3d(df, output_dir):
         if df_grupo.empty: continue
             
         models_in_group = df_grupo['Model'].unique()
-        fig = plt.figure(figsize=(24, 8 * rows)) # Aumentamos el lienzo
+        fig = plt.figure(figsize=(24, 8 * rows)) 
         global_handles, global_labels = [], []
         
         for i, metric in enumerate(metrics):
@@ -70,7 +69,7 @@ def plot_3d(df, output_dir):
                 c, m = MODEL_PALETTE.get(model, "gray"), MODEL_MARKERS.get(model, "o")
                 
                 scatter = ax.scatter(df_model['Prompt_Idx'], df_model['Shot_Idx'], df_model['Score'], 
-                                   color=c, marker=m, s=120, alpha=0.9, edgecolors='w')
+                                color=c, marker=m, s=120, alpha=0.9, edgecolors='w')
                 
                 if i == 0:
                     global_handles.append(scatter)
@@ -80,14 +79,12 @@ def plot_3d(df, output_dir):
                     df_line = df_model[df_model['Prompt_Idx'] == p_val].sort_values('Shot_Idx')
                     ax.plot(df_line['Prompt_Idx'], df_line['Shot_Idx'], df_line['Score'], color=c, alpha=0.3, linewidth=2)
 
-            # --- TÍTULOS Y ETIQUETAS ---
-            ax.set_title(f"Métrica: {metric.upper()}", fontsize=SIZE_TITLE, fontweight='bold', pad=30)
+            ax.set_title(f"{metric.upper()}", fontsize=SIZE_TITLE, fontweight='bold', pad=30)
             
             ax.set_xlabel("Prompt", fontsize=SIZE_LABEL, labelpad=15, fontweight='bold')
             ax.set_ylabel("Shots", fontsize=SIZE_LABEL, labelpad=15, fontweight='bold')
             ax.set_zlabel("Score", fontsize=SIZE_LABEL, labelpad=15, fontweight='bold')
             
-            # --- QUITAR DECIMALES Y AGRANDAR NÚMEROS ---
             # Forzamos que los ticks de X e Y sean enteros
             ax.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))
             ax.yaxis.set_major_locator(mticker.MaxNLocator(integer=True))
@@ -99,9 +96,9 @@ def plot_3d(df, output_dir):
             ax.dist = 11.5 
             ax.view_init(elev=20, azim=-45)
 
-        # Leyenda gigante
+        # Leyenda 
         fig.legend(global_handles, global_labels, title="Modelos", title_fontsize=SIZE_LABEL,
-                   loc='upper right', bbox_to_anchor=(0.85, 0.5), fontsize=SIZE_LABEL)
+                loc='upper right', bbox_to_anchor=(0.85, 0.5), fontsize=SIZE_LABEL)
         
         fig.subplots_adjust(left=0.02, right=0.88, top=0.90, wspace=0.35, hspace=0.3)
         plt.savefig(output_dir / f"6_3d_dashboard_{nombre_grupo}.png", dpi=300, bbox_inches='tight')
@@ -109,17 +106,17 @@ def plot_3d(df, output_dir):
 
 
 MODEL_PALETTE = {
-    "Gemma_3": "#aec7e8",      # Azul fuerte
-    "Gemma_3_QLoRA": "#1f77b4", # Azul claro
-    "Llama_3": "#ff9896",      # Rojo fuerte 
-    "Llama_3_QLoRA": "#d62728", # Rojo claro 
-    "GLM_4": "#98df8a",         # Verde fuerte 2ca02c
-    "GLM_4_QLoRA": "#2ca02c",    # Verde claro
-    "Qwen_3": "#c5b0d5",       # Púrpura 9467bd
-    "Qwen_3_QLoRA": "#9467bd"   # Púrpura claro
+    "Gemma_3": "#aec7e8",     
+    "Gemma_3_QLoRA": "#1f77b4", 
+    "Llama_3": "#ff9896",     
+    "Llama_3_QLoRA": "#d62728", 
+    "GLM_4": "#98df8a",        
+    "GLM_4_QLoRA": "#2ca02c",   
+    "Qwen_3": "#c5b0d5",      
+    "Qwen_3_QLoRA": "#9467bd"   
 }
 
-# Opcional: Marcadores distintos para base vs finetuned
+# Marcadores distintos para base vs finetuned
 MODEL_MARKERS = {
     "Gemma_3": "o", "gemma3_finetuned": "X",
     "Llama_3": "s", "llama3_finetuned": "D",
@@ -133,14 +130,21 @@ MODEL_MARKERS = {
 
 
 def plot_prompts_dashboard(df, output_dir):
-    # --- CONFIGURACIÓN DE TAMAÑOS ---
     SIZE_TITLE = 28
     SIZE_LABEL = 26
     SIZE_TICKS = 23
-
+    
+    
     df_plot = df.copy()
+    
+    prompt_order = ["BASE", "FANT", "LIT", "MT", "ACAD"]
+
+    prompt_map = {"0": "BASE", "1": "FANT", "2": "LIT", "3": "MT", "4": "ACAD"}
+    df_plot['Prompt'] = df_plot['Prompt'].astype(str).map(prompt_map)
+    df_plot['Prompt'] = pd.Categorical(df_plot['Prompt'], categories=prompt_order, ordered=True)
+    
     metrics = df_plot['Metric'].unique()
-    df_plot['Prompt'] = df_plot['Prompt'].astype(str)
+    
     
     cols = 3
     rows = (len(metrics) + cols - 1) // cols
@@ -150,17 +154,17 @@ def plot_prompts_dashboard(df, output_dir):
     for i, metric in enumerate(metrics):
         ax = axes[i]
         sns.lineplot(
-            data=df_plot[df_plot['Metric'] == metric],
-            x="Prompt", y="Score", 
-            hue="Model", style="Model",
-            palette=MODEL_PALETTE,  
-            markers=MODEL_MARKERS,  
-            dashes=False, linewidth=2.5,
-            markersize=10,
-            errorbar=None, ax=ax
+                data=df_plot[df_plot['Metric'] == metric],
+                x="Prompt", y="Score", 
+                hue="Model", style="Model",
+                palette=MODEL_PALETTE,  
+                markers=MODEL_MARKERS,  
+                dashes=False, linewidth=2.5,
+                markersize=10,
+                errorbar=None, ax=ax
         )
         
-        ax.set_title(f"Métrica: {metric.upper()}", fontsize=SIZE_TITLE, fontweight='bold', pad=15)
+        ax.set_title(f"{metric.upper()}", fontsize=SIZE_TITLE, fontweight='bold', pad=15)
         ax.set_xlabel("Prompt", fontsize=SIZE_LABEL, fontweight='bold')
         ax.set_ylabel("Score", fontsize=SIZE_LABEL, fontweight='bold')
         
@@ -192,7 +196,6 @@ def plot_prompts_dashboard(df, output_dir):
     
     
 def plot_global_dashboard(df, output_dir):
-    # --- CONFIGURACIÓN DE TAMAÑOS ---
     SIZE_TITLE = 28
     SIZE_LABEL = 26
     SIZE_TICKS = 23
@@ -203,7 +206,7 @@ def plot_global_dashboard(df, output_dir):
     
     cols = 3
     rows = (len(metrics) + cols - 1) // cols
-    fig, axes = plt.subplots(rows, cols, figsize=(18, 6 * rows)) # Un poco más ancho
+    fig, axes = plt.subplots(rows, cols, figsize=(18, 6 * rows))
     axes = axes.flatten()
 
     for i, metric in enumerate(metrics):
@@ -214,17 +217,17 @@ def plot_global_dashboard(df, output_dir):
             hue="Model", style="Model",
             palette=MODEL_PALETTE,  
             markers=MODEL_MARKERS,  
-            dashes=False, linewidth=2.5, # Línea un poco más gruesa
-            markersize=10,               # Marcadores más grandes
+            dashes=False, linewidth=2.5, 
+            markersize=10,               
             errorbar=None, ax=ax
         )
         
-        # Títulos y etiquetas grandes
-        ax.set_title(f"Métrica: {metric.upper()}", fontsize=SIZE_TITLE, fontweight='bold', pad=15)
+        # Títulos y etiquetas 
+        ax.set_title(f"{metric.upper()}", fontsize=SIZE_TITLE, fontweight='bold', pad=15)
         ax.set_xlabel("Shots", fontsize=SIZE_LABEL, fontweight='bold')
         ax.set_ylabel("Score", fontsize=SIZE_LABEL, fontweight='bold')
         
-        # Ticks (números de los ejes) más grandes
+        # Ticks 
         ax.tick_params(axis='both', which='major', labelsize=SIZE_TICKS)
         
         if ax.get_legend():
@@ -239,7 +242,7 @@ def plot_global_dashboard(df, output_dir):
         handles, labels, 
         title="Modelos", title_fontsize=SIZE_LABEL,
         loc='center left', 
-        bbox_to_anchor=(0.75, 0.30), # Ajustado para que no solape
+        bbox_to_anchor=(0.75, 0.30), 
         ncol=1,                     
         frameon=True,
         fontsize=SIZE_TICKS
@@ -364,7 +367,6 @@ def main():
     df_all = pd.read_csv(INPUT_CSV)
     metricas_deseadas = ["sacrebleu", "chrf2", "rougeL_f1", "meteor", "comet"]
     df_all = df_all[df_all['Metric'].isin(metricas_deseadas)]
-    # Asegurarnos de que el DataFrame no esté vacío
     if df_all.empty:
         print("El CSV está vacío. Revisa la ejecución original.")
         return

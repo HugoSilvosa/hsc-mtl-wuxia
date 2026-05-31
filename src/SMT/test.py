@@ -9,7 +9,7 @@ from datasets import load_from_disk
 RUTA_DATASET = r"C:\Users\Usuario\Desktop\TFG\CORPUS\processed_data\wuxia_selected_100000"
 
 PLANTILLA_MODELO = r"C:\Users\Usuario\Desktop\TFG\CORPUS\models\modelo_wuxia_{}.pkl"
-PLANTILLA_SALIDA = r"C:\Users\Usuario\Desktop\TFG\CORPUS\traducciones_test_{}.txt"
+PLANTILLA_SALIDA = r"C:\Users\Usuario\Desktop\TFG\CORPUS\src\SMT\traducciones_test_{}.txt"
 
 def cargar_datos_seguros():
     """Carga el dataset y maneja si tiene particiones (train/test) o es plano"""
@@ -72,34 +72,6 @@ def entrenar(tamanio_entrenamiento, tipo_modelo):
         pickle.dump(tabla_limpia, f)
     print("Modelo guardado correctamente\n")
 
-def inferir(tamanio_inferencia, tipo_modelo):
-    print(f"\n--- MODO INFERENCIA: {tipo_modelo.upper()} ---")
-    ruta_modelo = PLANTILLA_MODELO.format(tipo_modelo)
-    ruta_salida = PLANTILLA_SALIDA.format(tipo_modelo)
-    
-    print(f"Cargando tabla estadística desde {ruta_modelo}...")
-    try:
-        with open(ruta_modelo, 'rb') as f:
-            tabla_traduccion = pickle.load(f) 
-    except FileNotFoundError:
-        print(f"ERROR: No se encontró el modelo {tipo_modelo.upper()}.")
-        return
-
-    dataset_plano, dataset_completo = cargar_datos_seguros()
-    
-    if hasattr(dataset_completo, 'keys') and 'test' in dataset_completo.keys():
-        dataset_test = dataset_completo['test']
-        print("Usando partición 'test' oficial.")
-    else:
-        print("Usando el final del dataset principal como test.")
-        dataset_test = dataset_plano.select(range(len(dataset_plano) - 1000, len(dataset_plano)))
-
-    total_test = len(dataset_test)
-    if tamanio_inferencia == 0 or tamanio_inferencia > total_test:
-        tamanio_inferencia = total_test
-        
-    dataset_test = dataset_test.select(range(tamanio_inferencia))
-    print(f"Se van a traducir {tamanio_inferencia} frases...")
 
 def inferir(tamanio_inferencia, tipo_modelo):
     print(f"\n--- MODO INFERENCIA: {tipo_modelo.upper()} ---")
@@ -130,31 +102,38 @@ def inferir(tamanio_inferencia, tipo_modelo):
     dataset_test = dataset_test.select(range(tamanio_inferencia))
     print(f"Se van a traducir {tamanio_inferencia} frases...")
 
-    def traducir(frase_china):
+    def traducir(frase_china, top_n=3):
         palabras_chinas = list(jieba.cut(frase_china.replace(" ", "")))
         traduccion = []
         detalles = [] 
         
         for palabra_c in palabras_chinas:
-            mejor_palabra_e = None
-            max_prob = 0.0
+            candidatos = []
             
+            # Recorremos la tabla buscando todas las palabras en inglés que traduzcan esta palabra china
             for palabra_e, probabilidades_origen in tabla_traduccion.items():
                 prob = probabilidades_origen.get(palabra_c, 0.0)
-                if prob > max_prob:
-                    max_prob = prob
-                    mejor_palabra_e = palabra_e
-                    
-            if mejor_palabra_e and max_prob > 0.01:
+                if prob > 0.0:
+                    candidatos.append((palabra_e, prob))
+            
+            # Ordenamos los candidatos de mayor a menor probabilidad
+            candidatos_ordenados = sorted(candidatos, key=lambda x: x[1], reverse=True)
+            
+            if candidatos_ordenados and candidatos_ordenados[0][1] > 0.01:
+                # El ganador sigue siendo el primero
+                mejor_palabra_e, max_prob = candidatos_ordenados[0]
                 traduccion.append(mejor_palabra_e)
-                # Formateamos el detalle: ej. "yue(45.20%)"
-                porcentaje = max_prob * 100
-                detalles.append(f"{mejor_palabra_e}({porcentaje:.2f}%)")
+                
+                # Construimos el Top N 
+                top_candidatos = candidatos_ordenados[:top_n]
+                strings_candidatos = [f"{pal_e}({pr * 100:.2f}%)" for pal_e, pr in top_candidatos]
+                
+                detalles.append(f"{palabra_c}[{'|'.join(strings_candidatos)}]")
             else:
                 traduccion.append(f"[{palabra_c}]")
-                detalles.append(f"[{palabra_c}](UNK)") # UNK = Unknown (Desconocida)
+                detalles.append(f"[{palabra_c}](UNK)")
                 
-        return " ".join(traduccion), " ".join(detalles)
+        return " ".join(traduccion), "  ".join(detalles)
 
     print(f"Generando archivo de salida en: {ruta_salida}")
     with open(ruta_salida, 'w', encoding='utf-8') as f_out:
@@ -168,9 +147,9 @@ def inferir(tamanio_inferencia, tipo_modelo):
                 chino_crudo = item['zh']
                 ingles_esperado = item['en']
                 
-            trad_generada, desglose_prob = traducir(chino_crudo)
+            trad_generada, desglose_prob = traducir(chino_crudo, top_n=10) 
             
-            # Limpiamos
+            # Limpieza
             chino_limpio = chino_crudo.replace('\n', ' ').replace(';', ',')
             ingles_limpio = ingles_esperado.replace('\n', ' ').replace(';', ',')
             trad_limpia = trad_generada.replace('\n', ' ').replace(';', ',')

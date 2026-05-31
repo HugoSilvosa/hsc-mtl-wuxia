@@ -3,9 +3,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from pathlib import Path
 
-# --- CONFIGURACIÓN DE RUTAS ---
-INPUT_FILE = Path("evaluation/resultados_combinados.txt")
-OUTPUT_DIR = Path("evaluation/gemma/evolucion")
+INPUT_FILE = Path(r"C:\Users\Usuario\Desktop\TFG\CORPUS\src\LLM\evaluation\resultados_combinados.txt")
+OUTPUT_DIR = Path(r"C:\Users\Usuario\Desktop\TFG\CORPUS\evaluation\fig\extra")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 MODEL_ORDER = ["gemma3_270m", "gemma3_1b", "gemma3_4b", "gemma3_12b", "gemma3_27b"]
@@ -55,64 +54,71 @@ def parse_all_shots(filepath):
                     except: continue
     return pd.DataFrame(records)
 
-def plot_evolution_max_legibility(df):
-    # Configuración de estilo de alto contraste y tamaño grande
-    sns.set_theme(style="whitegrid", rc={
-        "font.size": 16,
-        "axes.titlesize": 22,
-        "axes.labelsize": 18,
-        "xtick.labelsize": 16,
-        "ytick.labelsize": 16,
-        "legend.fontsize": 16,
-        "legend.title_fontsize": 18
-    })
+def plot_evolution(df):
+    # 1. Configuración de Estilo y Fuentes (idéntico al dashboard)
+    plt.rcParams['font.family'] = 'serif'
+    plt.rcParams['font.serif'] = ['Times New Roman']
+    
+    SIZE_TITLE = 28
+    SIZE_LABEL = 26
+    SIZE_TICKS = 23
+    
+    sns.set_theme(style="whitegrid")
     
     metrics = df['Metric'].unique()
     cols = 2
     rows = (len(metrics) + cols - 1) // cols
     
-    # Aumentamos el tamaño de la figura (Ancho x Alto)
-    fig, axes = plt.subplots(rows, cols, figsize=(22, 8 * rows))
+    # 2. Mismo figsize que el dashboard (proporción consistente)
+    fig, axes = plt.subplots(rows, cols, figsize=(20, 7 * rows))
     axes = axes.flatten()
 
     for i, metric in enumerate(metrics):
         ax = axes[i]
         df_m = df[df['Metric'] == metric]
         
-        # 1. Hilos de prompts (Finos)
+        # Hilos individuales (alpha bajo)
         sns.lineplot(
             data=df_m, x="Shots", y="Score", hue="Model", units="Group",
             estimator=None, hue_order=MODEL_ORDER, palette=MODEL_PALETTE,
-            linewidth=1.2, alpha=0.25, ax=ax, legend=False
+            linewidth=1.5, alpha=0.2, ax=ax, legend=False
         )
         
-        # 2. Promedio (Muy grueso y visible)
+        # Promedios (línea gruesa)
         sns.lineplot(
             data=df_m, x="Shots", y="Score", hue="Model",
             estimator="mean", errorbar=None,
             hue_order=MODEL_ORDER, palette=MODEL_PALETTE,
-            linewidth=5, marker="o", markersize=12, ax=ax
+            linewidth=4, marker="o", markersize=10, ax=ax
         )
         
-        ax.set_title(f"Métrica: {metric.upper()}", fontweight='bold', pad=20)
-        ax.set_xlabel("Shots", fontweight='bold', labelpad=15)
-        ax.set_ylabel("Score", fontweight='bold', labelpad=15)
+        # Formato de ejes con tamaños consistentes
+        ax.set_title(f"{metric.upper()}", fontsize=SIZE_TITLE, fontweight='bold', pad=20)
+        ax.set_xlabel("Shots", fontsize=SIZE_LABEL, fontweight='bold')
+        ax.set_ylabel("Score", fontsize=SIZE_LABEL, fontweight='bold')
+        ax.tick_params(axis='both', which='major', labelsize=SIZE_TICKS)
         ax.set_xticks([0, 1, 2, 3, 5, 10])
+        ax.grid(True, linestyle='--', alpha=0.6)
         
-        # Añadir un grid más visible
-        ax.grid(True, linestyle='--', alpha=0.7)
-
-        # Manejo de la leyenda
-        if i == 1: # Colocar la leyenda solo en el primer gráfico de la derecha
-            ax.legend(title="Modelos (Promedio)", bbox_to_anchor=(1.05, 1), loc='upper left', frameon=True)
-        elif i != 1:
-            if ax.get_legend(): ax.get_legend().remove()
-
-    # Eliminar espacios vacíos si el número de métricas es impar
+        ax.get_legend().remove()
+    # Eliminar subplots vacíos
     for j in range(i + 1, len(axes)):
         fig.delaxes(axes[j])
     
-    plt.tight_layout(rect=[0, 0, 0.9, 1]) # Ajustar para dejar espacio a la leyenda
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(
+        handles, labels, 
+        title="Modelos", 
+        title_fontsize=30,
+        fontsize=24,
+        loc='center', 
+        bbox_to_anchor=(0.75, 0.3), 
+        frameon=True
+    )
+    
+    # Ajustes finales para que coincida con la disposición del dashboard
+    plt.tight_layout()
+    fig.subplots_adjust(right=0.82) 
     
     output_path = OUTPUT_DIR / "evolucion_gemma.png"
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
@@ -121,7 +127,7 @@ def plot_evolution_max_legibility(df):
 def main():
     df = parse_all_shots(INPUT_FILE)
     if not df.empty:
-        plot_evolution_max_legibility(df)
+        plot_evolution(df)
 
 if __name__ == "__main__":
     main()

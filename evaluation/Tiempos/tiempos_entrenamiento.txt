@@ -1,0 +1,9 @@
+Modelo;Arquitectura;Tiempo_Entrenamiento_Horas
+MarianMT;NMT;7.08
+m2m100;NMT;30.82
+GLM-4 32B;LLM;33.22
+Gemma 3 27B;LLM;35.06
+mT5-small;NMT;46.33
+LLaMA 3.3 70B;LLM;65.43
+mBART;NMT;79.06
+Qwen 3 30B;LLM;135.33
