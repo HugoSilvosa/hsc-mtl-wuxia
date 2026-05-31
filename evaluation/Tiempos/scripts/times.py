@@ -38,7 +38,7 @@ def generar_graficas():
             legend_title = 'Architecture'
             filename = 'training_en.png'
 
-        plt.title(title, fontsize=15, pad=15, fontweight='bold')
+        # plt.title(title, fontsize=15, pad=15, fontweight='bold')
         plt.xlabel(xlabel, fontsize=13)
         plt.ylabel(ylabel, fontsize=13)
 
