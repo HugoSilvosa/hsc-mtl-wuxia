@@ -10,8 +10,8 @@ import re
 
 
 BASE_DIR = Path.cwd().parent
-DATA_DIR = BASE_DIR / "processed_data"
-ORIGINAL_DATASET_PATH = BASE_DIR / "processed_data" / "wuxia_zh_en_clean"
+DATA_DIR = BASE_DIR / "preprocessing" / "scores_data_selection"
+ORIGINAL_DATASET_PATH = BASE_DIR.parent / "processed_data" / "wuxia_zh_en_clean"
 
 # PARÁMETROS
 K_SAMPLES_TARGET = 100_000
@@ -172,6 +172,32 @@ def inspect_data(df_selected, raw_ds):
     
 
 
+def print_table_statistics(df_balanced):
+    print("\n" + "="*50)
+    print("ESTADÍSTICAS PARA LA TABLA (RANGOS CHRF)")
+    print("="*50)
+    
+    # Agrupar por bin y sacar recuento, mínimo, máximo y media
+    stats = df_balanced.groupby('difficulty_bin', observed=False).agg(
+            Muestras=('mean_score', 'count'),
+            CHRF_Min=('mean_score', 'min'),
+            CHRF_Max=('mean_score', 'max'),
+            CHRF_Medio=('mean_score', 'mean'),
+            Desacuerdo_Modelos=('std_score', 'mean') # Esta es la varianza real
+        )
+    
+    # Renombrar los índices para mayor claridad (asumiendo qcut ascendente)
+    nombres_estratos = {
+        0: 'Difíciles (Tercil inferior)', 
+        1: 'Intermedias (Tercil medio)', 
+        2: 'Fáciles (Tercil superior)'
+    }
+    stats.index = stats.index.map(nombres_estratos)
+    
+    print(stats.to_string(float_format="%.2f"))
+    print("="*50)
+    
+    
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--mode', type=str, default='execute', choices=['execute', 'study'])
@@ -207,6 +233,7 @@ def main():
     raw_ds = load_from_disk(str(ORIGINAL_DATASET_PATH))
 
     if args.mode == 'study':
+            print_table_statistics(df_selected)
             inspect_data(df_selected, raw_ds)
             
             # Configurar figura con 2 paneles (Izquierda: Original, Derecha: Final)
@@ -237,5 +264,6 @@ def main():
         raw_ds.save_to_disk(str(output_path))
         print(f"Guardado en: {output_path}")
 
+    
 if __name__ == "__main__":
     main()

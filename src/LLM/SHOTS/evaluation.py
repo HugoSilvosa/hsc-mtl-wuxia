@@ -19,10 +19,8 @@ from rouge_score import rouge_scorer
 from bert_score import score as calc_bertscore
 from comet import download_model, load_from_checkpoint
 
-# Ocultar advertencias molestas de PyTorch Lightning (usado por COMET)
 logging.getLogger("pytorch_lightning").setLevel(logging.WARNING)
 
-# --- CARGAR MODELO COMET GLOBALMENTE ---
 # Lo cargamos aquí para que solo consuma RAM/VRAM una vez
 print("Cargando modelo COMET (wmt22-comet-da)...")
 comet_model_path = download_model("Unbabel/wmt22-comet-da")
@@ -36,18 +34,15 @@ plt.switch_backend('Agg')
 # Configuración visual global
 sns.set_theme(style="whitegrid", context="paper", font_scale=1.2)
 
-# Descargas silenciosas
 nltk.download("wordnet", quiet=True)
 nltk.download("omw-1.4", quiet=True)
 
-# --- CONFIGURACIÓN DE RUTAS ---
 INPUT_DIR = Path("extra") 
 OUTPUT_DIR = Path("evaluation")
 OUTPUT_FILE_TXT = OUTPUT_DIR / "resultados_extra.txt"
 OUTPUT_FILE_MD = OUTPUT_DIR / "resultados_extra.md"
 OUTPUT_IMG_DIR = OUTPUT_DIR / "graficas_extra"
 
-# --- FUNCIONES DE PARSEO ---
 def extract_gen_content(text):
     match_triple = re.search(r"\[\[\[(.*?)\]\]\]", text, re.DOTALL)
     if match_triple: return match_triple.group(1).strip()
@@ -107,13 +102,9 @@ def compute_metrics(preds, refs):
     rouge_avg = float(np.mean([scorer.score(r, h)['rougeL'].fmeasure for h, r in zip(preds, refs)])) * 100.0
     meteor_avg = float(np.mean([meteor_score([wordpunct_tokenize(r)], wordpunct_tokenize(h)) for h, r in zip(preds, refs)])) * 100.0
     
-    # --- BERTSCORE ---
-    # Usamos lang="es" asumiendo español, cámbialo a "en" o "multilingual" si es necesario
-    _, _, F1 = calc_bertscore(preds, refs, lang="es", verbose=False)
+    _, _, F1 = calc_bertscore(preds, refs, lang="en", verbose=False)
     bertscore_avg = float(F1.mean()) * 100.0
     
-    # --- COMET ---
-    # Pasamos la referencia como 'src' también, ya que solo tenemos Ref y Gen.
     comet_data = [{"src": r, "mt": p, "ref": r} for p, r in zip(preds, refs)]
     comet_output = comet_model.predict(comet_data, batch_size=8, progress_bar=False)
     comet_avg = float(comet_output.system_score) * 100.0
@@ -134,7 +125,6 @@ def sort_shots(shot_list):
 def get_shot_num(shot_str):
     return int(re.search(r'(\d+)', shot_str).group(1))
 
-# --- GENERADOR DE MARKDOWN/LATEX ---
 def generate_latex_md(df_all, output_path):
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open("w", encoding="utf-8") as f:
@@ -153,8 +143,6 @@ def generate_latex_md(df_all, output_path):
                 latex = pivot.to_latex(float_format="%.2f", caption=f"{model} - {prompt}", label=f"tab:{model}_{prompt.replace(' ', '_')}", position="h")
                 f.write(f"```latex\n{latex}```\n\n")
 
-# --- VISUALIZACIONES ---
-# (Se mantienen iguales a las tuyas)
 
 def plot_global_dashboard(df, output_dir):
     df_plot = df.copy()
@@ -227,7 +215,6 @@ def plot_boxplot(df, output_dir):
         plt.close()
 
 def plot_heatmap(df, output_dir):
-    # Aquí he añadido BERTScore y COMET para que también tengan heatmap si lo deseas
     target_metrics = ["sacrebleu", "rougeL_f1", "bertscore", "comet"]
     models = df['Model'].unique()
     unique_shots = sort_shots(df['Shot'].unique())
@@ -302,12 +289,10 @@ def main():
 
     global_data = []
     
-    # Lista de métricas a evaluar
     metrics_list = ["sacrebleu", "chrf2", "ter", "rougeL_f1", "meteor", "bertscore", "comet"]
 
     print(f"\nIniciando evaluación de {len(files)} archivos...\n")
 
-    # --- BARRA DE PROGRESO 1: Archivos ---
     for file_path in tqdm(files, desc="Procesando Modelos", position=0):
         model_name = file_path.stem 
         parsed = parse_test_file(file_path)
@@ -320,8 +305,6 @@ def main():
         
         txt_table_data = {}
         
-        # --- BARRA DE PROGRESO 2: Prompts dentro de cada archivo ---
-        # Calculamos el total de combinaciones Prompt-Shot para la barra
         total_evals = len(all_prompts) * len(all_shots)
         with tqdm(total=total_evals, desc=f"Evaluando {model_name[:10]}...", position=1, leave=False) as pbar:
             
@@ -342,7 +325,6 @@ def main():
                     # Actualizar la barra secundaria
                     pbar.update(1)
 
-        # Guardar en TXT
         df_txt = pd.DataFrame(txt_table_data, index=metrics_list)
         df_txt.columns.names = ['PROMPT', 'SHOT']
         with OUTPUT_FILE_TXT.open("a", encoding="utf-8") as f:
@@ -358,7 +340,6 @@ def main():
         print("\nGenerando Markdown LaTeX y Gráficas...")
         generate_latex_md(df_all, OUTPUT_FILE_MD)
         
-        # --- BARRA DE PROGRESO 3: Generación de gráficas (Opcional pero visual) ---
         graficas = [
             ("Dashboard Global", lambda: plot_global_dashboard(df_all, OUTPUT_IMG_DIR)),
             ("Scaling Laws", lambda: plot_scaling_laws(df_all, OUTPUT_IMG_DIR)),

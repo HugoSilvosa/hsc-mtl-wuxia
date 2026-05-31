@@ -1,4 +1,0 @@
-=== REPORTE DE TIEMPOS DE INFERENCIA (MINUTOS) ===
-Nota: Tiempos de Shots y NMT convertidos de segundos a minutos.
-Nota 2: Si había registros duplicados, se ha calculado la media.
-
