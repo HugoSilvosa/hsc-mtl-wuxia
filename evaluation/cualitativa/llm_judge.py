@@ -7,7 +7,7 @@ import google.generativeai as genai
 from openai import OpenAI
 from anthropic import Anthropic
 
-# --- CONFIGURACIÓN DE API KEYS ---
+#  CONFIGURACIÓN DE API KEYS 
 OPENAI_API_KEY = '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'
 GEMINI_API_KEY = 'AIzaSyANweczz4t29Eg8Fk7ckMevipgaU3BarZ4'
 ANTHROPIC_API_KEY = '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'
@@ -16,14 +16,13 @@ ANTHROPIC_API_KEY = 'sk-ant-api03-Estw0vbHK-GbeD_ZHA6VX81LwV91ZpsTJuHrkvkbe-E1uB
 cliente_openai = OpenAI(api_key=OPENAI_API_KEY)
 genai.configure(api_key=GEMINI_API_KEY)
 cliente_claude = Anthropic(api_key=ANTHROPIC_API_KEY)
-# --- CONFIGURACIÓN DE JUECES ACTIVOS ---
+
+
 USAR_GEMINI = True
 USAR_OPENAI = True
 USAR_CLAUDE = True
 
-# ==========================================
 # FASE 1: PROMPTS Y FUNCIONES DE TRADUCCIÓN
-# ==========================================
 def crear_prompt_traduccion(lote_json):
     return f"""
     Act as an expert Chinese-to-English translator specializing in Wuxia/Xianxia literature.
@@ -89,7 +88,6 @@ def ejecutar_traducciones_unicas(carpeta_entrada="archivos_separados", archivo_s
     with open(archivo_salida, "w", encoding="utf-8") as f:
         f.write("Modelo;Texto_Raw;Texto_Input;Traduccion_Raw\n")
 
-        # --- GEMINI TRADUCE ---
         if USAR_GEMINI:
             print("  -> Pidiendo traducción a Gemini...")
             try:
@@ -103,7 +101,6 @@ def ejecutar_traducciones_unicas(carpeta_entrada="archivos_separados", archivo_s
                     f.write(f"Gemini;{raw};{t_input};{trad}\n")
             except Exception as e: print(f"Error traduciendo con Gemini: {e}")
 
-        # --- OPENAI TRADUCE ---
         if USAR_OPENAI:
             print("  -> Pidiendo traducción a OpenAI...")
             try:
@@ -116,7 +113,6 @@ def ejecutar_traducciones_unicas(carpeta_entrada="archivos_separados", archivo_s
                     f.write(f"OpenAI;{raw};{t_input};{trad}\n")
             except Exception as e: print(f"Error traduciendo con OpenAI: {e}")
 
-        # --- CLAUDE TRADUCE ---
         if USAR_CLAUDE:
             print("  -> Pidiendo traducción a Claude...")
             try:
@@ -132,10 +128,7 @@ def ejecutar_traducciones_unicas(carpeta_entrada="archivos_separados", archivo_s
 
     print(f"Traducciones guardadas en: {archivo_salida}\n")
 
-# ==========================================
 # FASE 2: PROMPTS Y FUNCIONES DE EVALUACIÓN
-# ==========================================
-# (Ahora el prompt NO pide traducir, solo puntuar del 0 al 3)
 def crear_prompt_evaluacion(lote_json):
     return f"""
     Act as an expert computational linguist evaluating AI models.
@@ -267,7 +260,6 @@ def ejecutar_evaluacion_lotes(carpeta_entrada="archivos_separados", carpeta_sali
         print(f"  Guardado: {ruta_guardado}")
         time.sleep(3)
 
-# --- EJECUCIÓN MAESTRA ---
 if __name__ == "__main__":
     if not USAR_GEMINI and not USAR_OPENAI and not USAR_CLAUDE:
         print("Advertencia: Todos los jueces están apagados (False).")

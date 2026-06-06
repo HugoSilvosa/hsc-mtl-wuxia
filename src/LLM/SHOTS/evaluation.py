@@ -37,11 +37,11 @@ sns.set_theme(style="whitegrid", context="paper", font_scale=1.2)
 nltk.download("wordnet", quiet=True)
 nltk.download("omw-1.4", quiet=True)
 
-INPUT_DIR = Path("extra") 
-OUTPUT_DIR = Path("evaluation")
-OUTPUT_FILE_TXT = OUTPUT_DIR / "resultados_extra.txt"
-OUTPUT_FILE_MD = OUTPUT_DIR / "resultados_extra.md"
-OUTPUT_IMG_DIR = OUTPUT_DIR / "graficas_extra"
+INPUT_DIR = Path("final") 
+OUTPUT_DIR = Path("C:\Users\Usuario\Desktop\TFG\CORPUS\evaluation\LLM")
+OUTPUT_FILE_TXT = OUTPUT_DIR / "resultados.txt"
+OUTPUT_FILE_MD = OUTPUT_DIR / "resultados.md"
+OUTPUT_IMG_DIR = OUTPUT_DIR / "graficas"
 
 def extract_gen_content(text):
     match_triple = re.search(r"\[\[\[(.*?)\]\]\]", text, re.DOTALL)

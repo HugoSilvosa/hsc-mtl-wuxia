@@ -73,11 +73,11 @@
     "chrf2": 53.2372,
     "ter": 59.2518,
     "rougeL_f1": 60.0721,
-    "meteor": 59.0252,
     "bertscore": 61.046,
-    "comet": 78.5177,
-    "execution_time": 419.93
+    "meteor": 59.0252,
+    "execution_time": 159.8
 }
+
 
 {
     "model": "Helsinki-NLP/opus-mt-zh-en",
@@ -124,14 +124,14 @@
     "n_eval": 1000,
     "num_beams": 4,
     "batch_eval": 8,
-    "sacrebleu": 37.7315,
-    "chrf2": 56.2162,
-    "ter": 56.0434,
-    "rougeL_f1": 62.4462,
-    "meteor": 61.914,
-    "bertscore": 86.7993,
-    "comet": 79.9604,
-    "execution_time": 1014.25
+    "sacrebleu": 32.4531,
+    "chrf2": 52.6815,
+    "ter": 60.7725,
+    "rougeL_f1": 59.017,
+    "meteor": 58.8272,
+    "bertscore": 85.796,
+    "comet": 78.7562,
+    "execution_time": 204.74
 }
 
 
