@@ -1,0 +1,94 @@
+# Corpus Configuration
+# This file centralizes all paths and parameters for the corpus processing pipeline
+
+datasets:
+  awe:
+    name: "A Wizard's Expedition"
+    full_name: "A Wizard's Expedition (AWE)"
+    raw_dir: "data/awe/raw"
+    segmented_dir: "data/awe/segmented/chapter"
+    processed_dir: "data/awe/processed"
+    source_files:
+      chinese: "awe_ch.txt"
+      english: "awe_en.txt"
+    output_prefix: "final_awe"
+    
+  condor:
+    name: "Condor"
+    full_name: "Condor"
+    raw_dir: "data/condor/raw"
+    processed_dir: "data/condor/processed"
+    source_files:
+      chinese: "condor_ch.txt"
+      english: "condor_en.txt"
+    output_prefix: "final_condor"
+    variants:
+      - name: "condor_1"
+        segmented_dir: "data/condor/segmented/Condor1"
+      - name: "condor_2"
+        segmented_dir: "data/condor/segmented/Condor2"
+      - name: "condor_3"
+        segmented_dir: "data/condor/segmented/Condor3"
+    
+  gu:
+    name: "Gu Zhenren"
+    full_name: "Gu Zhenren"
+    raw_dir: "data/gu/raw"
+    segmented_dir: "data/gu/segmented/chapter"
+    processed_dir: "data/gu/processed"
+    source_files:
+      chinese: "guzhenren_ch.txt"
+      english: "guzhenren_en.txt"
+    output_prefix: "final_gu"
+    
+  issth:
+    name: "I Shall Seal the Heavens"
+    full_name: "I Shall Seal the Heavens (ISSTH)"
+    raw_dir: "data/issth/raw"
+    segmented_dir: "data/issth/segmented/chapter"
+    processed_dir: "data/issth/processed"
+    source_files:
+      chinese: "issth_ch.txt"
+      english: "issth_en.txt"
+    output_prefix: "final_issth"
+
+aligners:
+  bertalign:
+    name: "BERT Alignment"
+    path: "aligners/bertalign"
+    model: "sentence-transformers/LaBSE"
+    type: "sentence_similarity"
+    
+  vecalign:
+    name: "Vector Alignment"
+    path: "aligners/vecalign"
+    type: "document_embedding"
+    embeddings:
+      chinese: "chino.emb"
+      english: "ingles.emb"
+
+preprocessing:
+  chinese:
+    script: "scripts/preprocessing/chinese.py"
+    output_dir: "processed"
+    
+  english:
+    script: "scripts/preprocessing/english.py"
+    output_dir: "processed"
+    
+  pdf_reader:
+    script: "scripts/preprocessing/pdf_reader.py"
+
+analysis:
+  similarity:
+    script: "scripts/analysis/similitudes.py"
+    output_format: "txt"
+    
+  statistics:
+    output_dir: "logs"
+    format: "json"
+
+output:
+  logs_dir: "logs"
+  alignment_format: "txt"
+  encoding: "utf-8"

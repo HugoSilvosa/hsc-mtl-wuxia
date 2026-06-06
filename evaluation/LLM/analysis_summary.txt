@@ -1,0 +1,105 @@
+GLOBAL VERBOSITY SUMMARY
+
+gemma3_base: 31.33 words | gemma3_finetuned: 17.19 words
+glm_base: 19.36 words | glm_finetuned: 17.81 words
+llama3_base: 21.4 words | llama3_finetuned: 17.08 words
+qwen3_base: 18.89 words | qwen3_finetuned: 16.81 words
+
+SHOT ANALYSIS (ICL IMPACT)
+
+Model Pair: gemma3_base vs gemma3_finetuned
+gemma3_base 0SHOT length: 57.03 words
+gemma3_base 1SHOT length: 24.85 words
+gemma3_base 2SHOT length: 30.1 words
+gemma3_base 3SHOT length: 28.76 words
+gemma3_base 5SHOT length: 22.42 words
+gemma3_base 10SHOT length: 20.18 words (Shows ICL learning to stop)
+gemma3_finetuned 0SHOT length: 17.24 words (Shows native constraint)
+gemma3_finetuned 1SHOT length: 17.27 words
+gemma3_finetuned 2SHOT length: 17.26 words
+gemma3_finetuned 3SHOT length: 17.05 words
+gemma3_finetuned 5SHOT length: 17.14 words
+gemma3_finetuned 10SHOT length: 17.19 words
+
+Model Pair: glm_base vs glm_finetuned
+glm_base 0SHOT length: 20.76 words
+glm_base 1SHOT length: 19.39 words
+glm_base 2SHOT length: 19.32 words
+glm_base 3SHOT length: 19.18 words
+glm_base 5SHOT length: 18.85 words
+glm_base 10SHOT length: 18.41 words (Shows ICL learning to stop)
+glm_finetuned 0SHOT length: 18.21 words (Shows native constraint)
+glm_finetuned 1SHOT length: 17.98 words
+glm_finetuned 2SHOT length: 17.67 words
+glm_finetuned 3SHOT length: 17.77 words
+glm_finetuned 5SHOT length: 17.74 words
+glm_finetuned 10SHOT length: 17.52 words
+
+Model Pair: llama3_base vs llama3_finetuned
+llama3_base 0SHOT length: 23.1 words
+llama3_base 1SHOT length: 20.55 words
+llama3_base 2SHOT length: 21.18 words
+llama3_base 3SHOT length: 20.98 words
+llama3_base 5SHOT length: 21.16 words
+llama3_base 10SHOT length: 21.3 words (Shows ICL learning to stop)
+llama3_finetuned 0SHOT length: 17.23 words (Shows native constraint)
+llama3_finetuned 1SHOT length: 17.19 words
+llama3_finetuned 2SHOT length: 17.14 words
+llama3_finetuned 3SHOT length: 16.96 words
+llama3_finetuned 5SHOT length: 16.99 words
+llama3_finetuned 10SHOT length: 16.97 words
+
+Model Pair: qwen3_base vs qwen3_finetuned
+qwen3_base 0SHOT length: 19.32 words
+qwen3_base 1SHOT length: 18.66 words
+qwen3_base 2SHOT length: 19.12 words
+qwen3_base 3SHOT length: 19.11 words
+qwen3_base 5SHOT length: 18.56 words
+qwen3_base 10SHOT length: 18.55 words (Shows ICL learning to stop)
+qwen3_finetuned 0SHOT length: 16.88 words (Shows native constraint)
+qwen3_finetuned 1SHOT length: 16.84 words
+qwen3_finetuned 2SHOT length: 16.82 words
+qwen3_finetuned 3SHOT length: 16.74 words
+qwen3_finetuned 5SHOT length: 16.85 words
+qwen3_finetuned 10SHOT length: 16.74 words
+
+PROMPT ANALYSIS (VERBOSITY PER PROMPT)
+
+Model Pair: gemma3_base vs gemma3_finetuned
+Prompt PROMPT 0 -> gemma3_base: 17.63 words | gemma3_finetuned: 17.11 words
+Prompt PROMPT 1 -> gemma3_base: 40.89 words | gemma3_finetuned: 17.13 words
+Prompt PROMPT 2 -> gemma3_base: 55.94 words | gemma3_finetuned: 17.25 words
+Prompt PROMPT 3 -> gemma3_base: 17.04 words | gemma3_finetuned: 17.26 words
+Prompt PROMPT 4 -> gemma3_base: 18.32 words | gemma3_finetuned: 17.21 words
+
+Model Pair: glm_base vs glm_finetuned
+Prompt PROMPT 0 -> glm_base: 18.21 words | glm_finetuned: 18.97 words
+Prompt PROMPT 1 -> glm_base: 20.22 words | glm_finetuned: 17.57 words
+Prompt PROMPT 2 -> glm_base: 22.42 words | glm_finetuned: 17.61 words
+Prompt PROMPT 3 -> glm_base: 17.19 words | glm_finetuned: 17.51 words
+Prompt PROMPT 4 -> glm_base: 18.85 words | glm_finetuned: 17.41 words
+
+Model Pair: llama3_base vs llama3_finetuned
+Prompt PROMPT 0 -> llama3_base: 17.74 words | llama3_finetuned: 17.07 words
+Prompt PROMPT 1 -> llama3_base: 22.18 words | llama3_finetuned: 17.05 words
+Prompt PROMPT 2 -> llama3_base: 27.3 words | llama3_finetuned: 17.09 words
+Prompt PROMPT 3 -> llama3_base: 19.26 words | llama3_finetuned: 17.12 words
+Prompt PROMPT 4 -> llama3_base: 20.5 words | llama3_finetuned: 17.07 words
+
+Model Pair: qwen3_base vs qwen3_finetuned
+Prompt PROMPT 0 -> qwen3_base: 17.51 words | qwen3_finetuned: 16.8 words
+Prompt PROMPT 1 -> qwen3_base: 21.08 words | qwen3_finetuned: 16.72 words
+Prompt PROMPT 2 -> qwen3_base: 19.9 words | qwen3_finetuned: 16.93 words
+Prompt PROMPT 3 -> qwen3_base: 17.74 words | qwen3_finetuned: 16.86 words
+Prompt PROMPT 4 -> qwen3_base: 18.2 words | qwen3_finetuned: 16.76 words
+
+PROMPT VARIANCE (STABILITY)
+
+gemma3_base prompt variance (Std Dev): 17.67 words
+gemma3_finetuned prompt variance (Std Dev): 0.07 words
+glm_base prompt variance (Std Dev): 2.02 words
+glm_finetuned prompt variance (Std Dev): 0.65 words
+llama3_base prompt variance (Std Dev): 3.68 words
+llama3_finetuned prompt variance (Std Dev): 0.03 words
+qwen3_base prompt variance (Std Dev): 1.54 words
+qwen3_finetuned prompt variance (Std Dev): 0.08 words
