@@ -1,0 +1,198 @@
+
+GU
+
+## Estadísticas 
+------------------------------------------------------------
+**Tiempo Total de Procesamiento:** 5518.62 segundos
+**Segmentos Chinos Totales (M):** 352097
+**Segmentos Ingleses Totales (N):** 334606
+
+# Frecuencia de Acciones
+Pares Alineados Totales: 325032
+Alineamientos 1-1: 292726
+Alineamientos 1-2 (Ch: 1, En: 2): 8624
+Alineamientos 2-1 (Ch: 2, En: 1): 20258
+Alineamientos 1-3 (Ch: 1, En: 3): 280
+Alineamientos 3-1 (Ch: 3, En: 1): 2244
+Alineamientos 1-4 (Ch: 1, En: 4): 129
+Alineamientos 4-1 (Ch: 4, En: 1): 771
+Segmentos Chinos Saltados (`skip_ch`): 6
+Segmentos Ingleses Saltados (`skip_en`): 3
+
+# Impacto de la Penalización de Salto (`skip_penalty`)
+% Chinos Saltados: 0.00% del total de segmentos chinos.
+% Ingleses Saltados: 0.00% del total de segmentos ingleses.
+------------------------------------------------------------
+Proceso completado. Tiempo total: 5518.63s con 325032 segmentos alineados.
+
+
+
+AWE 
+
+## Estadísticas 
+------------------------------------------------------------
+**Tiempo Total de Procesamiento:** 2745.79 segundos
+**Segmentos Chinos Totales (M):** 77232
+**Segmentos Ingleses Totales (N):** 153754
+
+# Frecuencia de Acciones
+Pares Alineados Totales: 76678
+Alineamientos 1-1: 29802
+Alineamientos 1-2 (Ch: 1, En: 2): 24246
+Alineamientos 2-1 (Ch: 2, En: 1): 430
+Alineamientos 1-3 (Ch: 1, En: 3): 13628
+Alineamientos 3-1 (Ch: 3, En: 1): 28
+Alineamientos 1-4 (Ch: 1, En: 4): 8522
+Alineamientos 4-1 (Ch: 4, En: 1): 22
+Segmentos Chinos Saltados (`skip_ch`): 2
+Segmentos Ingleses Saltados (`skip_en`): 8
+
+# Impacto de la Penalización de Salto (`skip_penalty`)
+% Chinos Saltados: 0.00% del total de segmentos chinos.
+% Ingleses Saltados: 0.01% del total de segmentos ingleses.
+
+
+
+
+
+
+CONDOR 
+## Estadísticas 
+------------------------------------------------------------
+**Tiempo Total de Procesamiento:** 954.13 segundos
+**Segmentos Chinos Totales (M):** 42125
+**Segmentos Ingleses Totales (N):** 61556
+
+# Frecuencia de Acciones
+Pares Alineados Totales: 40123
+Alineamientos 1-1: 24941
+Alineamientos 1-2 (Ch: 1, En: 2): 7891
+Alineamientos 2-1 (Ch: 2, En: 1): 1463
+Alineamientos 1-3 (Ch: 1, En: 3): 3243
+Alineamientos 3-1 (Ch: 3, En: 1): 163
+Alineamientos 1-4 (Ch: 1, En: 4): 2351
+Alineamientos 4-1 (Ch: 4, En: 1): 71
+Segmentos Chinos Saltados (`skip_ch`): 0
+Segmentos Ingleses Saltados (`skip_en`): 3
+
+# Impacto de la Penalización de Salto (`skip_penalty`)
+% Chinos Saltados: 0.00% del total de segmentos chinos.
+% Ingleses Saltados: 0.00% del total de segmentos ingleses.
+------------------------------------------------------------
+Proceso completado para Condor1. Tiempo del capítulo: 954.13s con 40123 segmentos alineados.
+
+
+## Estadísticas 
+------------------------------------------------------------
+**Tiempo Total de Procesamiento:** 955.33 segundos
+**Segmentos Chinos Totales (M):** 42884
+**Segmentos Ingleses Totales (N):** 59397
+
+# Frecuencia de Acciones
+Pares Alineados Totales: 41802
+Alineamientos 1-1: 29532
+Alineamientos 1-2 (Ch: 1, En: 2): 6981
+Alineamientos 2-1 (Ch: 2, En: 1): 706
+Alineamientos 1-3 (Ch: 1, En: 3): 2616
+Alineamientos 3-1 (Ch: 3, En: 1): 146
+Alineamientos 1-4 (Ch: 1, En: 4): 1793
+Alineamientos 4-1 (Ch: 4, En: 1): 28
+Segmentos Chinos Saltados (`skip_ch`): 0
+Segmentos Ingleses Saltados (`skip_en`): 3
+
+# Impacto de la Penalización de Salto (`skip_penalty`)
+% Chinos Saltados: 0.00% del total de segmentos chinos.
+% Ingleses Saltados: 0.01% del total de segmentos ingleses.
+------------------------------------------------------------
+Proceso completado para Condor2. Tiempo del capítulo: 955.34s con 41802 segmentos alineados.
+
+## Estadísticas 
+------------------------------------------------------------
+**Tiempo Total de Procesamiento:** 990.16 segundos
+**Segmentos Chinos Totales (M):** 43491
+**Segmentos Ingleses Totales (N):** 61693
+
+# Frecuencia de Acciones
+Pares Alineados Totales: 41108
+Alineamientos 1-1: 25836
+Alineamientos 1-2 (Ch: 1, En: 2): 8292
+Alineamientos 2-1 (Ch: 2, En: 1): 1412
+Alineamientos 1-3 (Ch: 1, En: 3): 3195
+Alineamientos 3-1 (Ch: 3, En: 1): 247
+Alineamientos 1-4 (Ch: 1, En: 4): 1967
+Alineamientos 4-1 (Ch: 4, En: 1): 159
+Segmentos Chinos Saltados (`skip_ch`): 0
+Segmentos Ingleses Saltados (`skip_en`): 2
+
+# Impacto de la Penalización de Salto (`skip_penalty`)
+% Chinos Saltados: 0.00% del total de segmentos chinos.
+% Ingleses Saltados: 0.00% del total de segmentos ingleses.
+------------------------------------------------------------
+
+Proceso completado para Condor3. Tiempo del capítulo: 990.17s con 41108 segmentos alineados.
+
+
+
+
+
+--------------------------------------------------
+1. MÉTRICAS 
+--------------------------------------------------
+
+| CORPUS          | Tiempo Total (s) | Seg. Chinos (M) | Seg. Ingleses (N) | Pares Alineados | Seg. Chinos Saltados | Seg. Ingleses Saltados | % Skip Chino | % Skip Inglés |
+|-----------------|------------------|-----------------|-------------------|-----------------|----------------------|------------------------|--------------|---------------|
+| GU (Total)      | 5518.62          | 352,097         | 334,606           | 325,032         | 6                    | 3                      | 0.00%        | 0.00%         |
+| AWE (Total)     | 2745.79          | 77,232          | 153,754           | 76,678          | 2                    | 8                      | 0.00%        | 0.01%         |
+| CONDOR (Total)  | 2899.62          | 128,500         | 182,646           | 123,033         | 0                    | 8                      | 0.00%        | 0.00%         |
+|                 |                  |                 |                   |                 |                      |                        |              |               |
+| CONDOR (Cap 1)  | 954.13           | 42,125          | 61,556            | 40,123          | 0                    | 3                      | 0.00%        | 0.00%         |
+| CONDOR (Cap 2)  | 955.33           | 42,884          | 59,397            | 41,802          | 0                    | 3                      | 0.00%        | 0.01%         |
+| CONDOR (Cap 3)  | 990.16           | 43,491          | 61,693            | 41,108          | 0                    | 2                      | 0.00%        | 0.00%         |
+
+
+--------------------------------------------------
+2. FRECUENCIA DE TIPOS DE ALINEAMIENTO (PARES)
+--------------------------------------------------
+*C: Chino, E: Inglés. E.g., 1:2 significa 1 segmento C alineado con 2 segmentos E.*
+
+| CORPUS          | 1:1     | 1:2     | 2:1     | 1:3     | 3:1   | 1:4   | 4:1 | Pares Alineados Total |
+|-----------------|---------|---------|---------|---------|-------|-------|-----|-----------------------|
+| GU (Total)      | 292,726 | 8,624   | 20,258  | 280     | 2,244 | 129   | 771 | 325,032               |
+| AWE (Total)     | 29,802  | 24,246  | 430     | 13,628  | 28    | 8,522 | 22  | 76,678                |
+| CONDOR (Total)  | 80,309  | 23,164  | 3,581   | 9,054   | 556   | 6,111 | 258 | 123,033               |
+|                 |         |         |         |         |       |       |     |                       |
+| CONDOR (Cap 1)  | 24,941  | 7,891   | 1,463   | 3,243   | 163   | 2,351 | 71  | 40,123                |
+| CONDOR (Cap 2)  | 29,532  | 6,981   | 706     | 2,616   | 146   | 1,793 | 28  | 41,802                |
+| CONDOR (Cap 3)  | 25,836  | 8,292   | 1,412   | 3,195   | 247   | 1,967 | 159 | 41,108                |
+
+
+
+## Estadísticas Globales de Alineamiento y Rendimiento
+------------------------------------------------------------
+**Tiempo Total de Procesamiento:** 6367.62 segundos
+**Segmentos Chinos Totales (M):** 77232
+**Segmentos Ingleses Totales (N):** 153754
+
+# Frecuencia de Acciones
+Alineamientos 1-1 (Ch: 1, En: 1): 30992
+Alineamientos 1-2 (Ch: 1, En: 2): 24541
+Alineamientos 1-3 (Ch: 1, En: 3): 13046
+Alineamientos 1-4 (Ch: 1, En: 4): 5068
+Alineamientos 1-5 (Ch: 1, En: 5): 1744
+Alineamientos 1-6 (Ch: 1, En: 6): 522
+Alineamientos 2-1 (Ch: 2, En: 1): 412
+Alineamientos 3-1 (Ch: 3, En: 1): 18
+Alineamientos 4-1 (Ch: 4, En: 1): 4
+Alineamientos 5-1 (Ch: 5, En: 1): 1
+Alineamientos 6-1 (Ch: 6, En: 1): 2
+Pares Alineados Totales: 76350
+Segmentos Chinos Saltados (`skip_ch`): 65
+Segmentos Ingleses Saltados (`skip_en`): 108
+
+# Impacto de la Penalización o
+ Chinos Saltados: 0.08% del total de segmentos chinos.
+ Ingleses Saltados: 0.07% del total de segmentos ingleses.
+
+Segmentos no contabilizados (Ch: 343, En: 1873).
+------------------------------------------------------------
+Proceso completado. Tiempo total: 6367.62s con 76627 segmentos alineados.
