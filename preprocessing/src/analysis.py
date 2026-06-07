@@ -1,10 +1,21 @@
 import os
 import re
 import math
+from pathlib import Path
 from collections import Counter
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+
+# =========================================================
+# RUTAS CENTRALIZADAS (relativas a la carpeta data/)
+# =========================================================
+PROJECT_DIR = Path(__file__).resolve().parent.parent   # .../data
+CORPUS_DIR  = PROJECT_DIR / "inputs" / "corpus"         # corpus paralelo ZH-EN
+MAIN_STATS  = PROJECT_DIR / "outputs" / "main" / "statistics"
+MAIN_GRAPHS = PROJECT_DIR / "outputs" / "main" / "graphs"
+HF_STATS    = PROJECT_DIR / "outputs" / "hf" / "statistics"
+HF_GRAPHS   = PROJECT_DIR / "outputs" / "hf" / "graphs"
 
 # --- LIBRERÍAS DE GRAFOS INTERACTIVOS ---
 try:
@@ -239,7 +250,7 @@ def analyze_local_corpus():
     en_words, zh_words, zh_full_text = [], [], ""
     lens_data = {'en_lens': [], 'zh_lens': []}
     
-    with open('dataset.txt', 'r', encoding='utf-8-sig') as f:
+    with open(CORPUS_DIR / 'dataset.txt', 'r', encoding='utf-8-sig') as f:
         for line in f:
             if ';' not in line: continue
             parts = line.strip().split(';', 1)
@@ -261,6 +272,7 @@ def analyze_local_corpus():
     for b_name, files in libros.items():
         fac, tech, char = [], [], []
         for fp in files:
+            fp = CORPUS_DIR / fp
             if not os.path.exists(fp): continue
             with open(fp, 'r', encoding='utf-8-sig') as f:
                 for line in f:
@@ -275,14 +287,14 @@ def analyze_local_corpus():
         book_data[b_name] = {'factions': fac, 'techniques': tech, 'chars': char}
         glob_ents['factions'].extend(fac); glob_ents['techniques'].extend(tech); glob_ents['chars'].extend(char)
         
-        o_dir = os.path.join("grafos", b_name)
+        o_dir = os.path.join(MAIN_GRAPHS, b_name)
         os.makedirs(o_dir, exist_ok=True)
         create_interactive_graph(fac, os.path.join(o_dir, f"grafo_facciones_{b_name.lower()}.html"), "#4287f5")
         create_interactive_graph(tech, os.path.join(o_dir, f"grafo_tecnicas_{b_name.lower()}.html"), "#f54242")
         create_interactive_graph(char, os.path.join(o_dir, f"grafo_personajes_{b_name.lower()}.html"), "#42f58d")
 
     # 3. Grafos y Estadísticas Globales
-    generate_statistical_charts(metrics, glob_ents, lens_data, {'en_words': en_words, 'zh_words': zh_words}, 'estadisticas')
+    generate_statistical_charts(metrics, glob_ents, lens_data, {'en_words': en_words, 'zh_words': zh_words}, MAIN_STATS)
     
     t_fac, t_tech, t_char = set(), set(), set()
     for d in book_data.values():
@@ -290,7 +302,7 @@ def analyze_local_corpus():
         t_tech.update([e for e, c in Counter([x for s in d['techniques'] for x in s]).most_common(30)])
         t_char.update([e for e, c in Counter([x for s in d['chars'] for x in s]).most_common(30)])
     
-    o_dir = os.path.join("grafos", "GLOBAL")
+    o_dir = os.path.join(MAIN_GRAPHS, "GLOBAL")
     os.makedirs(o_dir, exist_ok=True)
     create_interactive_graph(glob_ents['factions'], os.path.join(o_dir, "grafo_facciones_global.html"), "#4287f5", dict(Counter([x for s in glob_ents['factions'] for x in s if x in t_fac])))
     create_interactive_graph(glob_ents['techniques'], os.path.join(o_dir, "grafo_tecnicas_global.html"), "#f54242", dict(Counter([x for s in glob_ents['techniques'] for x in s if x in t_tech])))
@@ -359,15 +371,12 @@ def analyze_hf_dataset(hf_path):
 
     metrics = compute_metrics_and_print(en_words, zh_words, zh_full_text, f"DATASET HUGGING FACE (Unificado: {', '.join(splits)})")
 
-    base_out = "resultados_HF"
-    os.makedirs(base_out, exist_ok=True)
-    
     print("Generando Gráficos y Estadísticas de HF...")
-    generate_statistical_charts(metrics, glob_ents, lens_data, {'en_words': en_words, 'zh_words': zh_words}, os.path.join(base_out, 'estadisticas'))
-    
-    graf_dir = os.path.join(base_out, 'grafos')
+    generate_statistical_charts(metrics, glob_ents, lens_data, {'en_words': en_words, 'zh_words': zh_words}, HF_STATS)
+
+    graf_dir = HF_GRAPHS
     os.makedirs(graf_dir, exist_ok=True)
-    
+
     create_interactive_graph(glob_ents['factions'], os.path.join(graf_dir, "grafo_facciones_hf.html"), "#4287f5")
     create_interactive_graph(glob_ents['techniques'], os.path.join(graf_dir, "grafo_tecnicas_hf.html"), "#f54242")
     create_interactive_graph(glob_ents['chars'], os.path.join(graf_dir, "grafo_personajes_hf.html"), "#42f58d")

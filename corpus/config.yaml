@@ -69,19 +69,19 @@ aligners:
 
 preprocessing:
   chinese:
-    script: "scripts/preprocessing/chinese.py"
+    script: "src/preprocessing/chinese.py"
     output_dir: "processed"
     
   english:
-    script: "scripts/preprocessing/english.py"
+    script: "src/preprocessing/english.py"
     output_dir: "processed"
     
   pdf_reader:
-    script: "scripts/preprocessing/pdf_reader.py"
+    script: "src/preprocessing/pdf_reader.py"
 
 analysis:
   similarity:
-    script: "scripts/analysis/similitudes.py"
+    script: "src/analysis/similitudes.py"
     output_format: "txt"
     
   statistics:

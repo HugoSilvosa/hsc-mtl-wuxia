@@ -9,9 +9,11 @@ import sys
 import re
 
 
-BASE_DIR = Path.cwd().parent
-DATA_DIR = BASE_DIR / "preprocessing" / "scores_data_selection"
-ORIGINAL_DATASET_PATH = BASE_DIR.parent / "processed_data" / "wuxia_zh_en_clean"
+# Rutas relativas a la ubicación del script (.../data/src/preprocessing/)
+PROJECT_DIR = Path(__file__).resolve().parents[2]              # .../data
+REPO_DIR = PROJECT_DIR.parent                                  # .../CORPUS
+DATA_DIR = PROJECT_DIR / "inputs" / "scores"                   # CSVs de scores chrF
+ORIGINAL_DATASET_PATH = REPO_DIR / "processed_data" / "wuxia_zh_en_clean"
 
 # PARÁMETROS
 K_SAMPLES_TARGET = 100_000
@@ -260,7 +262,7 @@ def main():
     elif args.mode == 'execute':
         new_train = raw_ds['train'].select(selected_indices)
         raw_ds['train'] = new_train
-        output_path = DATA_DIR / f"wuxia_selected_{len(new_train)}"
+        output_path = REPO_DIR / "processed_data" / f"wuxia_selected_{len(new_train)}"
         raw_ds.save_to_disk(str(output_path))
         print(f"Guardado en: {output_path}")
 

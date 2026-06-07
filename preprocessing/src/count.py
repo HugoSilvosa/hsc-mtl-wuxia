@@ -13,7 +13,8 @@ def contar_palabras(archivo):
         return None
 
 if __name__ == "__main__":
-    carpeta = os.path.dirname(os.path.abspath(__file__))
+    # Corpus paralelo: .../data/inputs/corpus
+    carpeta = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "inputs", "corpus")
 
     print("Conteo de palabras por archivo:\n" + "-"*40)
 
