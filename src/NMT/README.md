@@ -33,17 +33,4 @@ src/NMT/
     translate/               # Traducciones generadas y logs
 ```
 
-## Uso CLI
-
-```bash
-python src/NMT/scripts/translate.py mbart --out-file output.txt --num-sentences 10
-python src/NMT/scripts/train.py mbart --fraction 0.1 --epochs 2
-python src/NMT/scripts/evaluate.py mbart --checkpoint ...
-```
-
-## Validación
-
-```bash
-python src/NMT/scripts/train.py --model marianmt --fraction 0.1 --epochs 2
-python src/NMT/scripts/evaluate.py --model small100 --fraction 0.1
-```
+## Uso CLIpython src/NMT/scripts/translate.py mbart --out-file output.txt --num-sentences 10

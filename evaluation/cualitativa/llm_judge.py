@@ -6,11 +6,12 @@ import time
 import google.generativeai as genai
 from openai import OpenAI
 from anthropic import Anthropic
+from dotenv import load_dotenv
 
-#  CONFIGURACIÓN DE API KEYS 
-OPENAI_API_KEY = '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'
-GEMINI_API_KEY = 'AIzaSyANweczz4t29Eg8Fk7ckMevipgaU3BarZ4'
-ANTHROPIC_API_KEY = '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'
+
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY')
 
 # Inicialización de clientes
 cliente_openai = OpenAI(api_key=OPENAI_API_KEY)
