@@ -241,7 +241,6 @@ def main():
             # Configurar figura con 2 paneles (Izquierda: Original, Derecha: Final)
             fig, axes = plt.subplots(1, 2, figsize=(16, 6))
             
-            # --- GRÁFICA 1: LA PISCINA INICIAL (Filtrada > 20) ---
             # Esto muestra el sesgo natural de los datos de internet (seguramente muchas fáciles)
             axes[0].hist(df_filtered['mean_score'], bins=50, color='royalblue', alpha=0.7, edgecolor='black', linewidth=0.5)
             axes[0].set_title(f"ANTES: Distribución Original (Filtrada)\nTotal: {len(df_filtered)} muestras", fontsize=12, fontweight='bold')
@@ -249,7 +248,6 @@ def main():
             axes[0].set_ylabel("Número de Frases", fontsize=10)
             axes[0].grid(axis='y', alpha=0.3)
             
-            # --- GRÁFICA 2: LA SELECCIÓN FINAL (Balanced) ---
             # Esto muestra cómo has forzado la igualdad de oportunidades
             axes[1].hist(df_selected['mean_score'], bins=50, color='limegreen', alpha=0.8, edgecolor='black', linewidth=0.5)
             axes[1].set_title(f"DESPUÉS: Distribución Final (Balanced)\nTotal: {len(df_selected)} muestras", fontsize=12, fontweight='bold')

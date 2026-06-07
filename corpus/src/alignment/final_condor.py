@@ -503,7 +503,6 @@ def process_all_files(input_dir=".", output_file="final_default.txt"):
 if __name__ == '__main__':
     
     
-    # Configuración 
     ch_suffix = "ch.txt"
     en_suffix = "en.txt"
     

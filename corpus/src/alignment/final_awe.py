@@ -220,7 +220,7 @@ def align_segments(segments_ch, segments_en):
     vecs_en_multi = {} 
     sim_matrices = {}
 
-    # --- Generación de Matrices (Igual que antes) ---
+    #  Generación de Matrices  
     sim_matrices['1-1'] = np.dot(vecs_ch, vecs_en.T)
 
     for K in range(2, MAX_ALIGNMENT_MULTIPLIER + 1):
@@ -234,7 +234,7 @@ def align_segments(segments_ch, segments_en):
             vecs_en_multi[K] = model.encode(combined_en, normalize_embeddings=True)
             sim_matrices[f'1-{K}'] = np.dot(vecs_ch, vecs_en_multi[K].T)
 
-    # --- DP (Igual que antes) ---
+    # DP 
     DP = np.full((M+1, N+1), -1e9)
     DP[0, 0] = 0.0
     backpointer = [[None] * (N+1) for _ in range(M+1)]
@@ -407,7 +407,6 @@ def process_all_files(input_dir="."):
             "total_segments_ch": 0, "total_segments_en": 0
         }
 
-    # Definimos el nombre del archivo de similitudes
     output_scores_file = "final_awe_similitudes_3.txt"
 
     # Abrimos ambos archivos simultáneamente

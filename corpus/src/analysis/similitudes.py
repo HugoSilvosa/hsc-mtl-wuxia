@@ -1,7 +1,6 @@
 import os
 from sentence_transformers import SentenceTransformer, util
 
-# --- CONFIGURACIÓN ---
 INPUT_FILE_1 = "gu10.txt"    # El formato: Chino ; Inglés
 INPUT_FILE_2 = "gu_ch10.txt"  # El formato de 3 líneas
 OUTPUT_FILE = "resultados_similitud100.txt"  
@@ -53,9 +52,7 @@ def process_files():
     with open(OUTPUT_FILE, 'w', encoding='utf-8-sig') as out_f:
         out_f.write("archivo;chino;ingles;similitud\n")
 
-        # ---------------------------------------------------------
-        # PROCESAMIENTO ARCHIVO 1
-        # ---------------------------------------------------------
+        # ARCHIVO 1
         if os.path.exists(INPUT_FILE_1):
             print(f"Procesando {INPUT_FILE_1}...")
             with open(INPUT_FILE_1, 'r', encoding='utf-8') as f:
@@ -99,9 +96,8 @@ def process_files():
         else:
             print(f"Aviso: No se encontró {INPUT_FILE_1}")
 
-        # ---------------------------------------------------------
         # PROCESAMIENTO ARCHIVO 2
-        # ---------------------------------------------------------
+
         if os.path.exists(INPUT_FILE_2):
             print(f"Procesando {INPUT_FILE_2}...")
             with open(INPUT_FILE_2, 'r', encoding='utf-8') as f:
@@ -134,7 +130,6 @@ def process_files():
                 out_en = clean_text_for_csv(raw_en)
                 out_f.write(f"{INPUT_FILE_2};{out_zh};{out_en};{score:.5f}\n")
 
-            # Imprimir reporte
             print_stats(total_score, total_count, filtered_score, filtered_count, INPUT_FILE_2)
 
         else:

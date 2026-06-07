@@ -7,24 +7,20 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
-# =========================================================
-# RUTAS CENTRALIZADAS (relativas a la carpeta data/)
-# =========================================================
-PROJECT_DIR = Path(__file__).resolve().parent.parent   # .../data
+
+PROJECT_DIR = Path(__file__).resolve().parent.parent   
 CORPUS_DIR  = PROJECT_DIR / "inputs" / "corpus"         # corpus paralelo ZH-EN
 MAIN_STATS  = PROJECT_DIR / "outputs" / "main" / "statistics"
 MAIN_GRAPHS = PROJECT_DIR / "outputs" / "main" / "graphs"
 HF_STATS    = PROJECT_DIR / "outputs" / "hf" / "statistics"
 HF_GRAPHS   = PROJECT_DIR / "outputs" / "hf" / "graphs"
 
-# --- LIBRERÍAS DE GRAFOS INTERACTIVOS ---
 try:
     from pyvis.network import Network
 except ImportError:
     print("Error: Instala pyvis (pip install pyvis)")
     exit()
 
-# --- LIBRERÍAS NLP ---
 try:
     import jieba
     import jieba.posseg as pseg
@@ -48,9 +44,8 @@ except ImportError:
     print("Error: Instala lexicalrichness (pip install lexicalrichness)")
     exit()
 
-# =========================================================
 # CONFIGURACIÓN Y PATRONES WUXIA
-# =========================================================
+
 STOP_WORDS_EN = set(stopwords.words('english'))
 REGEX_FACTIONS = r'\b([A-Z][a-z]+(?:\s[A-Z][a-z]+)*\s(?:Sect|Faction|Clan|School|Valley|Pavilion|Palace|Court|Mountain))\b'
 REGEX_TECHNIQUES = r'\b([A-Z][a-z]+(?:\s[A-Z][a-z]+)*\s(?:Art|Skill|Technique|Mantra|Method|Sword|Fist|Palm|Finger|Step|Scripture|Manual|Formation))\b'
@@ -65,9 +60,8 @@ def is_valid_character(name):
     if any(suffix in name for suffix in ['Sect', 'Clan', 'Art', 'Skill', 'Valley', 'Technique']): return False
     return True
 
-# =========================================================
-# FUNCIONES MATEMÁTICAS CENTRALIZADAS
-# =========================================================
+# FUNCIONES 
+
 def calc_sttr(tokens, chunk_size=1000):
     if len(tokens) < chunk_size: return (len(set(tokens)) / len(tokens)) * 100 if tokens else 0
     ttrs = [len(set(tokens[i : i + chunk_size])) / chunk_size for i in range(0, len(tokens) - chunk_size + 1, chunk_size)]
@@ -145,9 +139,7 @@ def compute_metrics_and_print(en_words, zh_words, zh_full_text, title="ANÁLISIS
 
     return {'sttr_en': sttr_en, 'sttr_zh': sttr_zh, 'den_en': lex_den_en, 'den_zh': lex_den_zh}
 
-# =========================================================
 # FUNCIONES DE GRÁFICOS (PYVIS Y ESTADÍSTICAS)
-# =========================================================
 def generate_statistical_charts(metrics_data, entities_data, lens_data, freq_data, out_folder):
     os.makedirs(out_folder, exist_ok=True)
 
@@ -238,9 +230,7 @@ def create_interactive_graph(entities_per_line, filepath, node_color, custom_tar
     net.save_graph(filepath)
 
 
-# =========================================================
-# LÓGICA PRINCIPAL DEL CORPUS LOCAL (.txt)
-# =========================================================
+# LÓGICA PRINCIPAL DEL CORPUS
 def analyze_local_corpus():
     
     print(" INICIANDO FASE 1: CORPUS LOCAL PRINCIPAL")
@@ -309,9 +299,8 @@ def analyze_local_corpus():
     create_interactive_graph(glob_ents['chars'], os.path.join(o_dir, "grafo_personajes_global.html"), "#42f58d", dict(Counter([x for s in glob_ents['chars'] for x in s if x in t_char])))
 
 
-# =========================================================
-# LÓGICA DEL DATASET HUGGING FACE (Local Disk)
-# =========================================================
+# LÓGICA DEL DATASET HUGGING FACE 
+#
 def analyze_hf_dataset(hf_path):
     
     print(" INICIANDO FASE 2: DATASET HUGGING FACE (GLOBAL)")
@@ -383,10 +372,10 @@ def analyze_hf_dataset(hf_path):
 
 
 if __name__ == "__main__":
-    # FASE 1: Tu Corpus Principal
+    # FASE 1 
     analyze_local_corpus()
     
-    # FASE 2: El Dataset Externo de Hugging Face
+    # FASE 2
     HF_PATH = r"C:\Users\Usuario\Desktop\TFG\CORPUS\processed_data\wuxia_selected_100000"
     analyze_hf_dataset(HF_PATH)
     

@@ -1,7 +1,6 @@
 from datasets import load_from_disk
 import pandas as pd
 
-# Cargar el dataset procesado
 dataset_path = r"preprocess_data/wuxia_zh_en_clean"
 dataset = load_from_disk(dataset_path)
 

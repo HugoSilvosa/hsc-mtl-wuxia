@@ -1,4 +1,4 @@
-# data/ — Análisis estadístico y léxico del corpus Wuxia
+# preprocessing/ — Análisis estadístico y léxico del corpus Wuxia
 
 Módulo de análisis del corpus paralelo chino→inglés del TFG. A partir del corpus
 ya alineado, calcula métricas de riqueza léxica, extrae entidades del género
@@ -9,7 +9,7 @@ referencia** de Hugging Face.
 ## Estructura
 
 ```
-data/
+preprocessing/
 ├── inputs/                     # Datos fuente (entradas)
 │   ├── corpus/                 #   corpus paralelo ZH-EN (formato "chino ; inglés")
 │   │   ├── dataset.txt         #     corpus principal unificado
