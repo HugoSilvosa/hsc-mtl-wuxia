@@ -42,7 +42,7 @@ preprocessing/
 
 ## Uso
 
-Las rutas de los scripts se resuelven respecto a `data/`, así que pueden
+Las rutas de los scripts se resuelven respecto a `preprocessing/`, así que pueden
 ejecutarse desde cualquier directorio:
 
 ```bash

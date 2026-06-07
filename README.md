@@ -18,19 +18,17 @@ pip install
 1. **Estructura de carpetas:**
    ```
    .
-   ├── context/               # Modelos locales (opcional)
-   ├── corpus/             # Jupyter notebooks
-   ├── data/               # Se guardan los datasets individuales de cada libro y se juntan en uno final.
-   ├── evaluation/
-   ├── figures/
-   ├── models/
-   ├── preprocessing/      # Contiene preprocessing.py, que convierte el dataset (en txt) a un dataset de HugginFace.
-   ├── processed_data/     # Contiene la carpeta `wuxia_zh_en_clean`, dataset usado en el proyecto
-   ├── training
-   ├──
-   ├──
-   ├──
-   └── README.md              # Este archivo
+   ├── corpus/             # Preparación y segmentación de los libros para crear el corpus paralelo
+   ├── preprocessing/      # Análisis estadístico/léxico del corpus y selección de datos (ver preprocessing/README.md)
+   ├── processed_data/     # Datasets procesados (p. ej. `wuxia_zh_en_clean`, usado en el proyecto)
+   ├── src/                # Código de los modelos de traducción: LLM, NMT y SMT
+   ├── models/             # Modelos entrenados (mBART50, M2M100, MarianMT, mT5, IBM…)
+   ├── evaluation/         # Evaluación de los modelos (CO2, LLM, NMT, tiempos, cualitativa)
+   ├── figures/            # Diagramas del TFG (arquitecturas, BPE, segmentación…)
+   ├── images/             # Imágenes (portadas de los libros, diagrama de Gantt…)
+   ├── logs/               # Logs de entrenamiento
+   ├── docs/               # Documentación del TFG (memoria, anteproyecto, diario)
+   └── README.md           # Este archivo
    ```
 
 ##  CORPUS
