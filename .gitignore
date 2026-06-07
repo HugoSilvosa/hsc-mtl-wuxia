@@ -7,6 +7,6 @@ corpus/data/condor/segmented/*
 corpus/data/issth
 
 corpus/aligners/
-
+src/NMT/configs/__pycache__
 figures
 hugging_face.txt

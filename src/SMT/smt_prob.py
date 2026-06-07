@@ -28,7 +28,7 @@ def consultar_palabra(palabra_china, top_n=5):
 
 palabras_a_consultar = ["魔头", "杀", "剑", "宗门"] # Ej: Demonio, Matar, Espada, Secta
 
-print("\n--- ANÁLISIS DE PROBABILIDADES ESTADÍSTICAS ---")
+print("\nANÁLISIS DE PROBABILIDADES ESTADÍSTICAS")
 for palabra in palabras_a_consultar:
     opciones = consultar_palabra(palabra)
     
