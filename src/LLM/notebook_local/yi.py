@@ -13,9 +13,9 @@ from datasets import load_from_disk
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 from huggingface_hub import login
 os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "0"
-# ==========================================
+# 
 # Global Settings
-# ==========================================
+# 
 PERFORM_HF_LOGIN = False
 N_SAMPLES = 1
 SEED = 42
@@ -115,9 +115,9 @@ PROMPT_TEMPLATES = [
     }
 ]
 
-# ==========================================
+# 
 # Utils
-# ==========================================
+# 
 def set_deterministic_seed(seed_value):
     """Sets seeds for reproducibility."""
     random.seed(seed_value)
@@ -214,9 +214,9 @@ def build_shots_dataset(dataset, num_shots, split="train"):
     return [dataset[split][i % total_rows] for i in range(num_shots)]
 
 
-# ==========================================
+# 
 # Main
-# ==========================================
+# 
 
 def main():
     if PERFORM_HF_LOGIN:

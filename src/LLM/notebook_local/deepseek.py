@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-sssssssssssssss
+
 import argparse
 import os
 import time

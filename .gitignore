@@ -1,14 +1,15 @@
-models
-processed_data
+models/*
+!models
+processed_data/*
+!processed_data/wuxia_selected_100000
 logs
-corpus/data/gu/segmented/*
-corpus/data/awe/segmented/*
-corpus/data/condor/segmented/*
-corpus/data/issth
+wuxia_corpus/data/gu/segmented/*
+wuxia_corpus/data/awe/segmented/*
+wuxia_corpus/data/condor/segmented/*
+wuxia_corpus/data/issth
 
 corpus/aligners/
 src/NMT/configs/__pycache__
-
-hugging_face.txt
-
-evaluation/cualitativa/.env
+.env
+results/cualitativa/.env
+src/NMT/utils/__pycache__

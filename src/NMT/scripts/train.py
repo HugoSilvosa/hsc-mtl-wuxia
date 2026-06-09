@@ -13,9 +13,8 @@ from transformers import (
 
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
-from NMT.utils.reproducibility import set_seed, enable_mixed_precision
-from NMT.utils.data import build_dataloader, select_fraction
-from NMT.utils.generation import decode_ids_to_text
+from NMT.utils.reproducibility import set_seed
+from NMT.utils.data import select_fraction
 from NMT.configs.config import (
     MarianMTConfig,
     M2M100Config,
@@ -41,41 +40,53 @@ MODEL_DIR_NAMES = {
 }
 
 
+def get_project_root() -> Path:
+    return Path(__file__).resolve().parents[3]
+
+
 def load_dataset(cfg):
-    try:
-        from datasets import load_from_disk
-        dataset = load_from_disk(str(cfg.dataset_dir))
-        print(f"Dataset cargado: {dataset}")
-        return dataset["train"], dataset["validation"], dataset["test"]
-    except Exception as e:
-        print(f"Error cargando dataset: {e}")
-        raise
+    from datasets import load_from_disk
+    dataset = load_from_disk(str(cfg.dataset_dir))
+    return dataset["train"], dataset["validation"], dataset["test"]
 
 
-def preprocess(examples, tokenizer, cfg):
+def preprocess_function(examples, tokenizer, cfg):
     inputs = [str(x) for x in examples[cfg.src_col]]
     targets = [str(x) for x in examples[cfg.tgt_col]]
+
     model_inputs = tokenizer(
-        inputs, max_length=cfg.max_source_length, truncation=True, padding="max_length"
+        inputs,
+        max_length=cfg.max_source_length,
+        truncation=True,
+        padding="max_length",
     )
+
     with tokenizer.as_target_tokenizer():
         labels = tokenizer(
-            targets, max_length=cfg.max_target_length, truncation=True, padding="max_length"
+            targets,
+            max_length=cfg.max_target_length,
+            truncation=True,
+            padding="max_length",
         )
+
     model_inputs["labels"] = labels["input_ids"]
     return model_inputs
 
 
 def train(args):
     cfg_cls = MODEL_CONFIGS[args.model]
+    model_dir_name = MODEL_DIR_NAMES[args.model]
+    output_dir = Path(args.output_dir) if args.output_dir else get_project_root() / "models" / model_dir_name
+
     cfg = cfg_cls(
         dataset_dir=Path(args.dataset_dir),
-        output_dir=Path(args.output_dir),
+        output_dir=output_dir,
         model_ckpt=args.model_ckpt or cfg_cls.__dataclass_fields__["model_ckpt"].default,
         fraction=args.fraction,
         epochs=args.epochs,
         batch_size=args.batch_size,
     )
+
     set_seed(cfg.seed)
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"Dispositivo: {device}")
@@ -84,16 +95,16 @@ def train(args):
     train_ds = select_fraction(train_ds, cfg.fraction, cfg.seed)
 
     tokenizer = AutoTokenizer.from_pretrained(str(cfg.model_ckpt))
-    if hasattr(cfg, "translation_prefix"):
+
+    if hasattr(cfg, "translation_prefix") and cfg.use_instruction_prefix:
         def add_prefix(example):
             example[cfg.src_col] = cfg.translation_prefix + str(example[cfg.src_col])
             return example
         train_ds = train_ds.map(add_prefix)
         val_ds = val_ds.map(add_prefix)
-        test_ds = test_ds.map(add_prefix)
 
-    train_tok = train_ds.map(lambda ex: preprocess(ex, tokenizer, cfg), batched=True)
-    val_tok = val_ds.map(lambda ex: preprocess(ex, tokenizer, cfg), batched=True)
+    train_tok = train_ds.map(lambda ex: preprocess_function(ex, tokenizer, cfg), batched=True)
+    val_tok = val_ds.map(lambda ex: preprocess_function(ex, tokenizer, cfg), batched=True)
 
     model = AutoModelForSeq2SeqLM.from_pretrained(str(cfg.model_ckpt))
     model.to(device)
@@ -130,79 +141,31 @@ def train(args):
 
     print("Iniciando entrenamiento...")
     trainer.train()
-    model.save_pretrained(cfg.output_dir / "best")
-    tokenizer.save_pretrained(cfg.output_dir / "best")
-    print(f"Modelo guardado en {cfg.output_dir / 'best'}")
 
-
-def evaluate(args):
-    from NMT.utils.generation import generate_text
-    from NMT.utils.data import build_dataloader
-    from torch.utils.data import DataLoader
-
-    cfg = MODEL_CONFIGS[args.model](
-        dataset_dir=Path(args.dataset_dir),
-        output_dir=Path(args.output_dir),
-        model_ckpt=args.checkpoint or MODEL_CONFIGS[args.model].__dataclass_fields__["model_ckpt"].default,
-        fraction=args.fraction,
-    )
-    set_seed(cfg.seed)
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-
-    _, _, test_ds = load_dataset(cfg)
-    test_ds = select_fraction(test_ds, cfg.fraction, cfg.seed)
-
-    tokenizer = AutoTokenizer.from_pretrained(str(cfg.checkpoint if args.checkpoint else cfg.model_ckpt))
-    model = AutoModelForSeq2SeqLM.from_pretrained(str(cfg.checkpoint if args.checkpoint else cfg.model_ckpt))
-    model.to(device)
-
-    src_texts = [str(x[cfg.src_col]) for x in test_ds]
-    ref_texts = [str(x[cfg.tgt_col]) for x in test_ds]
-
-    preds = generate_text(
-        model,
-        tokenizer,
-        src_texts,
-        max_length=cfg.max_target_length,
-        batch_size=cfg.batch_size,
-    )
-
-    from NMT.utils.generation import compute_rougeL_f1, compute_meteor
-    rouge = compute_rougeL_f1(preds, ref_texts)
-    meteor = compute_meteor(preds, ref_texts)
-    print(f"ROUGE-L F1: {rouge:.4f}")
-    print(f"METEOR: {meteor:.4f}")
-
-    return rouge, meteor
-
-
-def get_project_root() -> Path:
-    return Path(__file__).resolve().parents[3]
+    best_dir = cfg.output_dir / "best"
+    model.save_pretrained(best_dir)
+    tokenizer.save_pretrained(best_dir)
+    print(f"Modelo guardado en {best_dir}")
+    return best_dir
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("model", choices=MODEL_CONFIGS.keys(), help="Model name")
     parser.add_argument("--dataset-dir", default=str(get_project_root() / "processed_data" / "wuxia_zh_en_clean"))
-    parser.add_argument("--output-dir", default=str(get_project_root() / "models" / "wuxia_output"))
+    parser.add_argument("--output-dir", default=None, help="Output directory (default: models/{model_dir})")
     parser.add_argument("--model-ckpt", default=None)
-    parser.add_argument("--checkpoint", default=None)
     parser.add_argument("--fraction", type=float, default=1.0)
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--batch-size", type=int, default=16)
+    args = parser.parse_args()
 
-    args, _ = parser.parse_known_args()
-
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 2:
         parser.print_help()
         return
 
-    if "train" in sys.argv:
+    if "train" in sys.argv or args.model in MODEL_CONFIGS:
         train(args)
-    elif "evaluate" in sys.argv or "eval" in sys.argv:
-        evaluate(args)
-    elif "translate" in sys.argv:
-        evaluate(args)
     else:
         parser.print_help()
 
