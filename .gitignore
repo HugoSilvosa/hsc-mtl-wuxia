@@ -8,8 +8,10 @@ wuxia_corpus/data/awe/segmented/*
 wuxia_corpus/data/condor/segmented/*
 wuxia_corpus/data/issth
 
-corpus/aligners/
+wuxia_corpus/aligners/*
 src/NMT/configs/__pycache__
 .env
 results/cualitativa/.env
 src/NMT/utils/__pycache__
+
+wuxia_corpus/aligners/vecalign
