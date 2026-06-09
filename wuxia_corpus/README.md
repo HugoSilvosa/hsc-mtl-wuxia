@@ -35,9 +35,6 @@ wuxia_corpus/
 │       ├── config_loader.py  # Carga de configuración YAML
 │       ├── utils.py          # Utilidades compartidas
 │       └── pdf_reader.py     # Lectura de PDFs
-├── aligners/
-│   ├── vecalign/   # Algoritmo de alineamiento Vecalign
-│   └── bertalign/  # Algoritmo de alineamiento Bertalign
 ├── data/
 │   ├── <novela>/
 │   │   ├── raw/        # Texto original sin procesar
