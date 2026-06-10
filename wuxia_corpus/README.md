@@ -1,55 +1,55 @@
 # Wuxia Corpus
 
-Herramientas para procesamiento y alineamiento automático de novelas wuxia en chino-inglés.
+Tools for automatic processing and alignment of Chinese-English wuxia novels.
 
-## Descripción
+## Description
 
-Este proyecto procesa y alinea capítulos de novelas wuxia chino-inglés usando embeddings multilingües (LaBSE) y programación dinámica. Incluye scripts para preprocesamiento, alineamiento y análisis de similitud.
+This project processes and aligns chapters of Chinese-English wuxia novels using multilingual embeddings (LaBSE) and dynamic programming. It includes scripts for preprocessing, alignment, and similarity analysis.
 
 ## Datasets
 
-| Dataset          | Novelas                       | Capítulos      | Descripción                               |
-| ---------------- | ----------------------------- | --------------- | ------------------------------------------ |
-| **AWE**    | A Will Eternal                | ~1300           | Novela wuxia con traducción chino-inglés |
-| **CONDOR** | The Condor Trilogy (Jin Yong) | 3 partes        | Trilogía completa con 3 volúmenes        |
-| **GU**     | Reverend Insanity             | ~350k segmentos | Colección de novelas wuxia                |
-| **ISSTH**  | I Shall Seal the Heavens      | ~900+           | Novel wuxia/Xianxia                        |
+| Dataset           | Novels                        | Chapters      | Description                                  |
+| ----------------- | ----------------------------- | ------------- | ------------------------------------------- |
+| **AWE**     | A Will Eternal                | ~1300         | Wuxia novel with Chinese-English translation |
+| **CONDOR**  | The Condor Trilogy (Jin Yong) | 3 parts       | Complete trilogy in 3 volumes                |
+| **GU**      | Reverend Insanity              | ~350k segments| Wuxia novel collection                      |
+| **ISSTH**   | I Shall Seal the Heavens       | ~900+         | Wuxia/Xianxia novel                           |
 
-## Estructura del Proyecto
+## Project Structure
 
 ```
 wuxia_corpus/
 ├── src/
 │   ├── __init__.py
 │   ├── preprocessing/
-│   │   ├── chinese.py    # Segmentación de capítulos en chino
-│   │   └── english.py    # Segmentación de capítulos en inglés
+│   │   ├── chinese.py    # Chapter segmentation in Chinese
+│   │   └── english.py    # Chapter segmentation in English
 │   ├── alignment/
-│   │   ├── final_awe.py  # Alineamiento AWE con LaBSE
-│   │   ├── final_gu.py   # Alineamiento GU con LaBSE
-│   │   ├── final_condor.py # Alineamiento CONDOR
-│   │   └── codigo.py     # Código adicional de alineamiento
+│   │   ├── final_awe.py  # AWE alignment with LaBSE
+│   │   ├── final_gu.py   # GU alignment with LaBSE
+│   │   ├── final_condor.py # CONDOR alignment
+│   │   └── codigo.py     # Additional alignment code
 │   ├── analysis/
-│   │   └── similitudes.py # Cálculo de similitud coseno
+│   │   └── similitudes.py # Cosine similarity calculation
 │   └── common/
-│       ├── config_loader.py  # Carga de configuración YAML
-│       ├── utils.py          # Utilidades compartidas
-│       └── pdf_reader.py     # Lectura de PDFs
+│       ├── config_loader.py  # YAML configuration loading
+│       ├── utils.py          # Shared utilities
+│       └── pdf_reader.py     # PDF reader
 ├── data/
 │   ├── <novela>/
-│   │   ├── raw/        # Texto original sin procesar
-│   │   ├── segmented/  # Capítulos divididos
-│   │   │   └── chapter/ # Archivos ch*.txt y en*.txt
-│   │   └── processed/  # Resultados alineados (final_*.txt)
-│   └── *.txt           # Archivos de embeddings pre-generados
-└── stats.txt           # Estadísticas de procesamiento
+│   │   ├── raw/        # Original unprocessed text
+│   │   ├── segmented/  # Divided chapters
+│   │   │   └── chapter/ # ch*.txt and en*.txt files
+│   │   └── processed/  # Aligned results (final_*.txt)
+│   └── *.txt           # Pre-generated embedding files
+└── stats.txt           # Processing statistics
 ```
 
-## Uso
+## Usage
 
-### 1. Preprocesamiento (Dividir en capítulos)
+### 1. Preprocessing (Chapter Division)
 
-**Chino:**
+**Chinese:**
 
 ```bash
 python -m src.preprocessing.chinese --novela awe --input awe_ch.txt --outname segmented/chapter
@@ -57,7 +57,7 @@ python -m src.preprocessing.chinese --novela condor --input chinese_condor_1.txt
 python -m src.preprocessing.chinese --novela gu --input guzhenren_ch.txt --outname segmented/chapter
 ```
 
-**Inglés:**
+**English:**
 
 ```bash
 python -m src.preprocessing.english --novela awe --input awe_en.txt --outname segmented/chapter
@@ -65,7 +65,7 @@ python -m src.preprocessing.english --novela condor --input english_condor_1.txt
 python -m src.preprocessing.english --novela gu --input guzhenren_en.txt --outname segmented/chapter
 ```
 
-### 2. Alineamiento (Chinese-English Alignment)
+### 2. Alignment (Chinese-English Alignment)
 
 **AWE:**
 
@@ -85,40 +85,40 @@ python -m src.alignment.final_gu
 python -m src.alignment.final_condor
 ```
 
-### 3. Análisis de Similitud
+### 3. Similarity Analysis
 
 ```bash
 python -m src.analysis.similitudes
 ```
 
-## Algoritmo de Alineamiento
+## Alignment Algorithm
 
-El alineamiento usa embeddings LaBSE con programación dinámica considerando:
+The alignment uses LaBSE embeddings with dynamic programming considering:
 
-- **1-1**: 1 segmento chino : 1 segmento inglés
-- **1-2**: 1 segmento chino : 2 segmentos ingleses
-- **2-1**: 2 segmentos chinos : 1 segmento inglés
-- **1-3, 3-1**: Alineamientos 3-varios
-- **1-4, 4-1**: Alineamientos 4-varios
-- **Saltos**: Penalización (`skip_penalty`) para segmentos no alineados
+- **1-1**: 1 Chinese segment : 1 English segment
+- **1-2**: 1 Chinese segment : 2 English segments
+- **2-1**: 2 Chinese segments : 1 English segment
+- **1-3, 3-1**: 3-multi segment alignments
+- **1-4, 4-1**: 4-multi segment alignments
+- **Skips**: Penalty (`skip_penalty`) for unaligned segments
 
-## Resultados (Estadísticas)
+## Results (Statistics)
 
-| Corpus         | Tiempo (s) | Seg. Chinos | Seg. Ingleses | Pares Alineados |
-| -------------- | ---------- | ----------- | ------------- | --------------- |
-| GU (Total)     | 5518.62    | 352,097     | 334,606       | 325,032         |
-| AWE (Total)    | 2745.79    | 77,232      | 153,754       | 76,678          |
-| CONDOR (Total) | 2899.62    | 128,500     | 182,646       | 123,033         |
+| Corpus      | Time (s) | Chinese Seg. | English Seg. | Aligned Pairs |
+| ----------- | -------- | ------------ | ------------ | ------------- |
+| GU (Total)  | 5518.62  | 352,097      | 334,606      | 325,032       |
+| AWE (Total) | 2745.79  | 77,232       | 153,754      | 76,678        |
+| CONDOR (Total) | 2899.62 | 128,500      | 182,646      | 123,033       |
 
-## Herramientas Externas
+## External Tools
 
-- **Vecalign**: Alineamiento de oraciones en tiempo lineal (ver `aligners/vecalign/README.md`)
-- **Bertalign**: Alineamiento basado en BERT (ver `aligners/bertalign/`)
+- **Vecalign**: Linear sentence alignment (see `aligners/vecalign/README.md`)
+- **Bertalign**: BERT-based alignment (see `aligners/bertalign/`)
 
-## Salida
+## Output
 
-Los archivos procesados generan:
+Processed files generate:
 
-- `final_*.txt`: Pares alineados en formato `chino ; inglés`
-- `final_*_similitudes.txt`: Puntajes de similitud para cada par
-- `final_*_stats.txt`: Estadísticas de alineamiento
+- `final_*.txt`: Aligned pairs in format `chinese ; english`
+- `final_*_similitudes.txt`: Similarity scores for each pair
+- `final_*_stats.txt`: Alignment statistics

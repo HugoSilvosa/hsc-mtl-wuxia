@@ -2,7 +2,7 @@ import pandas as pd
 import glob
 import os
 
-def analizar_evaluaciones_por_evaluador(carpeta_archivos="archivos_evaluados", archivo_salida="resultados_evaluadores.txt"):
+def analyze(carpeta_archivos="archivos_evaluados", archivo_salida="resultados_evaluadores.txt"):
     try:
         ruta_busqueda = os.path.join(carpeta_archivos, "*.csv")
         archivos_csv = glob.glob(ruta_busqueda)
@@ -89,4 +89,4 @@ def analizar_evaluaciones_por_evaluador(carpeta_archivos="archivos_evaluados", a
         print(f"Ocurrió un error inesperado: {e}")
 
 if __name__ == "__main__":
-    analizar_evaluaciones_por_evaluador(carpeta_archivos='archivos_evaluados', archivo_salida='resultados_evaluadores.txt')
+    analyze(carpeta_archivos='archivos_evaluados', archivo_salida='resultados_evaluadores.txt')
