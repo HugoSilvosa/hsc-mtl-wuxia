@@ -1,12 +1,12 @@
-# TFG Hugo Silvosa Cuervo
+# TFG-UDC Hugo Silvosa Cuervo
 
-**Enfoques de traducción automática con modelos de lenguaje en obras *wuxia***  
+**Enfoques de traducción automática con modelos de lenguaje en obras *wuxia*** 
 Machine Translation Approaches with Language Models in Wuxia Literature
 
 [![Python Version](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/)
 [![Academic-TFG](https://img.shields.io/badge/Degree-Data_Science_and_Engineering-darkred.svg)]()
 
-This repository contains the implementation, datasets, pipeline configurations, and evaluation frameworks for the Bachelor's Thesis (**Trabajo de Fin de Grado - TFG**) titled *"Enfoques de traducción automática con modelos de lenguaje en obras wuxia"*. 
+This repository contains the implementation, datasets, pipeline configurations, and evaluation frameworks for the Bachelor's Thesis (**Trabajo de Fin de Grado - TFG**) titled *"Enfoques de traducción automática con modelos de lenguaje en obras wuxia"* (Facultade de Informática, Universdidade da Coruña). 
 
 The objective of this research is to conduct a rigorous comparative study across three paradigms of Machine Translation—**Statistical Machine Translation (SMT)**, **Neural Machine Translation (NMT)**, and fine-tuned **Large Language Models (LLMs)**—applied to the highly nuanced, culturally rich, and domain-specific literary genre of *Wuxia* (Chinese martial arts fantasy) translated into English.
 
