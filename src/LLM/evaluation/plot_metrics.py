@@ -1,199 +1,395 @@
-import re
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from pathlib import Path
+from math import pi
+import re
 from tqdm import tqdm
-
-INPUT_DIR = Path(r"final") 
-OUTPUT_DIR = Path(r"C:\Users\Usuario\Desktop\TFG\CORPUS\evaluation\LLM")
-OUTPUT_FIG_DIR = Path(r"C:\Users\Usuario\Desktop\TFG\CORPUS\evaluation\fig")
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+plt.switch_backend('Agg')
 
 sns.set_theme(style="whitegrid", context="paper", font_scale=1.2)
 
-MODEL_PALETTE = {
-    "gemma3_base": "#aec7e8",     
-    "gemma3_finetuned": "#1f77b4", 
-    "llama3_base": "#ff9896",     
-    "llama3_finetuned": "#d62728", 
-    "glm_base": "#98df8a",        
-    "glm_finetuned": "#2ca02c",   
-    "qwen3_base": "#c5b0d5",      
-    "qwen3_finetuned": "#9467bd"   
-}
 
-MODEL_MARKERS = {
-    "gemma3_base": "o", "gemma3_finetuned": "X",
-    "llama3_base": "s", "llama3_finetuned": "D",
-    "glm_base": "^", "glm_finetuned": "v",
-    "qwen3_base": "p", "qwen3_finetuned": "*"
-}
+OUTPUT_DIR = Path(r"C:\Users\Usuario\Desktop\TFG\CORPUS\results\LLM")
+INPUT_CSV = OUTPUT_DIR / "resultados_globales.csv"
+OUTPUT_IMG_DIR = OUTPUT_DIR / "graficas"
 
-def extract_gen_content(text):
-    match_triple = re.search(r"\[\[\[(.*?)\]\]\]", text, re.DOTALL)
-    if match_triple: return match_triple.group(1).strip()
-    match_double = re.search(r"\[\[(.*?)\]\]", text, re.DOTALL)
-    if match_double: return match_double.group(1).strip()
-    if "[[" in text:
-        return text.replace("[[[", "").replace("]]]", "").replace("[[", "").replace("]]", "").strip()
-    return text.strip()
 
 def sort_shots(shot_list):
-    return sorted(shot_list, key=lambda x: int(re.search(r'(\d+)', x).group(1)))
+    return sorted(shot_list, key=lambda x: int(re.search(r'(\d+)', str(x)).group(1)))
 
 def get_shot_num(shot_str):
-    match = re.search(r'(\d+)', str(shot_str))
-    return int(match.group(1)) if match else 0
+    return int(re.search(r'(\d+)', str(shot_str)).group(1))
+import matplotlib.ticker as mticker
 
-def plot_length_evolution(df, output_dir):
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
+
+def plot_3d(df, output_dir):
+    SIZE_TITLE = 25
+    SIZE_LABEL = 23
+    SIZE_TICKS = 18
+    
+    metrics = df['Metric'].unique()
+    
+    MODEL_PALETTE = {
+        "Gemma_3": "#5294ea", "Gemma_3_QLoRA": "#1f77b4",
+        "Llama_3": "#ed4643", "Llama_3_QLoRA": "#d62728",
+        "GLM_4": "#63e54a", "GLM_4_QLoRA": "#2ca02c",
+        "Qwen_3": "#c5b0d5", "Qwen_3_QLoRA": "#9467bd"
+    }
+    MODEL_MARKERS = {
+        "Gemma_3": "o", "Gemma_3_QLoRA": "X",
+        "Llama_3": "s", "Llama_3_QLoRA": "D",
+        "GLM_4": "^", "GLM_4_QLoRA": "v",
+        "Qwen_3": "p", "Qwen_3_QLoRA": "*"
+    }
+
+    modelos_base = ["Gemma_3", "Llama_3", "GLM_4", "Qwen_3"]
+    df_base = df[df['Model'].isin(modelos_base)].copy()
+    df_finetuned = df[df['Model'].str.contains('QLoRA', case=False)].copy()
+    
+    grupos = {'base': df_base, 'finetuned': df_finetuned}
+    cols = 3
+    rows = (len(metrics) + cols - 1) // cols
+    
+    # Nombres personalizados para el eje X
+    NOMBRES_PROMPTS = ["BASE", "FANT", "LIT", "MT", "ACAD"]
+    
+    for nombre_grupo, df_grupo in grupos.items():
+        if df_grupo.empty: continue
+            
+        models_in_group = df_grupo['Model'].unique()
+        fig = plt.figure(figsize=(24, 8 * rows)) 
+        global_handles, global_labels = [], []
+        
+        for i, metric in enumerate(metrics):
+            ax = fig.add_subplot(rows, cols, i + 1, projection='3d')
+            df_metric = df_grupo[df_grupo['Metric'] == metric].copy()
+            
+            # Limpieza de índices
+            df_metric['Prompt_Idx'] = df_metric['Prompt'].astype(str).str.extract(r'(\d+)')[0].astype(int)
+            df_metric['Shot_Idx'] = df_metric['Shot'].astype(str).str.extract(r'(\d+)')[0].astype(int)
+            
+            for model in models_in_group:
+                df_model = df_metric[df_metric['Model'] == model].copy()
+                c, m = MODEL_PALETTE.get(model, "gray"), MODEL_MARKERS.get(model, "o")
+                
+                scatter = ax.scatter(df_model['Prompt_Idx'], df_model['Shot_Idx'], df_model['Score'], 
+                                   color=c, marker=m, s=120, alpha=0.9, edgecolors='w')
+                
+                if i == 0:
+                    global_handles.append(scatter)
+                    global_labels.append(model)
+                
+                for p_val in df_model['Prompt_Idx'].unique():
+                    df_line = df_model[df_model['Prompt_Idx'] == p_val].sort_values('Shot_Idx')
+                    ax.plot(df_line['Prompt_Idx'], df_line['Shot_Idx'], df_line['Score'], color=c, alpha=0.3, linewidth=2)
+
+            ax.set_title(f"Métrica: {metric.upper()}", fontsize=SIZE_TITLE, fontweight='bold', pad=30)
+            
+            ax.set_xlabel("Prompt", fontsize=SIZE_LABEL, labelpad=15, fontweight='bold')
+            ax.set_ylabel("Shots", fontsize=SIZE_LABEL, labelpad=15, fontweight='bold')
+            ax.set_zlabel("Score", fontsize=SIZE_LABEL, labelpad=15, fontweight='bold')
+            
+            prompt_ticks = sorted(df_metric['Prompt_Idx'].unique())
+            ax.set_xticks(prompt_ticks)
+            ax.set_xticklabels(NOMBRES_PROMPTS[:len(prompt_ticks)])
+            
+            ax.yaxis.set_major_locator(mticker.MaxNLocator(integer=True))
+            
+            ax.tick_params(axis='both', which='major', labelsize=SIZE_TICKS, pad=8)
+            
+            # Ajuste de perspectiva
+            ax.dist = 11.5 
+            ax.view_init(elev=20, azim=-45)
+
+        # Leyenda gigante
+        fig.legend(global_handles, global_labels, title="Modelos", title_fontsize=SIZE_LABEL,
+                loc='upper right', bbox_to_anchor=(0.85, 0.5), fontsize=SIZE_LABEL)
+        
+        fig.subplots_adjust(left=0.02, right=0.88, top=0.90, wspace=0.35, hspace=0.3)
+        plt.savefig(output_dir / f"6_3d_dashboard_{nombre_grupo}.png", dpi=300, bbox_inches='tight')
+        plt.close()
+
+MODEL_PALETTE = {
+    "Gemma_3": "#aec7e8",      # Azul fuerte
+    "Gemma_3_QLoRA": "#1f77b4", # Azul claro
+    "Llama_3": "#ff9896",      # Rojo fuerte 
+    "Llama_3_QLoRA": "#d62728", # Rojo claro 
+    "GLM_4": "#98df8a",         # Verde fuerte 2ca02c
+    "GLM_4_QLoRA": "#2ca02c",    # Verde claro
+    "Qwen_3": "#c5b0d5",       # Púrpura 9467bd
+    "Qwen_3_QLoRA": "#9467bd"   # Púrpura claro
+}
+
+# Opcional: Marcadores distintos para base vs finetuned
+MODEL_MARKERS = {
+    "Gemma_3": "o", "gemma3_finetuned": "X",
+    "Llama_3": "s", "llama3_finetuned": "D",
+    "GLM_4": "^", "glm_finetuned": "v",
+    "Qwen_3": "p", "Qwen_3_finetuned": "*",
+    "Gemma_3_QLoRA": "o", 
+    "Llama_3_QLoRA": "s", 
+    "GLM_4_QLoRA": "^", 
+    "Qwen_3_QLoRA": "p"
+}
+
+
+def plot_prompts_dashboard(df, output_dir):
+    # --- CONFIGURACIÓN DE TAMAÑOS ---
     SIZE_TITLE = 28
     SIZE_LABEL = 26
     SIZE_TICKS = 23
 
     df_plot = df.copy()
-    df_plot['Shot_Num'] = df_plot['Shot'].apply(get_shot_num)
+    metrics = df_plot['Metric'].unique()
+    df_plot['Prompt'] = df_plot['Prompt'].astype(str)
     
-    df_grouped = df_plot.groupby(['Model', 'Shot_Num'])['Word_Length'].mean().reset_index()
+    cols = 3
+    rows = (len(metrics) + cols - 1) // cols
+    fig, axes = plt.subplots(rows, cols, figsize=(20, 7 * rows)) 
+    axes = axes.flatten()
 
-    plt.figure(figsize=(14, 8))
-    
-    ax = sns.lineplot(
-        data=df_grouped,
-        x="Shot_Num", y="Word_Length", 
-        hue="Model", style="Model",
-        palette=MODEL_PALETTE,  
-        markers=MODEL_MARKERS,  
-        dashes=False, linewidth=3.0, 
-        markersize=12
-    )
-    
-    ax.set_title("Evolución de la verbosidad en los shots (Media de palabras)", fontsize=SIZE_TITLE, fontweight='bold', pad=15)
-    ax.set_xlabel("Contexto (Shots)", fontsize=SIZE_LABEL, fontweight='bold')
-    ax.set_ylabel("Longitud Generada (Palabras)", fontsize=SIZE_LABEL, fontweight='bold')
-    
-    unique_shots = sorted(df_grouped['Shot_Num'].unique())
-    ax.set_xticks(unique_shots)
-    ax.set_xticklabels([f"{s}-Shot" for s in unique_shots])
-    
-    ax.tick_params(axis='both', which='major', labelsize=SIZE_TICKS)
-    
+    for i, metric in enumerate(metrics):
+        ax = axes[i]
+        sns.lineplot(
+            data=df_plot[df_plot['Metric'] == metric],
+            x="Prompt", y="Score", 
+            hue="Model", style="Model",
+            palette=MODEL_PALETTE,  
+            markers=MODEL_MARKERS,  
+            dashes=False, linewidth=2.5,
+            markersize=10,
+            errorbar=None, ax=ax
+        )
+        
+        ax.set_title(f"Métrica: {metric.upper()}", fontsize=SIZE_TITLE, fontweight='bold', pad=15)
+        ax.set_xlabel("Prompt", fontsize=SIZE_LABEL, fontweight='bold')
+        ax.set_ylabel("Score", fontsize=SIZE_LABEL, fontweight='bold')
+        
+        # Ticks más grandes
+        ax.tick_params(axis='both', which='major', labelsize=SIZE_TICKS)
+        
+        if ax.get_legend():
+            ax.get_legend().remove()
+
+    for j in range(i + 1, len(axes)):
+        fig.delaxes(axes[j])
+
     handles, labels = ax.get_legend_handles_labels()
-    plt.legend(
+    fig.legend(
         handles, labels, 
         title="Modelos", title_fontsize=SIZE_LABEL,
         loc='center left', 
-        bbox_to_anchor=(1.02, 0.5), 
+        bbox_to_anchor=(0.75, 0.35), 
         ncol=1,                     
         frameon=True,
         fontsize=SIZE_TICKS
     )
 
     plt.tight_layout()
-    plt.savefig(output_dir / "evolucion_longitud_shots.png", dpi=300, bbox_inches='tight')
+    fig.subplots_adjust(right=0.85, bottom=0.15) 
+    
+    plt.savefig(output_dir / "0_dashboard_prompts.png", dpi=300, bbox_inches='tight')
     plt.close()
+    
+    
+def plot_global_dashboard(df, output_dir):
+    # --- CONFIGURACIÓN DE TAMAÑOS ---
+    SIZE_TITLE = 28
+    SIZE_LABEL = 26
+    SIZE_TICKS = 23
+
+    df_plot = df.copy()
+    df_plot['Shot_Num'] = df_plot['Shot'].apply(get_shot_num)
+    metrics = df_plot['Metric'].unique()
+    
+    cols = 3
+    rows = (len(metrics) + cols - 1) // cols
+    fig, axes = plt.subplots(rows, cols, figsize=(18, 6 * rows)) # Un poco más ancho
+    axes = axes.flatten()
+
+    for i, metric in enumerate(metrics):
+        ax = axes[i]
+        sns.lineplot(
+            data=df_plot[df_plot['Metric'] == metric],
+            x="Shot_Num", y="Score", 
+            hue="Model", style="Model",
+            palette=MODEL_PALETTE,  
+            markers=MODEL_MARKERS,  
+            dashes=False, linewidth=2.5, # Línea un poco más gruesa
+            markersize=10,               # Marcadores más grandes
+            errorbar=None, ax=ax
+        )
+        
+        # Títulos y etiquetas grandes
+        ax.set_title(f"Métrica: {metric.upper()}", fontsize=SIZE_TITLE, fontweight='bold', pad=15)
+        ax.set_xlabel("Shots", fontsize=SIZE_LABEL, fontweight='bold')
+        ax.set_ylabel("Score", fontsize=SIZE_LABEL, fontweight='bold')
+        
+        # Ticks (números de los ejes) más grandes
+        ax.tick_params(axis='both', which='major', labelsize=SIZE_TICKS)
+        
+        if ax.get_legend():
+            ax.get_legend().remove()
+
+    for j in range(i + 1, len(axes)):
+        fig.delaxes(axes[j])
+
+    handles, labels = ax.get_legend_handles_labels()
+    
+    fig.legend(
+        handles, labels, 
+        title="Modelos", title_fontsize=SIZE_LABEL,
+        loc='center left', 
+        bbox_to_anchor=(0.75, 0.30), # Ajustado para que no solape
+        ncol=1,                     
+        frameon=True,
+        fontsize=SIZE_TICKS
+    )
+
+    plt.tight_layout()
+    fig.subplots_adjust(right=0.85, bottom=0.12) 
+    
+    plt.savefig(output_dir / "0_dashboard_shots.png", dpi=300, bbox_inches='tight')
+    plt.close()
+    
+def plot_scaling_laws(df, output_dir):
+    df_plot = df.copy()
+    df_plot['Shot_Num'] = df_plot['Shot'].apply(get_shot_num)
+    metrics = df_plot['Metric'].unique()
+    for metric in metrics:
+        plt.figure(figsize=(10, 6))
+        sns.lineplot(
+            data=df_plot[df_plot['Metric'] == metric],
+            x="Shot_Num", y="Score", hue="Model", style="Model",
+            markers=True, dashes=False, linewidth=2.5,
+            err_style="band", errorbar=("sd", 1)
+        )
+        plt.title(f"Tendencia: {metric} vs Contexto (Scaling)")
+        plt.xlabel("Número de Shots")
+        plt.ylabel(f"Score {metric}")
+        plt.xticks(sorted(df_plot['Shot_Num'].unique()))
+        plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left')
+        plt.tight_layout()
+        plt.savefig(output_dir / f"1_scaling_{metric}.png", dpi=300)
+        plt.close()
+
+def plot_boxplot(df, output_dir):
+    df_plot = df.copy()
+    unique_shots = sort_shots(df_plot['Shot'].unique())
+    metrics = df_plot['Metric'].unique()
+    for metric in metrics:
+        plt.figure(figsize=(10, 6))
+        sns.boxplot(
+            data=df_plot[df_plot['Metric'] == metric],
+            x="Shot", y="Score", hue="Model",
+            order=unique_shots, palette="Set2"
+        )
+        plt.title(f"Estabilidad y Varianza: {metric}")
+        plt.xlabel("Shot")
+        plt.ylabel("Score")
+        plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left')
+        plt.tight_layout()
+        plt.savefig(output_dir / f"2_boxplot_{metric}.png", dpi=300)
+        plt.close()
+
+def plot_heatmap(df, output_dir):
+    target_metrics = ["sacrebleu", "rougeL_f1", "bertscore", "comet"]
+    models = df['Model'].unique()
+    unique_shots = sort_shots(df['Shot'].unique())
+    for model in models:
+        for metric in target_metrics:
+            df_sub = df[(df['Model'] == model) & (df['Metric'] == metric)]
+            if df_sub.empty: continue
+            pivot = df_sub.pivot(index="Prompt", columns="Shot", values="Score")
+            pivot = pivot.reindex(columns=unique_shots)
+            plt.figure(figsize=(8, len(pivot)*0.8 + 2))
+            sns.heatmap(pivot, annot=True, cmap="YlGnBu", fmt=".1f", cbar_kws={'label': 'Score'})
+            plt.title(f"Heatmap: {model} - {metric}")
+            plt.tight_layout()
+            plt.savefig(output_dir / f"3_heatmap_{model}_{metric}.png", dpi=300)
+            plt.close()
+
+def plot_radar(df, output_dir):
+    shots = df['Shot'].unique()
+    for shot in shots:
+        df_shot = df[df['Shot'] == shot].groupby(['Model', 'Metric'])['Score'].mean().reset_index()
+        metrics = df_shot['Metric'].unique().tolist()
+        models = df_shot['Model'].unique().tolist()
+        if not metrics: continue
+        num_vars = len(metrics)
+        angles = [n / float(num_vars) * 2 * pi for n in range(num_vars)]
+        angles += angles[:1]
+        plt.figure(figsize=(8, 8))
+        ax = plt.subplot(111, polar=True)
+        plt.xticks(angles[:-1], metrics, color='grey', size=10)
+        palette = sns.color_palette("bright", len(models))
+        for idx, model in enumerate(models):
+            values = []
+            for m in metrics:
+                val = df_shot[(df_shot['Model'] == model) & (df_shot['Metric'] == m)]['Score'].values
+                values.append(val[0] if len(val) > 0 else 0)
+            values += values[:1]
+            ax.plot(angles, values, linewidth=2, linestyle='solid', label=model, color=palette[idx])
+            ax.fill(angles, values, color=palette[idx], alpha=0.1)
+        plt.title(f"Perfil de Modelos ({shot})", size=15, y=1.1)
+        plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
+        plt.savefig(output_dir / f"4_radar_{shot}.png", dpi=300)
+        plt.close()
+
+def plot_grouped_bars(df, output_dir):
+    unique_shots = sort_shots(df['Shot'].unique())
+    metrics = df['Metric'].unique()
+    for metric in metrics:
+        plt.figure(figsize=(12, 6))
+        sns.barplot(
+            data=df[df['Metric'] == metric],
+            x="Shot", y="Score", hue="Model",
+            order=unique_shots, palette="muted",
+            errorbar="sd", capsize=.1 
+        )
+        plt.title(f"Comparativa Directa: {metric}")
+        plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left')
+        plt.tight_layout()
+        plt.savefig(output_dir / f"5_bars_{metric}.png", dpi=300)
+        plt.close()
 
 def main():
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    OUTPUT_FIG_DIR.mkdir(parents=True, exist_ok=True)
-    
-    files = sorted(list(INPUT_DIR.glob("*.txt")))
-    if not files: 
-        return
-    
-    data_rows = []
-
-    for file_path in tqdm(files, desc="Procesando modelos", position=0):
-        model_name = file_path.stem 
-        content = file_path.read_text(encoding='utf-8')
-        
-        prompts_blocks = re.split(r"(### PROMPT \d+)", content)
-        current_prompt = "Unknown"
-        
-        for section in prompts_blocks:
-            if section.strip().startswith("### PROMPT"):
-                current_prompt = section.strip().replace("### ", "")
-                continue
-            if not section.strip(): continue
-
-            shot_blocks = re.split(r"(=== \d+SHOT.*?===)", section)
-            current_shot = "Unknown"
-            
-            for block in shot_blocks:
-                if block.strip().startswith("===") and "SHOT" in block:
-                    match = re.search(r"(\d+SHOT)", block)
-                    if match:
-                        current_shot = match.group(1)
-                    continue
-                if not block.strip() or current_shot == "Unknown": continue
-
-                cases = re.split(r"--- Case \d+ ---", block)
-                for case in cases:
-                    if not case.strip(): continue
-                    
-                    gen_match = re.search(r"\[GEN\]:\s*(.*)", case, re.DOTALL)
-                    if gen_match:
-                        raw_gen_text = gen_match.group(1).split("[TIME]")[0].strip()
-                        clean_gen_text = extract_gen_content(raw_gen_text)
-                        
-                        char_length = len(clean_gen_text)
-                        word_length = len(clean_gen_text.split())
-                        
-                        data_rows.append({
-                            "Model": model_name,
-                            "Prompt": current_prompt,
-                            "Shot": current_shot,
-                            "Char_Length": char_length,
-                            "Word_Length": word_length
-                        })
-
-    if not data_rows:
+    if not INPUT_CSV.exists():
+        print(f"Error: No se encontró el archivo {INPUT_CSV}.")
+        print("Asegúrate de exportar df_all.to_csv() en tu script principal primero.")
         return
 
-    df = pd.DataFrame(data_rows)
-    df.to_csv(OUTPUT_DIR / "raw_lengths.csv", index=False)
+    OUTPUT_IMG_DIR.mkdir(parents=True, exist_ok=True)
     
-    global_summary = df.groupby('Model')['Word_Length'].mean().round(2).to_dict()
-    models = list(global_summary.keys())
-    qlora_models = [m for m in models if "finetuned" in m.lower()]
+    print(f"Cargando datos desde {INPUT_CSV}...")
+    df_all = pd.read_csv(INPUT_CSV)
+    metricas_deseadas = ["sacrebleu", "chrf2", "rougeL_f1", "meteor", "comet"]
+    df_all = df_all[df_all['Metric'].isin(metricas_deseadas)]
+    # Asegurarnos de que el DataFrame no esté vacío
+    if df_all.empty:
+        print("El CSV está vacío. Revisa la ejecución original.")
+        return
+
+    graficas = [
+        ("Dashboard Shots", lambda: plot_global_dashboard(df_all, OUTPUT_IMG_DIR)),
+        ("Gráficos 3D", lambda: plot_3d(df_all, OUTPUT_IMG_DIR)),
+        ("Dashboard Prompts", lambda: plot_prompts_dashboard(df_all, OUTPUT_IMG_DIR)),
+        ("Scaling Laws", lambda: plot_scaling_laws(df_all, OUTPUT_IMG_DIR)),
+        ("Boxplots", lambda: plot_boxplot(df_all, OUTPUT_IMG_DIR)),
+        ("Heatmaps", lambda: plot_heatmap(df_all, OUTPUT_IMG_DIR)),
+        ("Gráficos Radar", lambda: plot_radar(df_all, OUTPUT_IMG_DIR)),
+        ("Barras Agrupadas", lambda: plot_grouped_bars(df_all, OUTPUT_IMG_DIR))
+    ]
     
-    with open(OUTPUT_DIR / "analysis_summary.txt", "w", encoding="utf-8") as f:
-        f.write("GLOBAL VERBOSITY SUMMARY\n\n")
-        for qlora_model in qlora_models:
-            base_model = re.sub(r'_?finetuned', '_base', qlora_model, flags=re.IGNORECASE)
-            if base_model in global_summary:
-                f.write(f"{base_model}: {global_summary[base_model]} words | {qlora_model}: {global_summary[qlora_model]} words\n")
+    for nombre, funcion_grafica in tqdm(graficas, desc="Generando Gráficas", position=0):
+        funcion_grafica()
         
-        f.write("\nSHOT ANALYSIS (ICL IMPACT)\n\n")
-        df_shots = df.groupby(['Model', 'Shot'])['Word_Length'].mean().round(2).reset_index()
-        for qlora_model in sorted(qlora_models):
-            base_model = re.sub(r'_?finetuned', '_base', qlora_model, flags=re.IGNORECASE)
-            f.write(f"Model Pair: {base_model} vs {qlora_model}\n")
-            
-            if base_model in df_shots['Model'].values:
-                shots_list = sort_shots(df_shots[df_shots['Model'] == base_model]['Shot'].unique())
-                for shot in shots_list:
-                    val = df_shots[(df_shots['Model'] == base_model) & (df_shots['Shot'] == shot)]['Word_Length'].values
-                    val_str = val[0] if len(val) > 0 else "N/A"
-                    note = " (Shows ICL learning to stop)" if shot == shots_list[-1] else ""
-                    f.write(f"- {base_model} {shot} length: {val_str} words{note}\n")
-            
-            if qlora_model in df_shots['Model'].values:
-                shots_list = sort_shots(df_shots[df_shots['Model'] == qlora_model]['Shot'].unique())
-                for shot in shots_list:
-                    val = df_shots[(df_shots['Model'] == qlora_model) & (df_shots['Shot'] == shot)]['Word_Length'].values
-                    val_str = val[0] if len(val) > 0 else "N/A"
-                    note = " (Shows native constraint)" if shot == "0SHOT" else ""
-                    f.write(f"- {qlora_model} {shot} length: {val_str} words{note}\n")
-            f.write("\n")
-
-        f.write("PROMPT VARIANCE ANALYSIS\n\n")
-        df_prompts = df.groupby(['Model', 'Prompt'])['Word_Length'].mean().round(2).reset_index()
-        for model in sorted(models):
-            std_dev = df_prompts[df_prompts['Model'] == model]['Word_Length'].std()
-            std_dev_val = round(std_dev, 2) if pd.notna(std_dev) else 0.0
-            f.write(f"{model} prompt variance (Std Dev): {std_dev_val} words\n")
-
-    plot_length_evolution(df, OUTPUT_FIG_DIR)
+    print(f"\n¡Gráficas generadas exitosamente en: {OUTPUT_IMG_DIR}!")
 
 if __name__ == "__main__":
     main()
